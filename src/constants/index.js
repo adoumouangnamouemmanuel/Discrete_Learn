@@ -2,6 +2,7 @@
 // constants/index.js
 import Emma from "../assets/emma.jpg"; // Adjust this path as needed
 import Ruth from "../assets/ruth.jpg"; // Adjust this path as needed
+import Mary from '../assets/mary.jpg'
 
 /** @type {import("./constants").TeamMember[]} */
 export const teamMembers = [
@@ -33,7 +34,7 @@ export const teamMembers = [
     email: "mark.johnson@example.com",
     phone: "+1122334455",
     linkedin: "https://www.linkedin.com/in/mary-ann-adzim/",
-    image: Emma,
+    image: Mary,
   },
 ];
 

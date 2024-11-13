@@ -3,13 +3,21 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
+import { auth } from "@/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth"; // Firebase method for email/password login
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify"; // Import toast
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const handleChange = (e) => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -17,9 +25,31 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Login submitted successfully!");
+
+    setLoading(true);
+
+    try {
+      // Firebase Sign-In
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      // Here, we will show a success toast
+      toast.success("Login Successful!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
+
+      // Redirect to login page after successful signup
+      setTimeout(() => {
+        navigate("/"); // Change this to wherever you'd like the user to go
+      }, 3000); // Delay the redirect to allow the toast to be visible
+    } catch (error) {
+      alert("Error logging in: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -67,7 +97,7 @@ const Login = () => {
             type="submit"
             className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-md py-2"
           >
-            Log In
+            {loading ? "Logging In..." : "Log In"}
           </Button>
         </form>
 

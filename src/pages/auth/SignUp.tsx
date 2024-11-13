@@ -1,7 +1,12 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
+
+import { auth } from "@/firebase"; // Import firebase auth
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"; 
+import { useNavigate } from "react-router-dom"; // To navigate after sign-up
+import { toast } from "react-toastify"; // Import toast
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +16,10 @@ const Signup = () => {
     confirmPassword: "",
   });
 
-  const handleChange = (e) => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -19,9 +27,45 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Signup submitted successfully!");
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Firebase Sign-Up
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      // Update user profile with full name
+      await updateProfile(userCredential.user, {
+        displayName: formData.name, // Set the displayName to the user's full name
+      });
+
+      // Here, we will show a success toast
+      toast.success("Sign Up Successful!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
+
+      // Redirect to login page after successful signup
+      setTimeout(() => {
+        navigate("/login"); // Change this to wherever you'd like the user to go
+      }, 3000); // Delay the redirect to allow the toast to be visible
+    } catch (error) {
+      alert("Error signing up: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,7 +97,7 @@ const Signup = () => {
               Email
             </label>
             <Input
-              type="text"
+              type="email"
               id="email"
               name="email"
               value={formData.email}
@@ -103,7 +147,7 @@ const Signup = () => {
             type="submit"
             className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-md py-2"
           >
-            Create Account
+            {loading ? "Creating Account..." : "Create Account"}
           </Button>
         </form>
 

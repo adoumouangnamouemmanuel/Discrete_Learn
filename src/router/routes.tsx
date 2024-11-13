@@ -11,6 +11,7 @@ import Contact from "@/pages/Contact";
 import SignUp from "@/pages/auth/SignUp";
 import SignIn from "@/pages/auth/Login";
 import SetDefinitionPage from "@/pages/courses/SetDefinitionPage";
+import Profile from "@/pages/profile";
 
 const RoutesConfig = () => {
   return (
@@ -27,6 +28,7 @@ const RoutesConfig = () => {
       <Route path="/courses/definition" element={<SetDefinitionPage />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<SignIn />} />
+      <Route path="/profile" element={<Profile />} />
       {/* Add other routes as needed */}
     </Routes>
   );

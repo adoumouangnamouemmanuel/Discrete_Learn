@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button"; // Adjust the import path as necessary
 import { ScrollArea } from "@/components/ui/scroll-area"; // Adjust the import path as necessary
 import { cn } from "@/lib/utils"; // Adjust the import path as necessary
-import { ModeToggle } from "./mode-toggle";
+// import { ModeToggle } from "./mode-toggle";
 import {sidebarItems} from "@/constants/headerConstants"
 import {
   PanelLeftClose,
@@ -48,16 +48,16 @@ const Sidebar = () => {
                   location.pathname === item.href
                     ? "bg-gray-200 text-gray-900"
                     : "hover:bg-gray-200",
-                  collapsed && "justify-center"
+                  collapsed && "justify-center mr-10"
                 )}
               >
                 <item.icon className="h-5 w-5" />
                 {!collapsed && <span>{item.name}</span>}
               </Link>
             ))}
-            <div className="bottom-0 left-0 right-0 p-4">
+            {/* <div className="bottom-0 left-0 right-0 p-4">
               <ModeToggle />
-            </div>
+            </div> */}
           </nav>
         </ScrollArea>
       </div>

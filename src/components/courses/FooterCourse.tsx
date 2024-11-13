@@ -1,3 +1,4 @@
+// FooterCourse.tsx
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
@@ -9,24 +10,30 @@ interface CurrentLesson {
   completed: boolean;
   prevLesson: string;
   nextLesson: string;
+  content: string
 }
 
-interface footerProps {
+interface FooterProps {
   currentLesson: CurrentLesson;
   onMarkComplete: () => void;
 }
 
-const FooterCourse: React.FC<footerProps> = ({
+const FooterCourse: React.FC<FooterProps> = ({
   currentLesson,
   onMarkComplete,
 }) => {
+  
   return (
     <div className="border-t p-4 flex items-center justify-between bg-background">
-      <Button variant="outline" className="flex items-center gap-2">
-        <ArrowLeft className="w-4 h-4" />
-        <span>Back lesson</span>
-      </Button>
+      {/* Previous Lesson Button */}
+      <Link to={`/courses/${currentLesson.prevLesson}`}>
+        <Button variant="outline" className="flex items-center gap-2">
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back lesson</span>
+        </Button>
+      </Link>
 
+      {/* Mark Complete Button */}
       <div className="flex items-center gap-2">
         <span className="text-sm text-muted-foreground">
           {currentLesson.prevLesson}

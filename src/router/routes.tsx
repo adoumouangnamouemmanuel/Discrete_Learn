@@ -18,14 +18,14 @@ const RoutesConfig = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/problems" element={<Problems />} />
-      <Route path="/courses" element={<Courses />} />
+      <Route path="/courses/" element={<Courses />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/progress" element={<Progress />} />
       <Route path="/help" element={<Help />} />
       <Route path="/resources" element={<Resources />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
-      <Route path="/courses/definition" element={<SetDefinitionPage />} />
+      <Route path="/courses/:courseId" element={<SetDefinitionPage />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<SignIn />} />
       <Route path="/profile" element={<Profile />} />

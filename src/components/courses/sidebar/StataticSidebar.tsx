@@ -28,7 +28,7 @@ const StataticSidebar = ({ progressPercentage }: StataticSidebarProps) => {
       <div className="p-4 space-y-6">
         <div>
           <h2 className="text-xl font-bold mb-2">
-            Intermediate JavaScript: Building Frontend Components
+            Sets in Discrete Math
           </h2>
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">

@@ -1,30 +1,35 @@
-import { useState } from "react";
-import { initialModules } from "@/constants/coursesConstants";
-import Sidebar from "@/components/courses/sidebar/Sidebar";
+// CoursePage.tsx
 import FooterCourse from "@/components/courses/FooterCourse";
+import Sidebar from "@/components/courses/sidebar/Sidebar";
+import { initialModules } from "@/constants/coursesConstants";
+import { useState } from "react";
+import CourseContent from "@/components/courses/CourseContent"; // Ensure correct import path
 
 interface Lesson {
   id: string;
   title: string;
   completed: boolean;
+  prevLesson: string;
+  nextLesson: string;
+  content: string;
 }
 
 interface Module {
   id: string;
   title: string;
+  description: string;
+  modules: number;
   lessons: Lesson[];
 }
 
 const CoursePage: React.FC = () => {
   const [openSections, setOpenSections] = useState<string[]>([]);
   const [modules, setModules] = useState<Module[]>(initialModules);
-  const [currentLesson, setCurrentLesson] = useState({
-    id: "l1",
-    title: "Important Features",
-    completed: false,
-    prevLesson: "Getting Started",
-    nextLesson: "Basic HTML Code",
-  });
+  const [currentLesson, setCurrentLesson] = useState<Lesson>(
+    modules
+      .flatMap((module) => module.lessons)
+      .find((lesson) => lesson.id === "DefinitionAshesi1")!
+  );
 
   const toggleSection = (title: string) => {
     setOpenSections((prev) =>
@@ -84,49 +89,20 @@ const CoursePage: React.FC = () => {
         <main className="h-screen overflow-y-auto flex flex-col">
           <div className="flex-1 p-6">
             <div className="max-w-4xl space-y-6">
-              <h1 className="text-4xl font-bold">{currentLesson.title}</h1>
-
-              <ul className="space-y-4 text-lg">
-                <li>• Submenus include a portion for images</li>
-                <li>• Submenus are all the same size</li>
-                <li>
-                  • Transitioning from one submenu to another is seamless.
-                  Rather than closing and opening animations, the contents
-                  change
-                </li>
-                <li>
-                  • The submenu columns have clickable links, but the top-level
-                  option is also clickable (e.g., users can click on
-                  "Electronics" but also a specific type of electronics)
-                </li>
-                <li>• Submenu images are also clickable</li>
-                <li>• When a user's mouse leaves the submenu, it closes</li>
-
-                <li>• Submenus include a portion for images</li>
-                <li>• Submenus are all the same size</li>
-                <li>
-                  • Transitioning from one submenu to another is seamless.
-                  Rather than closing and opening animations, the contents
-                  change
-                </li>
-                <li>
-                  • The submenu columns have clickable links, but the top-level
-                  option is also clickable (e.g., users can click on
-                  "Electronics" but also a specific type of electronics)
-                </li>
-                <li>• Submenu images are also clickable</li>
-                <li>• When a user's mouse leaves the submenu, it closes</li>
-              </ul>
+              {/* Course Content */}
+              <CourseContent lesson={currentLesson} />
             </div>
           </div>
 
           {/* Navigation Footer */}
-          <FooterCourse currentLesson={currentLesson} onMarkComplete={handleMarkComplete}/>
+          <FooterCourse
+            currentLesson={currentLesson}
+            onMarkComplete={handleMarkComplete}
+          />
         </main>
       </div>
     </div>
   );
 };
-
 
 export default CoursePage;

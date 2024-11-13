@@ -49,11 +49,8 @@ const Signup = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="text-gray-600 font-medium mb-2"
-            >
-              Email or Phone Number
+            <label htmlFor="email" className="text-gray-600 font-medium mb-2">
+              Email
             </label>
             <Input
               type="text"
@@ -61,7 +58,7 @@ const Signup = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Enter your email or phone number"
+              placeholder="Enter your email"
               required
             />
           </div>
@@ -84,7 +81,7 @@ const Signup = () => {
             />
           </div>
 
-          <div>
+          {/* <div>
             <label
               htmlFor="confirmPassword"
               className="text-gray-600 font-medium mb-2"
@@ -100,7 +97,7 @@ const Signup = () => {
               placeholder="Re-enter your password"
               required
             />
-          </div>
+          </div> */}
 
           <Button
             type="submit"

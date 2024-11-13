@@ -27,8 +27,8 @@ const Signup = () => {
   return (
     <div className="flex items-center justify-center max-h-screen bg-gray-50">
       {/* Increased width using max-w-lg */}
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+      <div className="bg-white p-8 m-10 rounded-lg shadow-lg w-full max-w-lg">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Sign Up
         </h2>
 
@@ -81,7 +81,7 @@ const Signup = () => {
             />
           </div>
 
-          {/* <div>
+          <div>
             <label
               htmlFor="confirmPassword"
               className="text-gray-600 font-medium mb-2"
@@ -97,7 +97,7 @@ const Signup = () => {
               placeholder="Re-enter your password"
               required
             />
-          </div> */}
+          </div>
 
           <Button
             type="submit"

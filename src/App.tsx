@@ -23,10 +23,9 @@ const App = () => {
         {!isAuthentificated && <Header />}
         <div className="flex flex-1 overflow-hidden">
           {!isAuthentificated && <Sidebar />}
-          <main className={`${isAuthentificated ? "flex-1 overflow-y-hidden p-6" : "flex-1 overflow-y-auto p-6"}`} >
-            <div className={`${isAuthentificated ? "h-full w-full" : ""}`}>
+          <main className={`${isAuthentificated ? "flex-1 overflow-y-hidden p-0" : "flex-1 overflow-y-auto p-6"}`} >
+            
               <RoutesConfig />
-            </div>
           </main>
         </div>
         {!isAuthentificated && <Footer />}

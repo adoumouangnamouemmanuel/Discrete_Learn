@@ -24,8 +24,6 @@ const RoutesConfig = () => {
       <Route path="/resources" element={<Resources />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
-      <Route path="/sign-up" element={<SignUp />} />
-      <Route path="/sign-in" element={<SignIn />} />
       <Route path="/courses/definition" element={<SetDefinitionPage />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<SignIn />} />

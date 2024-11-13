@@ -1,7 +1,7 @@
+import { Button } from "@/components/ui/button"; // Adjust the path as per your project structure
+import { Input } from "@/components/ui/input"; // Adjust the path as per your project structure
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";// Adjust the path as per your project structure
-import { Input } from "@/components/ui/input"; // Adjust the path as per your project structure
 
 const Header: FC = () => {
   return (

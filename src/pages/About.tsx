@@ -26,7 +26,7 @@ const About = () => {
           </h2>
           <p className="text-gray-600 mb-2">Founder & Lead Developer</p>
           <p className="text-gray-600 mb-4">
-            John is the visionary behind DiscreteLearn. As a passionate software
+            Emmanuel is the visionary behind DiscreteLearn. As a passionate software
             engineer, he leads the development of the platform, creating an
             intuitive and scalable user experience for students across the
             globe.
@@ -64,7 +64,7 @@ const About = () => {
           <h2 className="text-xl font-semibold text-gray-800">Ruth Arhin</h2>
           <p className="text-gray-600 mb-2">Product Manager</p>
           <p className="text-gray-600 mb-4">
-            Jane ensures that DiscreteLearn is not only functional but also
+            Ruth ensures that DiscreteLearn is not only functional but also
             user-friendly. She works closely with students to gather feedback,
             ensuring the platform meets learners' needs and expectations.
           </p>
@@ -103,8 +103,8 @@ const About = () => {
           </h2>
           <p className="text-gray-600 mb-2">Lead Designer</p>
           <p className="text-gray-600 mb-4">
-            Mark designs the user interface of DiscreteLearn, ensuring the
-            platform is visually appealing and easy to navigate. His goal is to
+            Mary-Ann designs the user interface of DiscreteLearn, ensuring the
+            platform is visually appealing and easy to navigate. Her goal is to
             make learning Discrete Mathematics a pleasant and seamless
             experience.
           </p>

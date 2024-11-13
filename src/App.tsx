@@ -11,24 +11,26 @@ import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   const location = useLocation();
   const ishome = location.pathname === "/";
-  const isAuthentificated = location.pathname === "/signup" || location.pathname === "/login";
+  const isAuthentificated =
+    location.pathname === "/signup" || location.pathname === "/login";
+  const isCoursePage = location.pathname.startsWith("/courses/");
 
-  // Ensure no scrollbar for the sign-up page
   if (isAuthentificated) {
-    document.body.style.overflow = "hidden"; // Disable scrolling on sign-up page
+    document.body.style.overflow = "hidden";
   } else {
-    document.body.style.overflow = "auto"; // Enable scrolling for other pages
+    document.body.style.overflow = "auto";
   }
 
   return (
     <ThemeProvider>
       <div className="flex h-screen flex-col">
-        {!isAuthentificated && <Header />}
+        {/* Hide Header and Sidebar for course pages */}
+        {!isAuthentificated && !isCoursePage && <Header />}
         <div className="flex flex-1 overflow-hidden">
-          {!isAuthentificated && <Sidebar />}
+          {!isAuthentificated && !isCoursePage && <Sidebar />}
           <main
             className={`${
-              isAuthentificated
+              isAuthentificated || isCoursePage
                 ? "flex-1 overflow-y-hidden p-0"
                 : "flex-1 overflow-y-auto p-6"
             }`}
@@ -38,7 +40,7 @@ const App = () => {
         </div>
         {!isAuthentificated && ishome && <Footer />}
       </div>
-      <ToastContainer /> {/* Add ToastContainer for global toasts */}
+      <ToastContainer />
     </ThemeProvider>
   );
 };

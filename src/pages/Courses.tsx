@@ -34,10 +34,7 @@ const courses = [
       "Master propositional logic, predicate logic, and proof techniques.",
     modules: 12,
   },
-  // Add more courses as needed
-
-
-  
+  // Add more courses as needed 
 ];
 
 const CoursesPage = () => {

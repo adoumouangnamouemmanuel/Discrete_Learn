@@ -1,8 +1,6 @@
-// constants.js
-// constants/index.js
 import Emma from "../assets/emma.jpg"; // Adjust this path as needed
 import Ruth from "../assets/ruth.jpg"; // Adjust this path as needed
-import Mary from '../assets/mary.jpg'
+import Mary from "../assets/mary.jpg";
 
 /** @type {import("./constants").TeamMember[]} */
 export const teamMembers = [
@@ -35,26 +33,5 @@ export const teamMembers = [
     phone: "+1122334455",
     linkedin: "https://www.linkedin.com/in/mary-ann-adzim/",
     image: Mary,
-  },
-];
-
-export const initialModules = [
-  {
-    id: "m2",
-    title: "Building an Infinite List",
-    lessons: [
-      { id: "l10", title: "Understanding Infinite Lists1", completed: false },
-      { id: "l20", title: "Implementation Strategies1", completed: false },
-      { id: "l90", title: "Performance Considerations1", completed: false },
-    ],
-  },
-  {
-    id: "m25",
-    title: "Building an Infinite",
-    lessons: [
-      { id: "l4", title: "Understanding Infinite Lists", completed: false },
-      { id: "l5", title: "Implementation Strategies", completed: false },
-      { id: "l6", title: "Performance Considerations", completed: false },
-    ],
   },
 ];

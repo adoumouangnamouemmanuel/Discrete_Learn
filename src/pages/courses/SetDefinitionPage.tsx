@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { initialModules } from "@/constants";
+import { initialModules } from "@/constants/coursesConstants";
 import Sidebar from "@/components/courses/sidebar/Sidebar";
 import FooterCourse from "@/components/courses/FooterCourse";
 

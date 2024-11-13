@@ -4,27 +4,12 @@ import { Button } from "@/components/ui/button"; // Adjust the import path as ne
 import { ScrollArea } from "@/components/ui/scroll-area"; // Adjust the import path as necessary
 import { cn } from "@/lib/utils"; // Adjust the import path as necessary
 import { ModeToggle } from "./mode-toggle";
+import {sidebarItems} from "@/constants/headerConstants"
 import {
   PanelLeftClose,
   PanelLeftOpen,
-  Home,
-  BookOpen,
-  FileQuestion,
-  BarChart2,
-  Settings,
-  HelpCircle,
-  Archive,
 } from "lucide-react";
 
-const sidebarItems = [
-  { name: "Home", href: "/", icon: Home },
-  { name: "Courses", href: "/courses", icon: BookOpen },
-  { name: "Problems", href: "/problems", icon: FileQuestion },
-  { name: "Progress", href: "/progress", icon: BarChart2 },
-  { name: "Settings", href: "/settings", icon: Settings },
-  { name: "Resources", href: "/resources", icon: Archive },
-  { name: "Help", href: "/help", icon: HelpCircle },
-];
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);

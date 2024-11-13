@@ -75,18 +75,15 @@ const Header: FC = () => {
           <nav className="flex items-center space-x-4">
             {!isLoggedIn ? (
               <>
-                  <Link
-                    to="/about"
-                    className="text-gray-600 hover:text-gray-900"
-                  >
-                    About
-                  </Link>
-                  <Link
-                    to="/contact"
-                    className="text-gray-600 hover:text-gray-900"
-                  >
-                    Contact
-                  </Link>
+                <Link to="/about" className="text-gray-600 hover:text-gray-900">
+                  About
+                </Link>
+                <Link
+                  to="/contact"
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  Contact
+                </Link>
                 <Link to="/login">
                   <Button variant="outline">Sign In</Button>
                 </Link>
@@ -99,6 +96,18 @@ const Header: FC = () => {
               <>
                 <div className="flex items-center space-x-4">
                   {/* Avatar and Name with Dropdown */}
+                  <Link
+                    to="/about"
+                    className="text-gray-600 hover:text-gray-900"
+                  >
+                    About
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className="text-gray-600 hover:text-gray-900"
+                  >
+                    Contact
+                  </Link>
                   <Popover>
                     <PopoverTrigger>
                       <div className="flex flex-col items-center cursor-pointer">

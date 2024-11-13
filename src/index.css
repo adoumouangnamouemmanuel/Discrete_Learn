@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Ensure the body and html take full height and width */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure the root takes full height */
+#root {
+  height: 100%;
+}
+
+/* Optionally set a universal box-sizing to prevent issues with padding and borders */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

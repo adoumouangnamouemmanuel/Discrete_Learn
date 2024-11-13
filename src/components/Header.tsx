@@ -31,8 +31,13 @@ const Header: FC = () => {
             <Link to="/contact" className="text-gray-600 hover:text-gray-900">
               Contact
             </Link>
-            <Button variant="outline">Sign In</Button>
-            <Button>Sign Up</Button>
+            <Link to="/login">
+              <Button variant="outline">Sign In</Button>
+            </Link>
+
+            <Link to="/signup">
+              <Button>Sign Up</Button>
+            </Link>
           </nav>
         </div>
       </div>

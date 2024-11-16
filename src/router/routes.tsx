@@ -10,7 +10,7 @@ import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import SignUp from "@/pages/auth/SignUp";
 import SignIn from "@/pages/auth/Login";
-import SetDefinitionPage from "@/pages/courses/SetDefinitionPage";
+import CoursePage from "@/pages/courses/SetDefinitionPage";
 // import profile from "@/pages/profile";
 import Profile from "@/pages/profiles/Profile";
 import EditProfilePage from "@/pages/profiles/EditProfile";
@@ -28,7 +28,7 @@ const RoutesConfig = () => {
       <Route path="/resources" element={<Resources />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
-      <Route path="/courses/:courseId" element={<SetDefinitionPage />} />
+      <Route path="/courses/:courseId" element={<CoursePage />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<SignIn />} />
       <Route path="/profile" element={<Profile />} />

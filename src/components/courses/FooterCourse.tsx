@@ -10,7 +10,7 @@ interface CurrentLesson {
   completed: boolean;
   prevLesson: string;
   nextLesson: string;
-  content: string
+  content: string;
 }
 
 interface FooterProps {
@@ -22,22 +22,20 @@ const FooterCourse: React.FC<FooterProps> = ({
   currentLesson,
   onMarkComplete,
 }) => {
-  
   return (
     <div className="border-t p-4 flex items-center justify-between bg-background">
       {/* Previous Lesson Button */}
-      <Link to={`/courses/${currentLesson.prevLesson}`}>
-        <Button variant="outline" className="flex items-center gap-2">
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back lesson</span>
-        </Button>
-      </Link>
+      {currentLesson.prevLesson && (
+        <Link to={`/courses/${currentLesson.prevLesson}`}>
+          <Button variant="outline" className="flex items-center gap-2">
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back lesson</span>
+          </Button>
+        </Link>
+      )}
 
       {/* Mark Complete Button */}
       <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground">
-          {currentLesson.prevLesson}
-        </span>
         <Button
           variant="outline"
           className={cn(
@@ -62,18 +60,19 @@ const FooterCourse: React.FC<FooterProps> = ({
           </div>
           <span>Completed</span>
         </Button>
-        <Link to={`/courses/${currentLesson.nextLesson}`}>
-          <Button
-            variant="outline"
-            className="flex items-center gap-2 text-blue-500 hover:text-blue-600"
-          >
-            <span>Next</span>
-            <ArrowRight className="w-4 h-4" />
-          </Button>
-        </Link>
-        <span className="text-sm text-muted-foreground">
-          {currentLesson.nextLesson}
-        </span>
+
+        {/* Next Lesson Button */}
+        {currentLesson.nextLesson && (
+          <Link to={`/courses/${currentLesson.nextLesson}`}>
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 text-blue-500 hover:text-blue-600"
+            >
+              <span>Next</span>
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
+        )}
       </div>
     </div>
   );

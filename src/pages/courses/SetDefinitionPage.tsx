@@ -28,7 +28,7 @@ const CoursePage: React.FC = () => {
   const [currentLesson, setCurrentLesson] = useState<Lesson>(
     modules
       .flatMap((module) => module.lessons)
-      .find((lesson) => lesson.id === "DefinitionAshesi1")!
+      .find((lesson) => lesson.id === "DefinitionAshesi1")! // Initial lesson selection
   );
 
   const toggleSection = (title: string) => {
@@ -63,13 +63,12 @@ const CoursePage: React.FC = () => {
   };
 
   const handleLessonClick = (lessonId: string) => {
-    setCurrentLesson((prev) => ({
-      ...prev,
-      id: lessonId,
-      completed:
-        modules.flatMap((m) => m.lessons).find((l) => l.id === lessonId)
-          ?.completed || false,
-    }));
+    const lesson = modules
+      .flatMap((module) => module.lessons)
+      .find((l) => l.id === lessonId);
+    if (lesson) {
+      setCurrentLesson(lesson);
+    }
   };
 
   return (

@@ -98,7 +98,7 @@ export const initialModules = [
         id: "SetOperationsAshesi1",
         title: "Introduction",
         completed: false,
-        prevLesson: "",
+        prevLesson: "SetOperationsAshesi1",
         nextLesson: "SetOperationsAshesi2",
         content: "Introduction to set operations",
       },

@@ -44,6 +44,19 @@ const CoursePage: React.FC = () => {
       if (savedProgress) {
         const parsed = JSON.parse(savedProgress);
         setCourseProgress(parsed);
+
+        // Update modules with completed status
+        setModules((prevModules) =>
+          prevModules.map((module) => ({
+            ...module,
+            lessons: module.lessons.map((lesson) => ({
+              ...lesson,
+              completed:
+                parsed[module.id]?.completedLessons?.includes(lesson.id) ||
+                false,
+            })),
+          }))
+        );
       }
     } catch (error) {
       console.error("Error loading progress:", error);

@@ -1,5 +1,4 @@
-// CourseContent.tsx
-// import { initialModules } from "@/constants/coursesConstants"; // Ensure correct import path
+import { useEffect, useState } from "react";
 
 interface Lesson {
   id: string;
@@ -15,10 +14,16 @@ interface CourseContentProps {
 }
 
 const CourseContent: React.FC<CourseContentProps> = ({ lesson }) => {
+  const [content, setContent] = useState(lesson.content);
+
+  useEffect(() => {
+    setContent(lesson.content);
+  }, [lesson]);
+
   return (
     <div>
       <h2 className="text-3xl font-semibold">{lesson.title}</h2>
-      <p className="mt-4">{lesson.content}</p>
+      <p className="mt-4">{content}</p>
     </div>
   );
 };

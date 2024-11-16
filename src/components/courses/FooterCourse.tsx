@@ -1,8 +1,6 @@
-// FooterCourse.tsx
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { Link } from "react-router-dom";
 
 interface CurrentLesson {
   id: string;
@@ -16,25 +14,27 @@ interface CurrentLesson {
 interface FooterProps {
   currentLesson: CurrentLesson;
   onMarkComplete: () => void;
+  onNavigation: (lessonId: string) => void;
 }
 
 const FooterCourse: React.FC<FooterProps> = ({
   currentLesson,
   onMarkComplete,
+  onNavigation,
 }) => {
   return (
     <div className="border-t p-4 flex items-center justify-between bg-background">
-      {/* Previous Lesson Button */}
       {currentLesson.prevLesson && (
-        <Link to={`/courses/${currentLesson.prevLesson}`}>
-          <Button variant="outline" className="flex items-center gap-2">
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back lesson</span>
-          </Button>
-        </Link>
+        <Button
+          variant="outline"
+          className="flex items-center gap-2"
+          onClick={() => onNavigation(currentLesson.prevLesson)}
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back lesson</span>
+        </Button>
       )}
 
-      {/* Mark Complete Button */}
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
@@ -61,17 +61,15 @@ const FooterCourse: React.FC<FooterProps> = ({
           <span>Completed</span>
         </Button>
 
-        {/* Next Lesson Button */}
         {currentLesson.nextLesson && (
-          <Link to={`/courses/${currentLesson.nextLesson}`}>
-            <Button
-              variant="outline"
-              className="flex items-center gap-2 text-blue-500 hover:text-blue-600"
-            >
-              <span>Next</span>
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 text-blue-500 hover:text-blue-600"
+            onClick={() => onNavigation(currentLesson.nextLesson)}
+          >
+            <span>Next</span>
+            <ArrowRight className="w-4 h-4" />
+          </Button>
         )}
       </div>
     </div>

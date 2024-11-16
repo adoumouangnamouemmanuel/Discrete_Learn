@@ -2,17 +2,32 @@
 
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
-import { Github, Search, Edit3, X } from "lucide-react";
+import { Github, Search, Edit3, X, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ProfileHeader from "./ProfileHeader";
 import { signOut } from "firebase/auth"; // Firebase auth methods
 import { isAuth } from "@/utils/authUtils"; // Import the utility function
 import { auth } from "@/firebase/firebaseConfig"; // Firebase auth instance
+
+
+const streakDates = [
+  new Date(2023, 6, 1),
+  new Date(2023, 6, 2),
+  new Date(2023, 6, 3),
+  new Date(2023, 6, 5),
+  new Date(2023, 6, 6),
+];
 
 export default function ProfilePage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,6 +62,7 @@ export default function ProfilePage() {
     e.preventDefault();
     console.log("Searching for:", searchQuery);
   };
+  const [date, setDate] = useState<Date | undefined>(new Date());
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -176,10 +192,32 @@ export default function ProfilePage() {
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="streaks">
+            <TabsContent
+              value="streaks"
+              className="flex items-center justify-center"
+            >
               <Card>
-                <CardContent className="pt-6 flex justify-center">
-                  <Calendar className="rounded-md border" />
+                <CardHeader>
+                  <CardTitle>Learning Streak</CardTitle>
+                  <CardDescription>Keep your momentum going!</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-center mb-4">
+                    <span className="text-2xl font-bold">7 Days</span>
+                    <Zap className="w-6 h-6 text-yellow-500" />
+                  </div>
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    className="rounded-md border"
+                    modifiers={{
+                      streak: streakDates,
+                    }}
+                    modifiersStyles={{
+                      streak: { backgroundColor: "hsl(var(--primary))" },
+                    }}
+                  />
                 </CardContent>
               </Card>
             </TabsContent>

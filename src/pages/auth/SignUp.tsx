@@ -3,8 +3,8 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
-import { auth } from "@/firebase"; // Import firebase auth
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"; 
+import { auth } from "@/firebase/firebaseConfig"; // Import firebase auth
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom"; // To navigate after sign-up
 import { toast } from "react-toastify"; // Import toast
 
@@ -60,7 +60,7 @@ const Signup = () => {
       // Redirect to login page after successful signup
       setTimeout(() => {
         navigate("/login"); // Change this to wherever you'd like the user to go
-      }, 3000); // Delay the redirect to allow the toast to be visible
+      }, 1000); // Delay the redirect to allow the toast to be visible
     } catch (error) {
       alert("Error signing up: " + error.message);
     } finally {

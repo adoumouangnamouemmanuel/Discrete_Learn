@@ -1,16 +1,11 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FC, useState, useEffect } from "react";
+import { signOut } from "firebase/auth"; // Firebase auth methods
+import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { auth } from "@/firebase"; // Firebase auth instance
-import { signOut, onAuthStateChanged } from "firebase/auth"; // Firebase auth methods
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  // PopoverArrow,
-} from "@/components/ui/popover"; // Popover components
+import NavHeader from "./headers/NavHeader";
+import ProfileHeader from "@/pages/profiles/ProfileHeader";
+import { isAuth } from "@/utils/authUtils"; // Import the utility function
+import { auth } from "@/firebase/firebaseConfig"; // Firebase auth instance
 
 const Header: FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,23 +13,12 @@ const Header: FC = () => {
     null
   );
 
-  // Listen for changes in authentication state (login/logout)
+  // Fetch authentication state using isAuth
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        console.log("Logged in user:", firebaseUser); // Debugging log to check user details
-        setIsLoggedIn(true);
-        setUser({
-          name: firebaseUser.displayName || "User", // Ensure displayName is populated
-          avatarUrl: firebaseUser.photoURL || "", // Firebase photoURL or fallback to empty string
-        });
-      } else {
-        setIsLoggedIn(false);
-        setUser(null);
-      }
+    isAuth().then(({ isLoggedIn, user }) => {
+      setIsLoggedIn(isLoggedIn);
+      setUser(user);
     });
-
-    return () => unsubscribe(); // Cleanup the listener on component unmount
   }, []);
 
   // Handle logout
@@ -74,6 +58,8 @@ const Header: FC = () => {
           {/* Navigation and Auth buttons */}
           <nav className="flex items-center space-x-4">
             {!isLoggedIn ? (
+              <NavHeader />
+            ) : (
               <>
                 <Link to="/about" className="text-gray-600 hover:text-gray-900">
                   About
@@ -84,67 +70,7 @@ const Header: FC = () => {
                 >
                   Contact
                 </Link>
-                <Link to="/login">
-                  <Button variant="outline">Sign In</Button>
-                </Link>
-
-                <Link to="/signup">
-                  <Button>Sign Up</Button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <div className="flex items-center space-x-4">
-                  {/* Avatar and Name with Dropdown */}
-                  <Link
-                    to="/about"
-                    className="text-gray-600 hover:text-gray-900"
-                  >
-                    About
-                  </Link>
-                  <Link
-                    to="/contact"
-                    className="text-gray-600 hover:text-gray-900"
-                  >
-                    Contact
-                  </Link>
-                  <Popover>
-                    <PopoverTrigger>
-                      <div className="flex flex-col items-center cursor-pointer">
-                        <Avatar>
-                          <AvatarImage src={user?.avatarUrl} alt={user?.name} />
-                          <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
-                        </Avatar>
-                        <span className="text-gray-800 text-sm mt-2">
-                          {user?.name}
-                        </span>
-                      </div>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-48 p-2">
-                      {/* <PopoverArrow /> */}
-                      <div className="space-y-2">
-                        <Link
-                          to="/profile"
-                          className="block text-gray-700 hover:bg-gray-200 p-2 rounded"
-                        >
-                          Profile
-                        </Link>
-                        <Link
-                          to="/settings"
-                          className="block text-gray-700 hover:bg-gray-200 p-2 rounded"
-                        >
-                          Settings
-                        </Link>
-                        <button
-                          onClick={handleLogout}
-                          className="block text-gray-700 hover:bg-gray-200 p-2 rounded w-full text-left"
-                        >
-                          Log Out
-                        </button>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                <ProfileHeader user={user} loggedOut={handleLogout} />
               </>
             )}
           </nav>

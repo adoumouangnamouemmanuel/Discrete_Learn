@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
-import { auth } from "@/firebase";
+import { auth } from "@/firebase/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth"; // Firebase method for email/password login
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify"; // Import toast
@@ -36,7 +36,7 @@ const Login = () => {
       // Here, we will show a success toast
       toast.success("Login Successful!", {
         position: "top-center",
-        autoClose: 3000,
+        autoClose: 1000,
         hideProgressBar: true,
         closeOnClick: true,
       });
@@ -44,9 +44,14 @@ const Login = () => {
       // Redirect to login page after successful signup
       setTimeout(() => {
         navigate("/"); // Change this to wherever you'd like the user to go
-      }, 3000); // Delay the redirect to allow the toast to be visible
-    } catch (error) {
-      alert("Error logging in: " + error.message);
+      }, 1000); // Delay the redirect to allow the toast to be visible
+    } catch {
+      toast.error("Failed to Log In. Please Try Again. Make sure Your Email and Password are Correct", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
     } finally {
       setLoading(false);
     }

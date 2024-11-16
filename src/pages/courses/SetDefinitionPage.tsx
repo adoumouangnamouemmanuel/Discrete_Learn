@@ -4,6 +4,9 @@ import FooterCourse from "@/components/courses/FooterCourse";
 import Sidebar from "@/components/courses/sidebar/Sidebar";
 import { initialModules } from "@/constants/coursesConstants";
 import CourseContent from "@/components/courses/CourseContent";
+import { auth, firestore } from "@/firebase/firebaseConfig";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 interface Lesson {
   id: string;
@@ -34,35 +37,59 @@ const CoursePage: React.FC = () => {
   const [modules, setModules] = useState<Module[]>(initialModules);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [courseProgress, setCourseProgress] = useState<CourseProgress>({});
+  const [userId, setUserId] = useState<string | null>(null);
   const { courseId: urlCourseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
 
-  // Load initial progress
   useEffect(() => {
-    try {
-      const savedProgress = localStorage.getItem("courseProgress");
-      if (savedProgress) {
-        const parsed = JSON.parse(savedProgress);
-        setCourseProgress(parsed);
-
-        // Update modules with completed status
-        setModules((prevModules) =>
-          prevModules.map((module) => ({
-            ...module,
-            lessons: module.lessons.map((lesson) => ({
-              ...lesson,
-              completed:
-                parsed[module.id]?.completedLessons?.includes(lesson.id) ||
-                false,
-            })),
-          }))
-        );
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        setUserId(null);
+        // Redirect to login page or handle unauthenticated state
+        // navigate('/login');
       }
-    } catch (error) {
-      console.error("Error loading progress:", error);
-      localStorage.removeItem("courseProgress"); // Clear invalid data
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
+
+  useEffect(() => {
+    const loadProgress = async () => {
+      if (userId) {
+        try {
+          const docRef = doc(firestore, "courseProgress", userId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data() as CourseProgress;
+            setCourseProgress(data);
+
+            setModules((prevModules) =>
+              prevModules.map((module) => ({
+                ...module,
+                lessons: module.lessons.map((lesson) => ({
+                  ...lesson,
+                  completed:
+                    data[module.id]?.completedLessons.includes(lesson.id) ||
+                    false,
+                })),
+              }))
+            );
+          }
+        } catch (error) {
+          console.error("Error loading progress from Firestore:", error);
+        }
+      }
+    };
+
+    if (userId) {
+      loadProgress();
     }
-  }, []);
+  }, [userId]);
+
+  
 
   // Handle lesson changes
   useEffect(() => {
@@ -118,7 +145,7 @@ const CoursePage: React.FC = () => {
   };
 
   const handleMarkComplete = () => {
-    if (!currentLesson) return;
+    if (!currentLesson || !userId) return;
 
     const courseId = modules.find((module) =>
       module.lessons.includes(currentLesson)
@@ -128,38 +155,39 @@ const CoursePage: React.FC = () => {
 
     const isCurrentlyCompleted = currentLesson.completed;
 
-    // Update current lesson state
     setCurrentLesson((prev) =>
       prev ? { ...prev, completed: !isCurrentlyCompleted } : null
     );
 
-    // Update course progress
     setCourseProgress((prev) => {
       const existingProgress = prev[courseId] || {
         completedLessons: [],
         lastAccessedLesson: currentLesson.id,
       };
 
-      const existingCompletedLessons = Array.isArray(
-        existingProgress.completedLessons
-      )
-        ? existingProgress.completedLessons
-        : [];
-
       const newCompletedLessons = isCurrentlyCompleted
-        ? existingCompletedLessons.filter((id) => id !== currentLesson.id)
-        : [...existingCompletedLessons, currentLesson.id];
+        ? existingProgress.completedLessons.filter(
+            (id) => id !== currentLesson.id
+          )
+        : [...existingProgress.completedLessons, currentLesson.id];
 
-      return {
+      const updatedProgress = {
         ...prev,
         [courseId]: {
           ...existingProgress,
           completedLessons: newCompletedLessons,
         },
       };
+
+      // Save to Firestore
+      const docRef = doc(firestore, "courseProgress", userId);
+      setDoc(docRef, updatedProgress).catch((error) => {
+        console.error("Error saving progress to Firestore:", error);
+      });
+
+      return updatedProgress;
     });
 
-    // Update modules state
     setModules((prevModules) =>
       prevModules.map((module) => ({
         ...module,
@@ -171,6 +199,8 @@ const CoursePage: React.FC = () => {
       }))
     );
   };
+
+  
 
   const handleLessonClick = (lessonId: string) => {
     navigate(`/courses/${lessonId}`);

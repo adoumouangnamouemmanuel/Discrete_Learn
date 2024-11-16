@@ -61,7 +61,7 @@ export default function ProfileHeader({ user, loggedOut }: ProfileHeaderProps) {
               <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
             </Avatar>
             <div>
-              <h2 className="font-bold">Emmanuel Adoum</h2>
+              <h2 className="font-bold">{user?.name}</h2>
               <Link to="/profile" className="text-blue-600 text-sm">
                 View Profile
               </Link>

@@ -228,7 +228,7 @@ export default function EditProfilePage() {
             <Button onClick={handleSaveAvatar} className="mt-4">
               Save Avatar
             </Button>
-            <h1 className="text-2xl font-bold mt-4">Emmanuel Adoum</h1>
+            <h1 className="text-2xl font-bold mt-4">{name}</h1>
           </div>
 
           <section>

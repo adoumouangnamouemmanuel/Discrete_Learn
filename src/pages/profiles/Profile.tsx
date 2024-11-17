@@ -225,7 +225,7 @@ export default function ProfilePage() {
               <Card>
                 <CardContent className="pt-5">
                   <div className="flex flex-col items-center justify-center h-90">
-                    <p className="mt-8 text-xl font-semibold">
+                    <p className="mt- text-xl font-semibold">
                       You have not published any content yet.
                     </p>
                     <Avatar className="w-90 h-90 mt-{-3}">

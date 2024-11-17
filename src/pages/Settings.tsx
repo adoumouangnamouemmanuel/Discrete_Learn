@@ -1,13 +1,20 @@
 "use client";
 
-// import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pencil, Trash2 } from "lucide-react";
-// import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Pencil,
+  Trash2,
+  Twitter,
+  Github,
+  Linkedin,
+  Facebook,
+  Globe,
+} from "lucide-react";
 import AvatarEditor from "react-avatar-editor";
 import { Link } from "react-router-dom";
 import {
@@ -16,8 +23,7 @@ import {
   updatePassword,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "@/firebase/firebaseConfig"; // Firebase auth import
-import { useEffect, useRef, useState } from "react";
+import { auth } from "@/firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -39,6 +45,7 @@ export default function EditProfilePage() {
   const navigate = useNavigate();
   const editorRef = useRef<any>(null);
   const [showPasswordForm, setShowPasswordForm] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   useEffect(() => {
     const currentUser = auth.currentUser;
@@ -46,6 +53,15 @@ export default function EditProfilePage() {
       setUser(currentUser);
       setName(currentUser.displayName || "");
       setEmail(currentUser.email || "");
+      // Load saved data from localStorage
+      const savedData = JSON.parse(localStorage.getItem("userProfile") || "{}");
+      setShortBio(savedData.shortBio || "");
+      setFullBio(savedData.fullBio || "");
+      setTwitter(savedData.twitter || "");
+      setGithub(savedData.github || "");
+      setLinkedin(savedData.linkedin || "");
+      setFacebook(savedData.facebook || "");
+      setWebsite(savedData.website || "");
     } else {
       navigate("/login");
     }
@@ -56,7 +72,7 @@ export default function EditProfilePage() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result); // Set the selected image as the new source
+        setImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -67,7 +83,7 @@ export default function EditProfilePage() {
       const canvas = editorRef.current.getImage();
       const imageURL = canvas.toDataURL();
       try {
-        await updateProfile(user, { photoURL: imageURL }); // Update Firebase profile picture
+        await updateProfile(user, { photoURL: imageURL });
         toast.success("Profile picture updated!");
       } catch {
         toast.error("Error updating profile picture");
@@ -146,19 +162,58 @@ export default function EditProfilePage() {
     handleChange("facebook", facebook);
     handleChange("website", website);
 
-    // Close the password form after saving
-    setShowPasswordForm(false);
+    // Save data to localStorage
+    localStorage.setItem(
+      "userProfile",
+      JSON.stringify({
+        shortBio,
+        fullBio,
+        twitter,
+        github,
+        linkedin,
+        facebook,
+        website,
+      })
+    );
+
+    setEditMode(false);
+    toast.success("Profile updated successfully!");
   };
 
   const handleDiscard = () => {
     setName(user?.displayName || "");
-    setShortBio("");
-    setFullBio("");
-    setTwitter("");
-    setGithub("");
-    setLinkedin("");
-    setFacebook("");
-    setWebsite("");
+    const savedData = JSON.parse(localStorage.getItem("userProfile") || "{}");
+    setShortBio(savedData.shortBio || "");
+    setFullBio(savedData.fullBio || "");
+    setTwitter(savedData.twitter || "");
+    setGithub(savedData.github || "");
+    setLinkedin(savedData.linkedin || "");
+    setFacebook(savedData.facebook || "");
+    setWebsite(savedData.website || "");
+    // Remove: setEditMode(false);
+  };
+
+  const renderEditableField = (
+    label: string,
+    value: string,
+    onChange: (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => void,
+    isTextarea: boolean = false
+  ) => {
+    if (editMode) {
+      return isTextarea ? (
+        <Textarea value={value} onChange={onChange} className="mt-1" />
+      ) : (
+        <Input value={value} onChange={onChange} className="mt-1" />
+      );
+    }
+    return (
+      <div className="mt-1 p-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+        <strong className="text-gray-700">{label}:</strong>
+        <p className="mt-1 text-gray-600">{value || "Not provided"}</p>
+      </div>
+    );
   };
 
   return (
@@ -184,12 +239,18 @@ export default function EditProfilePage() {
           </Link>
           <div className="space-x-2">
             <Link to="/profile" className="text-gray-600 hover:text-gray-900">
-              <Button variant="outline">VIEW</Button>
+              <Button variant="outline">VIEW PROFILE</Button>
             </Link>
-            <Button variant="outline" onClick={handleDiscard}>
-              DISCARD
-            </Button>
-            <Button onClick={handleSave}>SAVE</Button>
+            {editMode ? (
+              <>
+                <Button variant="outline" onClick={handleDiscard}>
+                  DISCARD
+                </Button>
+                <Button onClick={handleSave}>SAVE</Button>
+              </>
+            ) : (
+              <Button onClick={() => setEditMode(true)}>EDIT</Button>
+            )}
           </div>
         </div>
       </header>
@@ -200,7 +261,7 @@ export default function EditProfilePage() {
             <div className="relative">
               <AvatarEditor
                 ref={editorRef}
-                image={image || user?.photoURL || "/default-avatar.png"} // Use selected image or default avatar
+                image={image || user?.photoURL || "/default-avatar.png"}
                 width={150}
                 height={150}
                 border={50}
@@ -212,7 +273,7 @@ export default function EditProfilePage() {
                 className="absolute bottom-0 right-0 rounded-full"
                 onClick={() =>
                   document.getElementById("avatar-upload")?.click()
-                } // Trigger file input click
+                }
               >
                 <Pencil className="h-4 w-4" />
                 <span className="sr-only">Edit profile picture</span>
@@ -303,17 +364,15 @@ export default function EditProfilePage() {
             </div>
           </section>
 
-          <section>
+          <section className="shadow p-10 bg-white">
             <h2 className="text-xl font-semibold mb-4">PROFILE INFORMATION</h2>
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="fullName">Full Name</Label>
-                  <Input
-                    id="fullName"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                  {renderEditableField("Full Name", name, (e) =>
+                    setName(e.target.value)
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
@@ -322,96 +381,129 @@ export default function EditProfilePage() {
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="legalName">Legal Name</Label>
-                  <Input
-                    id="legalName"
-                    defaultValue="Adoum Ouang-namou Emmanuel"
-                    disabled
-                  />
-                  <p className="text-sm text-gray-600">
-                    This name will appear on certificates issued to you by
-                    educative
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signatoryName">Signatory Name</Label>
-                  <Input
-                    id="signatoryName"
-                    placeholder="Add your signatory name"
-                  />
-                  <p className="text-sm text-gray-600">
-                    This name is used to sign certificates issued on courses
-                    published by you
-                  </p>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
                   <Label htmlFor="shortBio">Short Bio</Label>
-                  <Textarea
-                    id="shortBio"
-                    value={shortBio}
-                    placeholder="What defines you"
-                    onChange={(e) => setShortBio(e.target.value)}
-                    className="h-32"
-                  />
+                  {renderEditableField(
+                    "Short Bio",
+                    shortBio,
+                    (e) => setShortBio(e.target.value),
+                    true
+                  )}
                   <p className="text-sm text-gray-600">256 max characters</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="fullBio">Full Bio</Label>
-                  <Textarea
-                    id="fullBio"
-                    value={fullBio}
-                    placeholder="Share your story"
-                    onChange={(e) => setFullBio(e.target.value)}
-                    className="h-48"
-                  />
+                  {renderEditableField(
+                    "Full Bio",
+                    fullBio,
+                    (e) => setFullBio(e.target.value),
+                    true
+                  )}
                   <p className="text-sm text-gray-600">8192 max characters</p>
                 </div>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="twitter">Twitter</Label>
-                  <Input
-                    placeholder="Twitter"
-                    value={twitter}
-                    onChange={(e) => setTwitter(e.target.value)}
-                  />
+                  {editMode ? (
+                    renderEditableField("Twitter", twitter, (e) =>
+                      setTwitter(e.target.value)
+                    )
+                  ) : (
+                    <a
+                      href={`https://twitter.com/${twitter}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center p-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                    >
+                      <Twitter className="w-5 h-5 mr-2 text-blue-400" />
+                      <span className="text-gray-600">
+                        {twitter || "Not provided"}
+                      </span>
+                    </a>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="github">GitHub</Label>
-                  <Input
-                    placeholder="Github"
-                    value={github}
-                    onChange={(e) => setGithub(e.target.value)}
-                  />
+                  {editMode ? (
+                    renderEditableField("GitHub", github, (e) =>
+                      setGithub(e.target.value)
+                    )
+                  ) : (
+                    <a
+                      href={`https://github.com/${github}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center p-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                    >
+                      <Github className="w-5 h-5 mr-2 text-gray-700" />
+                      <span className="text-gray-600">
+                        {github || "Not provided"}
+                      </span>
+                    </a>
+                  )}
                 </div>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="linkedin">LinkedIn</Label>
-                  <Input
-                    placeholder="LinkedIn"
-                    value={linkedin}
-                    onChange={(e) => setLinkedin(e.target.value)}
-                  />
+                  {editMode ? (
+                    renderEditableField("LinkedIn", linkedin, (e) =>
+                      setLinkedin(e.target.value)
+                    )
+                  ) : (
+                    <a
+                      href={linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center p-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                    >
+                      <Linkedin className="w-5 h-5 mr-2 text-blue-700" />
+                      <span className="text-gray-600">
+                        {linkedin || "Not provided"}
+                      </span>
+                    </a>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="facebook">Facebook</Label>
-                  <Input
-                    placeholder="Facebook"
-                    value={facebook}
-                    onChange={(e) => setFacebook(e.target.value)}
-                  />
+                  {editMode ? (
+                    renderEditableField("Facebook", facebook, (e) =>
+                      setFacebook(e.target.value)
+                    )
+                  ) : (
+                    <a
+                      href={facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center p-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                    >
+                      <Facebook className="w-5 h-5 mr-2 text-blue-600" />
+                      <span className="text-gray-600">
+                        {facebook || "Not provided"}
+                      </span>
+                    </a>
+                  )}
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="website">Personal Website</Label>
-                <Input
-                  placeholder="Website"
-                  value={website}
-                  onChange={(e) => setWebsite(e.target.value)}
-                />
+                {editMode ? (
+                  renderEditableField("Personal Website", website, (e) =>
+                    setWebsite(e.target.value)
+                  )
+                ) : (
+                  <a
+                    href={website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center p-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                  >
+                    <Globe className="w-5 h-5 mr-2 text-gray-600" />
+                    <span className="text-gray-600">
+                      {website || "Not provided"}
+                    </span>
+                  </a>
+                )}
               </div>
             </div>
           </section>

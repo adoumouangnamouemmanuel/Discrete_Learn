@@ -13,7 +13,7 @@ import SignIn from "@/pages/auth/Login";
 import CoursePage from "@/pages/courses/SetDefinitionPage";
 // import profile from "@/pages/profile";
 import Profile from "@/pages/profiles/Profile";
-import EditProfilePage from "@/pages/profiles/EditProfile";
+// import EditProfilePage from "@/pages/profiles/EditProfile";
 import Interactions from "@/pages/interactions/Interactions";
 
 const RoutesConfig = () => {
@@ -33,7 +33,7 @@ const RoutesConfig = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<SignIn />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/editprofile" element={<EditProfilePage />} />
+      <Route path="/editprofile" element={<Settings />} />
       <Route path="/interactions" element={<Interactions />} />
       {/* Add other routes as needed */}
     </Routes>

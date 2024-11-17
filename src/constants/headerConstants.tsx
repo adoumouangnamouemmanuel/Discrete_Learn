@@ -11,6 +11,7 @@ import {
 export const sidebarItems = [
   { name: "Home", href: "/", icon: Home },
   { name: "Courses", href: "/courses", icon: BookOpen },
+  { name: "Interactions", href: "/interactions", icon: BookOpen },
   { name: "Problems", href: "/problems", icon: FileQuestion },
   { name: "Progress", href: "/progress", icon: BarChart2 },
   { name: "Settings", href: "/settings", icon: Settings },

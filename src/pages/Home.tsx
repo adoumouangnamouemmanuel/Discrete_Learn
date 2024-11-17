@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"; // Adjust path as needed
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Adjust path as needed
-import { Link } from "react-router-dom"; // Use Link from react-router-dom
 import { FaChalkboardTeacher, FaRocket, FaTachometerAlt } from "react-icons/fa"; // Import FontAwesome icons
+import { Link } from "react-router-dom"; // Use Link from react-router-dom
 
 const Home = () => {
   return (
@@ -10,13 +10,13 @@ const Home = () => {
         Welcome to DiscreteLearn
       </h1>
       <p className="text-lg text-gray-600 mb-8">
-        Your go-to platform for mastering Sets with interactive
-        lessons, quizzes, and real-world problem-solving.
+        Your go-to platform for mastering Sets with interactive lessons,
+        quizzes, and real-world problem-solving.
       </p>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-12">
         {/* Key Features Section */}
-        <Card className="border rounded-lg shadow-lg p-6 flex flex-col items-center">
+        <Card className="border rounded-lg shadow-lg p-6 flex flex-col items-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
           <CardHeader className="flex justify-center">
             <FaChalkboardTeacher className="text-4xl text-gray-800 mb-4" />
           </CardHeader>
@@ -31,7 +31,7 @@ const Home = () => {
           </CardContent>
         </Card>
 
-        <Card className="border rounded-lg shadow-lg p-6 flex flex-col items-center">
+        <Card className="border rounded-lg shadow-lg p-6 flex flex-col items-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
           <CardHeader className="flex justify-center">
             <FaRocket className="text-4xl text-gray-800 mb-4" />
           </CardHeader>
@@ -46,7 +46,7 @@ const Home = () => {
           </CardContent>
         </Card>
 
-        <Card className="border rounded-lg shadow-lg p-6 flex flex-col items-center">
+        <Card className="border rounded-lg shadow-lg p-6 flex flex-col items-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
           <CardHeader className="flex justify-center">
             <FaTachometerAlt className="text-4xl text-gray-800 mb-4" />
           </CardHeader>
@@ -71,9 +71,7 @@ const Home = () => {
           journey today!
         </p>
         <Button className="text-white bg-gray-800 hover:bg-gray-900 transition duration-200">
-          <Link to="/courses">
-            Get Started
-          </Link>
+          <Link to="/courses">Get Started</Link>
         </Button>
       </div>
     </div>

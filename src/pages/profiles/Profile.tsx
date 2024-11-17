@@ -19,7 +19,7 @@ import ProfileHeader from "./ProfileHeader";
 import { signOut } from "firebase/auth"; // Firebase auth methods
 import { isAuth } from "@/utils/authUtils"; // Import the utility function
 import { auth } from "@/firebase/firebaseConfig"; // Firebase auth instance
-
+import noData from "@/assets/noData.svg";
 
 const streakDates = [
   new Date(2023, 6, 1),
@@ -230,7 +230,7 @@ export default function ProfilePage() {
                     </p>
                     <Avatar className="w-90 h-90 mt-{-3}">
                       <AvatarImage
-                        src="https://www.educative.io/static/imgs/noData.svg"
+                        src={noData}
                         alt="No content"
                       />
                       <AvatarFallback>?</AvatarFallback>

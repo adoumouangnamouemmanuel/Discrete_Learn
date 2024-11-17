@@ -137,5 +137,123 @@
         "correctAnswer": 0
       }
     ]
+  },
+  {
+    "id": "SetsSubsetsEquality4",
+    "title": "Subset and Set Equality",
+    "sections": [
+      {
+        "subtitle": "What is a Subset?",
+        "content": "A set A is said to be a subset of set B if every element of A is also an element of B. This relationship is denoted as A ⊆ B. The formal definition is: A ⊆ B if and only if ∀x(x ∈ A → x ∈ B), meaning that for every element x in A, x is also in B. If A ⊆ B, we can conclude that the elements of A are contained within B, but B may contain additional elements as well.",
+        "illustration": "/src/assets/sets/subset-definition.png"
+      },
+      {
+        "subtitle": "Proper Subset",
+        "content": "If A is a subset of B but A is not equal to B, we say that A is a proper subset of B. This is denoted as A ⊂ B. For A ⊂ B to be true, there must exist an element x of B such that x is not in A. In other words, A is a proper subset of B if and only if A ⊆ B and A ≠ B.",
+        "illustration": "/src/assets/sets/proper-subset.png"
+      },
+      {
+        "subtitle": "Set Equality",
+        "content": "Two sets A and B are said to be equal, denoted by A = B, if they have exactly the same elements. In other words, A = B if and only if every element of A is an element of B and every element of B is an element of A. This is a bidirectional relationship: if A = B, then both A ⊆ B and B ⊆ A are true.",
+        "illustration": "/src/assets/sets/set-equality.png"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: A subset of B",
+        "code": "SetA = {1, 2, 3}\nSetB = {1, 2, 3, 4, 5}\nSince SetA ⊆ SetB, A is a subset of B."
+      },
+      {
+        "description": "Example 2: Proper subset",
+        "code": "SetA = {1, 2, 3}\nSetB = {1, 2, 3, 4, 5}\nSince SetA ⊂ SetB, A is a proper subset of B."
+      },
+      {
+        "description": "Example 3: Set equality",
+        "code": "SetA = {a, b, c}\nSetB = {c, b, a}\nSince SetA = SetB, the sets are equal."
+      }
+    ],
+    "practiceQuestions": [
+      {
+        "question": "Which of the following sets are subsets of {1, 2, 3, 4}?",
+        "options": ["{1, 2}", "{5, 6}", "{1, 2, 3}", "{3, 4, 5}"],
+        "correctAnswer": 0
+      },
+      {
+        "question": "True or False: If A ⊆ B and A ≠ B, then A is a proper subset of B.",
+        "options": ["True", "False"],
+        "correctAnswer": 0
+      },
+      {
+        "question": "Which of the following represents the equality of two sets?",
+        "options": [
+          "A = {1, 2, 3}, B = {1, 2, 3}",
+          "A = {1, 2, 3}, B = {3, 2, 1}",
+          "A = {1, 2, 3}, B = {1, 2, 4}",
+          "A = {1, 2, 3}, B = {1, 2}"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "SetsCardinality5",
+    "title": "Cardinality of Sets",
+    "sections": [
+      {
+        "subtitle": "What is Cardinality?",
+        "content": "The cardinality of a set refers to the number of distinct elements in that set. In other words, it is a measure of how many unique elements are in the set. Cardinality is denoted by |A| for a set A. If a set contains repeated elements, the duplicates are not counted when calculating cardinality. Cardinality is only concerned with distinct elements.",
+        "illustration": "/src/assets/sets/cardinality-definition.jpg"
+      },
+      {
+        "subtitle": "Examples of Cardinality",
+        "content": "1. For the empty set, the cardinality is 0: |∅| = 0.\n2. For a set containing a single empty set, the cardinality is 1: |{∅}| = 1.\n3. For a set with repeated elements, duplicates are ignored. For example: |{1, 2, 5, 8, 9, 10, 10}| = 6.\n4. The set D = {number of Days in the week} has 7 distinct elements, so |D| = 7.",
+        "illustration": "/src/assets/sets/cardinality-examples.png"
+      },
+      {
+        "subtitle": "Cardinality of Disjoint Sets",
+        "content": "If two sets A and B are disjoint, meaning they have no common elements, the cardinality of their intersection is 0. This is represented as |A ∩ B| = 0. Disjoint sets do not share any members, so the intersection of the sets has no elements, resulting in a cardinality of 0.",
+        "illustration": "/src/assets/sets/disjoint-sets.png"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Cardinality of an empty set",
+        "code": "|∅| = 0"
+      },
+      {
+        "description": "Example 2: Cardinality of a set with repeated elements",
+        "code": "|{1, 2, 5, 8, 9, 10, 10}| = 6"
+      },
+      {
+        "description": "Example 3: Cardinality of a set of days in the week",
+        "code": "|{Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday}| = 7"
+      },
+      {
+        "description": "Example 4: Cardinality of the intersection of disjoint sets",
+        "code": "|A ∩ B| = 0 (If A and B are disjoint sets)"
+      }
+    ],
+    "practiceQuestions": [
+      {
+        "question": "What is the cardinality of the set {1, 2, 3, 4, 5, 5, 6}?",
+        "options": ["5", "6", "7", "4"],
+        "correctAnswer": 0
+      },
+      {
+        "question": "True or False: The cardinality of a set with repeated elements is always the number of elements including duplicates.",
+        "options": ["True", "False"],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the cardinality of the intersection of two disjoint sets?",
+        "options": [
+          "0",
+          "1",
+          "The number of elements in the first set",
+          "The number of elements in the second set"
+        ],
+        "correctAnswer": 0
+      }
+    ]
   }
 ]

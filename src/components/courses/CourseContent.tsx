@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LessonContent, lessonContents } from "@/constants/lessonContent";
+import { lessonContents } from "@/constants/lessonContent";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
@@ -110,16 +110,16 @@ const CourseContent: React.FC<CourseContentProps> = ({ lesson }) => {
 
       {/* Navigation Buttons */}
       <div className="mt-8 flex justify-between">
-        <Button variant="outline">Previous Lesson</Button>
+        {/* <Button variant="outline">Previous Lesson</Button> */}
         <Button
           variant="outline"
           onClick={() => {
             /* Navigate to problems page */
           }}
         >
-          Practice Problems <ArrowRight className="ml-2 h-4 w-4" />
+          Practice More Problems <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
-        <Button variant="outline">Next Lesson</Button>
+        {/* <Button variant="outline">Next Lesson</Button> */}
       </div>
     </div>
   );

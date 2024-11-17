@@ -6,12 +6,12 @@
       {
         "subtitle": "What is a Set?",
         "content": "In mathematics, a set is a collection of distinct and well-defined objects, called elements or members of the set. These objects can be anything: numbers, names, shapes, or even other sets. Sets provide the foundation for various branches of mathematics and are fundamental to understanding relationships and operations between groups of objects.",
-        "illustration": "/illustrations/set-intro.svg"
+        "illustration": "/src/assets/sets/set-intro.jpg"
       },
       {
         "subtitle": "Characteristics of Sets",
         "content": "1. Distinct Elements: Each element in a set is unique, with no duplicates allowed.\n2. Unordered Collection: The order in which elements are listed does not matter.\n3. Clear Membership: It is always clear whether an object belongs to a set or not.\n4. Named Sets: Sets are typically represented using capital letters (e.g., A, B, C).",
-        "illustration": "/illustrations/set-characteristics.svg"
+        "illustration": "/src/assets/sets/set-characteristics.png"
       },
       {
         "subtitle": "Representing Sets",
@@ -52,14 +52,9 @@
     "title": "Describing Sets",
     "sections": [
       {
-        "subtitle": "What is a Set?",
-        "content": "A set is a collection of well-defined objects, called elements, which are grouped together based on shared properties. These elements can be anything—numbers, letters, people, or even other sets! The key characteristic of a set is that it is clearly defined, meaning that it is always obvious whether an object is a member of the set or not.",
-        "illustration": "/illustrations/set-definition.svg"
-      },
-      {
-        "subtitle": "Types of Sets",
-        "content": "There are several types of sets in mathematics, each with its own unique characteristics. Here are the most common types:\n1. **Finite Set:** A set that contains a definite number of elements. For example: A = {1, 2, 3}.\n2. **Infinite Set:** A set that contains an infinite number of elements. For example: N = {1, 2, 3, 4, 5, ...}.\n3. **Equal Set:** Two sets that contain exactly the same elements. For example: A = {1, 2, 3}, B = {1, 2, 3}.\n4. **Null Set (Empty Set):** A set with no elements. For example: E = {} or E = Ø.\n5. **Singleton Set:** A set that contains only one element. For example: S = {7}.\n6. **Universal Set:** A set that contains all the elements under consideration, usually denoted by the symbol 'U'.",
-        "illustration": "/illustrations/set-types.svg"
+        "subtitle": "Describing a Set",
+        "content": "Roster method\nS = {a,b,c,d}\n• Order is not important: S = {a,b,c,d} = {b,c,a,d}\n• Each distinct object is either a member or not; listing more than once does not change the set.\nS = {a,b,c,d} = {a,b,c,b,c,d}\n• Elipses (...) may be used to describe a set without listing all of the members when the pattern is clear.\nS = {a,b,c,d, ...,z}\nSet in math definition.\nN = natural numbers = {0,1,2,3,...}\nZ = integers = {...,-3,-2,-1,0,1,2,3,...}\nZ⁺ = positive integers = {1,2,3,...}\nR = set of real numbers\nR+ = set of positive real numbers\nC = set of complex numbers.\nQ = set of rational numbers",
+        "illustration": "/illustrations/set-description.svg"
       }
     ],
     "examples": [

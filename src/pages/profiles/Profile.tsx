@@ -223,15 +223,18 @@ export default function ProfilePage() {
             </TabsContent>
             <TabsContent value="content">
               <Card>
-                <CardContent className="pt-6">
-                  <div className="flex flex-col items-center justify-center h-64">
-                    <Avatar className="w-48 h-48">
-                      <AvatarImage src="/placeholder.svg" alt="No content" />
-                      <AvatarFallback>?</AvatarFallback>
-                    </Avatar>
-                    <p className="mt-4 text-xl font-semibold">
+                <CardContent className="pt-5">
+                  <div className="flex flex-col items-center justify-center h-90">
+                    <p className="mt-8 text-xl font-semibold">
                       You have not published any content yet.
                     </p>
+                    <Avatar className="w-90 h-90 mt-{-3}">
+                      <AvatarImage
+                        src="https://www.educative.io/static/imgs/noData.svg"
+                        alt="No content"
+                      />
+                      <AvatarFallback>?</AvatarFallback>
+                    </Avatar>
                   </div>
                 </CardContent>
               </Card>

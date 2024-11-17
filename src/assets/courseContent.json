@@ -52,9 +52,14 @@
     "title": "Describing Sets",
     "sections": [
       {
-        "subtitle": "Describing a Set",
-        "content": "Roster method\nS = {a,b,c,d}\n• Order is not important: S = {a,b,c,d} = {b,c,a,d}\n• Each distinct object is either a member or not; listing more than once does not change the set.\nS = {a,b,c,d} = {a,b,c,b,c,d}\n• Elipses (...) may be used to describe a set without listing all of the members when the pattern is clear.\nS = {a,b,c,d, ...,z}\nSet in math definition.\nN = natural numbers = {0,1,2,3,...}\nZ = integers = {...,-3,-2,-1,0,1,2,3,...}\nZ⁺ = positive integers = {1,2,3,...}\nR = set of real numbers\nR+ = set of positive real numbers\nC = set of complex numbers.\nQ = set of rational numbers",
-        "illustration": "/illustrations/set-description.svg"
+        "subtitle": "Roster method",
+        "content": "S = {a,b,c,d}\n• Order is not important: S = {a,b,c,d} = {b,c,a,d}\n• Each distinct object is either a member or not; listing more than once does not change the set.\nS = {a,b,c,d} = {a,b,c,b,c,d}\n• Elipses (...) may be used to describe a set without listing all of the members when the pattern is clear.\nS = {a,b,c,d, ...,z}",
+        "illustration": "/src/assets/sets/set_roster_method.jpg"
+      },
+      {
+        "subtitle": "Set in math definition.",
+        "content": "N = natural numbers = {0,1,2,3,...}\nZ = integers = {...,-3,-2,-1,0,1,2,3,...}\nZ⁺ = positive integers = {1,2,3,...}\nR = set of real numbers\nR+ = set of positive real numbers\nC = set of complex numbers.\nQ = set of rational numbers",
+        "illustration": "/src/assets/sets/set_in_math.jpg"
       }
     ],
     "examples": [
@@ -77,6 +82,59 @@
           "Set of all real numbers"
         ],
         "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "SetsEmptyUniversal3",
+    "title": "Empty Set and Universal Set",
+    "sections": [
+      {
+        "subtitle": "The Empty Set",
+        "content": "The empty set, denoted by ∅, is a set that contains no elements. It can also be represented as {}. It is important to note that the empty set is not the same as a set containing the empty set as an element, e.g., {∅} is not the empty set, but a singleton set containing one element, which is the empty set. The empty set is a fundamental concept in set theory and serves as the identity for the operation of union. If any set is unioned with the empty set, it remains unchanged.",
+        "illustration": "/src/assets/sets/empty_set.png"
+      },
+      {
+        "subtitle": "Singleton Set",
+        "content": "A singleton set is a set that contains exactly one element. For example, {∅} is a singleton set. While the empty set contains no elements, a singleton set contains exactly one element, which could be any object.",
+        "illustration": "/src/assets/sets/singleton_set.png"
+      },
+      {
+        "subtitle": "Universal Set",
+        "content": "The universal set, often denoted by U, is the set that contains all the elements under consideration for a particular discussion. Every other set is considered a subset of the universal set. The universal set’s elements depend on the context in which the set is being discussed. For example, if we are discussing integers, the universal set could be the set of all integers, Z.",
+        "illustration": "/src/assets/sets/universal_set.png"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: The empty set and singleton set",
+        "code": "EmptySet = ∅\nSingletonSet = {∅}"
+      },
+      {
+        "description": "Example 2: Union of a set with the empty set",
+        "code": "SetA = {1, 2, 3}\nUnion = SetA ∪ ∅ = {1, 2, 3}"
+      }
+    ],
+    "practiceQuestions": [
+      {
+        "question": "Which of the following represents the empty set?",
+        "options": ["∅", "{∅}", "{}", "{1}"],
+        "correctAnswer": 0
+      },
+      {
+        "question": "True or False: The empty set is the same as a singleton set.",
+        "options": ["True", "False"],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which of the following sets is the universal set for the set of all natural numbers?",
+        "options": [
+          "The set of all integers",
+          "The set of all real numbers",
+          "The set of all natural numbers",
+          "The set of all even numbers"
+        ],
+        "correctAnswer": 0
       }
     ]
   }

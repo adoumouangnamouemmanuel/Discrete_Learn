@@ -49,7 +49,10 @@ const CoursesPage = () => {
         {initialModules.map((course) => {
           const progress = calculateProgress(course.id);
           return (
-            <Card key={course.id}>
+            <Card
+              key={course.id}
+              className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            >
               <CardHeader>
                 <CardTitle>{course.title}</CardTitle>
                 <CardDescription>{course.description}</CardDescription>

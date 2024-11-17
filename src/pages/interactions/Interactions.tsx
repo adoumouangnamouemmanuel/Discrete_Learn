@@ -115,7 +115,7 @@ export default function DiscreteSetTheory() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap justify-center space-x-2 space-y-2 mb-4">
+              <div className="flex justify-center space-x-2 mb-4">
                 <Button onClick={() => setActiveSet("union")}>Union</Button>
                 <Button onClick={() => setActiveSet("intersection")}>
                   Intersection

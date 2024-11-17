@@ -11,26 +11,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import { toast } from "@/components/ui/use-toast";
+import { toast } from "react-toastify";
 
 export default function ComputerRepresentation() {
   const [setA, setSetA] = useState<number[]>([]);
   const [setB, setSetB] = useState<number[]>([]);
-  const [newElement, setNewElement] = useState("");
+  const [newElementA, setNewElementA] = useState("");
+  const [newElementB, setNewElementB] = useState("");
   const [operation, setOperation] = useState<
-    "union" | "intersection" | "difference" | "symmetric_difference"
+    | "union"
+    | "intersection"
+    | "difference"
+    | "complement"
+    | "symmetric_difference"
   >("union");
+  const [complementSet, setComplementSet] = useState<"A" | "B">("A");
+  const [differenceOrder, setDifferenceOrder] = useState<"A-B" | "B-A">("A-B");
   const [userAnswer, setUserAnswer] = useState("");
+  const [attempts, setAttempts] = useState(0);
 
   const addElement = (set: "A" | "B") => {
-    const element = parseInt(newElement);
+    const element = parseInt(set === "A" ? newElementA : newElementB);
     if (!isNaN(element)) {
       if (set === "A") {
         setSetA([...setA, element]);
+        setNewElementA("");
       } else {
         setSetB([...setB, element]);
+        setNewElementB("");
       }
-      setNewElement("");
     }
   };
 
@@ -48,7 +57,13 @@ export default function ComputerRepresentation() {
       case "intersection":
         return a.filter((x) => b.includes(x));
       case "difference":
-        return a.filter((x) => !b.includes(x));
+        return differenceOrder === "A-B"
+          ? a.filter((x) => !b.includes(x))
+          : b.filter((x) => !a.includes(x));
+      case "complement":
+        return complementSet === "A"
+          ? b.filter((x) => !a.includes(x))
+          : a.filter((x) => !b.includes(x));
       case "symmetric_difference":
         return [
           ...a.filter((x) => !b.includes(x)),
@@ -61,16 +76,16 @@ export default function ComputerRepresentation() {
     const result = performOperation(setA, setB);
     const correctAnswer = renderBitString(result);
     if (userAnswer === correctAnswer) {
-    //   toast({
-    //     title: "Correct!",
-    //     description: "Your bit string matches the correct result.",
-    //   });
-    // } else {
-    //   toast({
-    //     title: "Incorrect",
-    //     description: `The correct bit string is: ${correctAnswer}`,
-    //     variant: "destructive",
-    //   });
+      toast.success("Correct! Your bit string matches the correct result.");
+      setAttempts(0);
+    } else {
+      setAttempts(attempts + 1);
+      if (attempts < 2) {
+        toast.error(`Incorrect. You have ${3 - attempts - 1} attempts left.`);
+      } else {
+        toast.info(`The correct bit string is: ${correctAnswer}`);
+        setAttempts(0);
+      }
     }
   };
 
@@ -83,8 +98,8 @@ export default function ComputerRepresentation() {
             <Input
               id="setA"
               type="number"
-              value={newElement}
-              onChange={(e) => setNewElement(e.target.value)}
+              value={newElementA}
+              onChange={(e) => setNewElementA(e.target.value)}
               className="mr-2"
             />
             <Button onClick={() => addElement("A")}>Add to A</Button>
@@ -98,8 +113,8 @@ export default function ComputerRepresentation() {
             <Input
               id="setB"
               type="number"
-              value={newElement}
-              onChange={(e) => setNewElement(e.target.value)}
+              value={newElementB}
+              onChange={(e) => setNewElementB(e.target.value)}
               className="mr-2"
             />
             <Button onClick={() => addElement("B")}>Add to B</Button>
@@ -116,6 +131,7 @@ export default function ComputerRepresentation() {
               | "union"
               | "intersection"
               | "difference"
+              | "complement"
               | "symmetric_difference"
           ) => setOperation(value)}
         >
@@ -126,12 +142,47 @@ export default function ComputerRepresentation() {
             <SelectItem value="union">Union</SelectItem>
             <SelectItem value="intersection">Intersection</SelectItem>
             <SelectItem value="difference">Difference</SelectItem>
+            <SelectItem value="complement">Complement</SelectItem>
             <SelectItem value="symmetric_difference">
               Symmetric Difference
             </SelectItem>
           </SelectContent>
         </Select>
       </div>
+      {operation === "complement" && (
+        <div>
+          <Label htmlFor="complement-select">Complement of:</Label>
+          <Select
+            value={complementSet}
+            onValueChange={(value: "A" | "B") => setComplementSet(value)}
+          >
+            <SelectTrigger id="complement-select">
+              <SelectValue placeholder="Select set for complement" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="A">Set A</SelectItem>
+              <SelectItem value="B">Set B</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+      {operation === "difference" && (
+        <div>
+          <Label htmlFor="difference-select">Difference order:</Label>
+          <Select
+            value={differenceOrder}
+            onValueChange={(value: "A-B" | "B-A") => setDifferenceOrder(value)}
+          >
+            <SelectTrigger id="difference-select">
+              <SelectValue placeholder="Select difference order" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="A-B">A - B</SelectItem>
+              <SelectItem value="B-A">B - A</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      )}
       <div>
         <Label htmlFor="user-answer">Enter the resulting bit string</Label>
         <Input

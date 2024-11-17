@@ -15,7 +15,7 @@ import {
   Facebook,
   Globe,
 } from "lucide-react";
-import AvatarEditor from "react-avatar-editor";
+// import AvatarEditor from "react-avatar-editor";
 import { Link } from "react-router-dom";
 import {
   EmailAuthProvider,
@@ -67,31 +67,36 @@ export default function EditProfilePage() {
     }
   }, [navigate]);
 
+
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
+    const file = e.target.files ? e.target.files[0] : null
     if (file) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+        const result = reader.result as string
+        setImage(result)
+        localStorage.setItem('userProfileImage', result)
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
   const handleSaveAvatar = async () => {
-    if (editorRef.current) {
-      const canvas = editorRef.current.getImage();
-      const imageURL = canvas.toDataURL();
+    if (image && user) {
       try {
-        await updateProfile(user, { photoURL: imageURL });
-        toast.success("Profile picture updated!");
+        await updateProfile(user, { photoURL: image })
+        localStorage.setItem('userProfileImage', image)
+        toast.success("Profile picture updated!")
       } catch {
-        toast.error("Error updating profile picture");
+        toast.error("Error updating profile picture")
       }
     }
-  };
+  }
 
-  const handleChange = async (type: string, value: string) => {
+  // ... (rest of the component code remains the same)
+
+const handleChange = async (type: string, value: string) => {
     try {
       switch (type) {
         case "name":
@@ -216,10 +221,12 @@ export default function EditProfilePage() {
     );
   };
 
+
   return (
     <div className="min-h-screen bg-gray-100 pt-16">
       <header className="fixed top-0 left-0 right-0 bg-white border-b z-10">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        {/* ... (header content remains the same) */}
+<div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -258,26 +265,21 @@ export default function EditProfilePage() {
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="flex flex-col items-center">
-            <div className="relative">
-              <AvatarEditor
-                ref={editorRef}
-                image={image || user?.photoURL || "/default-avatar.png"}
-                width={150}
-                height={150}
-                border={50}
-                borderRadius={75}
-                scale={1.2}
-              />
-              <Button
-                size="icon"
-                className="absolute bottom-0 right-0 rounded-full"
-                onClick={() =>
-                  document.getElementById("avatar-upload")?.click()
-                }
-              >
-                <Pencil className="h-4 w-4" />
-                <span className="sr-only">Edit profile picture</span>
-              </Button>
+            <div className="relative group">
+              <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                <img
+                  src={image || "/default-avatar.png"}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <label htmlFor="avatar-upload" className="cursor-pointer">
+                  <div className="bg-black bg-opacity-50 text-white rounded-full p-3">
+                    <Pencil className="h-6 w-6" />
+                  </div>
+                </label>
+              </div>
               <input
                 type="file"
                 id="avatar-upload"
@@ -286,13 +288,14 @@ export default function EditProfilePage() {
                 onChange={handleImageChange}
               />
             </div>
-            <Button onClick={handleSaveAvatar} className="mt-4">
-              Save Avatar
+            <Button onClick={handleSaveAvatar} className="mt-4" disabled={!image}>
+              Save Profile Picture
             </Button>
             <h1 className="text-2xl font-bold mt-4">{name}</h1>
           </div>
 
-          <section>
+          {/* ... (rest of the component JSX remains the same) */}
+	<section>
             <h2 className="text-xl font-semibold mb-4">ACCOUNT SETTINGS</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <Card>
@@ -517,5 +520,5 @@ export default function EditProfilePage() {
         </div>
       </main>
     </div>
-  );
+  )
 }

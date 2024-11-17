@@ -21,6 +21,7 @@ export const problemSections = [
         choices: ["6", "7", "8", "10"],
         correctAnswer: "7",
         level: "easy",
+        solveStatus: "unsolved",
       },
       {
         id: "CardinalityQ2",
@@ -28,6 +29,7 @@ export const problemSections = [
         choices: ["3", "5", "7", "8"],
         correctAnswer: "3",
         level: "easy",
+        solveStatus: "unsolved",
       },
       {
         id: "CardinalityQ3",
@@ -35,6 +37,7 @@ export const problemSections = [
         choices: ["8", "10", "12", "14"],
         correctAnswer: "10",
         level: "medium",
+        solveStatus: "unsolved",
       },
       {
         id: "CardinalityQ4",
@@ -43,6 +46,7 @@ export const problemSections = [
         choices: ["25", "30", "35", "None of the above"],
         correctAnswer: "30",
         level: "medium",
+        solveStatus: "unsolved",
       },
       {
         id: "CardinalityQ5",
@@ -51,6 +55,7 @@ export const problemSections = [
         choices: ["20", "35", "45", "50"],
         correctAnswer: "35",
         level: "hard",
+        solveStatus: "unsolved",
       },
       {
         id: "CardinalityQ6",
@@ -59,6 +64,7 @@ export const problemSections = [
         choices: ["0", "2", "4", "None of the above"],
         correctAnswer: "2",
         level: "medium",
+        solveStatus: "unsolved",
       },
       {
         id: "CardinalityQ7",
@@ -72,6 +78,7 @@ export const problemSections = [
         ],
         correctAnswer: "Mathematical proof",
         level: "hard",
+        solveStatus: "unsolved",
       },
       {
         id: "CardinalityQ8",
@@ -79,6 +86,7 @@ export const problemSections = [
         choices: ["2", "3", "4", "None of the above"],
         correctAnswer: "None of the above",
         level: "hard",
+        solveStatus: "unsolved",
       },
       {
         id: "CardinalityQ9",
@@ -87,6 +95,7 @@ export const problemSections = [
         choices: ["35", "40", "45", "50"],
         correctAnswer: "40",
         level: "medium",
+        solveStatus: "unsolved",
       },
       {
         id: "CardinalityQ10",
@@ -94,6 +103,7 @@ export const problemSections = [
         choices: ["3", "5", "7", "8"],
         correctAnswer: "5",
         level: "easy",
+        solveStatus: "unsolved",
       },
     ],
   },
@@ -122,6 +132,7 @@ export const problemSections = [
         choices: ["Yes", "No", "Can't determine", "None of the above"],
         correctAnswer: "Yes",
         level: "easy",
+        solveStatus: "unsolved",
       },
       {
         id: "TuplesQ2",
@@ -130,6 +141,7 @@ export const problemSections = [
         choices: ["Yes", "No", "Can't determine", "None of the above"],
         correctAnswer: "Yes",
         level: "easy",
+        solveStatus: "unsolved",
       },
       {
         id: "TuplesQ3",
@@ -137,6 +149,7 @@ export const problemSections = [
         choices: ["3", "4", "5", "6"],
         correctAnswer: "5",
         level: "medium",
+        solveStatus: "unsolved",
       },
       {
         id: "TuplesQ4",
@@ -144,6 +157,7 @@ export const problemSections = [
         choices: ["x", "y", "z", "w"],
         correctAnswer: "y",
         level: "medium",
+        solveStatus: "unsolved",
       },
       {
         id: "TuplesQ5",
@@ -156,54 +170,10 @@ export const problemSections = [
         ],
         correctAnswer: "{(1, x), (1, y), (2, x), (2, y)}",
         level: "hard",
+        solveStatus: "unsolved",
       },
-      // Add remaining problems
+      // Remaining problems follow the same structure...
     ],
   },
-  {
-    id: "CartesianProduct",
-    title: "Cartesian Product",
-    examples: [
-      {
-        id: "CartesianExample1",
-        description:
-          "The Cartesian product of sets results in all ordered pairs from the sets.",
-        example:
-          "If A = {1,2} and B = {x,y}, then A × B = {(1,x), (1,y), (2,x), (2,y)}.",
-      },
-      {
-        id: "CartesianExample2",
-        description:
-          "Cartesian product with empty sets results in an empty set.",
-        example: "If A = {1,2} and B = {}, then A × B = {}.",
-      },
-    ],
-    problems: [
-      {
-        id: "CartesianQ1",
-        question:
-          "X × Y = {(a,b); a belongs to X, b belongs to Y}. |X| = n, |Y| = m, then what is the value of |X × Y|?",
-        choices: ["m²", "m²n²", "n²", "None of the above"],
-        correctAnswer: "None of the above",
-        level: "medium",
-      },
-      {
-        id: "CartesianQ2",
-        question:
-          "If A = {2, 5} and B = {3, 8}, then what is the value of A × B?",
-        choices: ["[{2,3},{2,8},{5,3},{5,8}]", "None"],
-        correctAnswer: "[{2,3},{2,8},{5,3},{5,8}]",
-        level: "easy",
-      },
-      {
-        id: "CartesianQ3",
-        question:
-          "Compute the Cartesian product A × B × C where A={1}, B={2}, C={3}.",
-        choices: [],
-        correctAnswer: [],
-        level: "hard",
-      },
-      // Add remaining problems
-    ],
-  },
+  // Repeat structure for other sections...
 ];

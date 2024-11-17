@@ -40,6 +40,7 @@ const CoursePage: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const { courseId: urlCourseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
+  console.log(CourseContent);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

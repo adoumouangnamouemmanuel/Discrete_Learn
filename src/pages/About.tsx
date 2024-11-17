@@ -1,7 +1,6 @@
 import { FaLinkedin, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import { teamMembers } from "../constants/aboutConstants";
 
-
 const About = () => {
   return (
     <div className="p-6 max-w-7xl mx-auto text-center">

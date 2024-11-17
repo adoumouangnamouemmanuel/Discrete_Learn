@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,13 +10,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useState } from "react";
 
 type Operation =
-  | "union"
-  | "intersection"
-  | "difference"
-  | "complement"
-  | "symmetric_difference";
+    | "union"
+    | "intersection"
+    | "difference"
+    | "complement"
+    | "symmetric_difference";
 
 interface InteractiveVennDiagramProps {
   operation: Operation;

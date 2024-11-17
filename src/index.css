@@ -1,12 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* Ensure the body and html take full height and width
 */
 html, body {
   margin: 0;
   padding: 0;
+  font-family: 'Poppins', sans-serif;
   /* height: 100%;
   width: 100%; */
   /* display: flex;
@@ -156,4 +156,15 @@ button:focus-visible {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
 }

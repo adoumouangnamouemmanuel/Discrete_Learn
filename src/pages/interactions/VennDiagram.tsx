@@ -66,18 +66,18 @@ export default function VennDiagram({ type }: VennDiagramProps) {
           <svg viewBox="0 0 200 200" className="w-full h-full">
             <rect x="0" y="0" width="200" height="200" fill="#f0f0f0" />
             <circle
-              cx="70"
+              cx="50"
               cy="100"
-              r="50"
+              r="45"
               fill="#3b82f6"
               fillOpacity="0.3"
               stroke="#3b82f6"
               strokeWidth="2"
             />
             <circle
-              cx="130"
+              cx="150"
               cy="100"
-              r="50"
+              r="45"
               fill="#ef4444"
               fillOpacity="0.3"
               stroke="#ef4444"

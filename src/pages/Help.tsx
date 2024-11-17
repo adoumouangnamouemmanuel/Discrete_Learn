@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import emailjs from "emailjs-com";
+import { toast } from "react-toastify"; // Import toast
 import {
   Card,
   CardContent,
@@ -24,7 +26,6 @@ import {
   Mail,
   MessageCircle,
   Phone,
-  Search,
 } from "lucide-react";
 
 export default function HelpPage() {
@@ -35,6 +36,61 @@ export default function HelpPage() {
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.6 },
   };
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Send email using EmailJS
+    emailjs
+      .send(
+        "service_vt0y2df", // Replace with your EmailJS service ID
+        "template_q48cke5", // Replace with your EmailJS template ID
+        formData, // Sending the form data to the template
+        "0KqT5k-HXNavDNB0x" // Replace with your EmailJS user ID
+      )
+      .then(
+        () => {
+          toast.success("Form Successfully Submitted!", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+          });
+        },
+        () => {
+          toast.error(
+            "There was an error sending the form. Please try again later.!",
+            {
+              position: "top-center",
+              autoClose: 1000,
+              hideProgressBar: true,
+              closeOnClick: true,
+            }
+          );
+        }
+      );
+
+    // Clear form data after submission
+    setFormData({ name: "", email: "", subject: "", message: "" });
+  };
+
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -49,7 +105,6 @@ export default function HelpPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full"
-            icon={<Search className="w-4 h-4 text-gray-500" />}
           />
         </div>
       </motion.div>
@@ -186,11 +241,11 @@ export default function HelpPage() {
               <CardContent className="space-y-4">
                 <div className="flex items-center">
                   <Mail className="w-5 h-5 mr-2" />
-                  <span>support@discretemathcourse.com</span>
+                  <span>support.discretelearn@gmail.com</span>
                 </div>
                 <div className="flex items-center">
                   <Phone className="w-5 h-5 mr-2" />
-                  <span>+1 (555) 123-4567</span>
+                  <span>+233 503673195</span>
                 </div>
                 <div className="flex items-center">
                   <MessageCircle className="w-5 h-5 mr-2" />
@@ -206,13 +261,37 @@ export default function HelpPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form className="space-y-4">
-                  <Input placeholder="Your Name" />
-                  <Input placeholder="Your Email" type="email" />
-                  <Input placeholder="Subject" />
+                <form className="space-y-4" onSubmit={handleSubmit}>
+                  <Input
+                    placeholder="Your Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    type="text"
+                    required
+                  />
+                  <Input
+                    placeholder="Your Email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                  <Input
+                    placeholder="Subject"
+                    name="subject"
+                    type="email"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                  />
                   <textarea
                     className="w-full h-32 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none resize-none"
                     placeholder="Your Message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
                   ></textarea>
                   <Button className="w-full">Send Message</Button>
                 </form>

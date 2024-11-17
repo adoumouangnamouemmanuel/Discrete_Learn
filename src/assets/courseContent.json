@@ -378,5 +378,62 @@
         "correctAnswer": 0
       }
     ]
+  },
+  {
+    "id": "SetsTuple7",
+    "title": "Tuples",
+    "sections": [
+      {
+        "subtitle": "What is a Tuple?",
+        "content": "A tuple is an ordered collection of elements, similar to a set, but unlike sets, the order of elements in a tuple matters. A tuple can contain elements of different types, such as integers, strings, or other tuples. The number of elements in a tuple is called its arity. The tuple with n elements is called an n-tuple. For example, a 2-tuple is an ordered pair, a 3-tuple is an ordered triple, and so on. Tuples are typically used in mathematics and computer science, where maintaining the order of elements is important.",
+        "illustration": "/src/assets/sets/tuple-definition.jpg"
+      },
+      {
+        "subtitle": "Ordered vs. Unordered Collections",
+        "content": "While both sets and tuples are collections of elements, the key difference is that sets are unordered, meaning they do not care about the order of elements. Tuples, on the other hand, maintain the order of elements. For example, (a, b) is different from (b, a), but {a, b} is the same as {b, a}. This distinction is crucial when the position of an element in a collection is significant.",
+        "illustration": "/src/assets/sets/tuple-vs-set.jpg"
+      },
+      {
+        "subtitle": "Tuple Operations and Properties",
+        "content": "Tuples support various operations, such as indexing, slicing, and concatenation, much like lists in programming. However, tuples are immutable, meaning their elements cannot be changed after they are created. This immutability makes tuples useful for situations where a fixed collection of elements is required, like coordinates or records.",
+        "illustration": "/src/assets/sets/tuple-operations.jpg"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: An ordered 2-tuple",
+        "code": "(a, b) is a 2-tuple, where a is the first element, and b is the second element."
+      },
+      {
+        "description": "Example 2: An ordered 3-tuple",
+        "code": "(1, 2, 3) is a 3-tuple, containing three elements: 1, 2, and 3."
+      },
+      {
+        "description": "Example 3: Nested tuples",
+        "code": "((a, b), (1, 2)) is a tuple containing two other tuples."
+      }
+    ],
+    "practiceQuestions": [
+      {
+        "question": "What is the arity of the tuple (3, 5, 7)?",
+        "options": ["1", "2", "3", "4"],
+        "correctAnswer": 2
+      },
+      {
+        "question": "True or False: (a, b) is the same as (b, a) in a tuple.",
+        "options": ["True", "False"],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What operation can you perform on a tuple?",
+        "options": [
+          "Changing the order of elements",
+          "Concatenating with another tuple",
+          "Removing elements",
+          "Sorting the tuple"
+        ],
+        "correctAnswer": 1
+      }
+    ]
   }
 ]

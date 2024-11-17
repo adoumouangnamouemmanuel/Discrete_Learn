@@ -1,15 +1,29 @@
 import { useState } from "react";
 import {
   FaEnvelope,
-  FaPhoneAlt,
   FaLinkedin,
   FaMapMarkerAlt,
+  FaPhoneAlt,
 } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import emailjs from "emailjs-com";
+import { toast } from "react-toastify"; // Import toast
+import { motion } from "framer-motion";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
 
@@ -25,8 +39,39 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Form submitted successfully!");
-    setFormData({ name: "", email: "", message: "" });
+
+    // Send email using EmailJS
+    emailjs
+      .send(
+        "service_vt0y2df", // Replace with your EmailJS service ID
+        "template_q48cke5", // Replace with your EmailJS template ID
+        formData, // Sending the form data to the template
+        "0KqT5k-HXNavDNB0x" // Replace with your EmailJS user ID
+      )
+      .then(
+        () => {
+          toast.success("Form Successfully Submitted!", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+          });
+        },
+        () => {
+          toast.error(
+            "There was an error sending the form. Please try again later.!",
+            {
+              position: "top-center",
+              autoClose: 1000,
+              hideProgressBar: true,
+              closeOnClick: true,
+            }
+          );
+        }
+      );
+
+    // Clear form data after submission
+    setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
@@ -41,102 +86,87 @@ const Contact = () => {
         out using the form below.
       </p>
 
-      {/* Contact Form Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Contact Form */}
-        <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-            Get In Touch
-          </h2>
-          <form onSubmit={handleSubmit} className="w-full space-y-4">
-            <div className="flex flex-col">
-              <label htmlFor="name" className="text-gray-600 font-medium mb-2">
-                Your Name
-              </label>
-              <input
-                type="text"
-                id="name"
+      {/* TabsContent with New Design */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="grid gap-6 md:grid-cols-2"
+      >
+        {/* Contact Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Contact Information</CardTitle>
+            <CardDescription>
+              Get in touch with our support team
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center">
+              <FaEnvelope className="w-5 h-5 mr-2 " />
+              <span>support.discretelearn@gmail.com</span>
+            </div>
+            <div className="flex items-center">
+              <FaPhoneAlt className="w-5 h-5 mr-2 " />
+              <span>+233 503673195</span>
+            </div>
+            <div className="flex items-center">
+              <FaMapMarkerAlt className="w-5 h-5 mr-2" />
+              <span>Ashesi University, Berekuso, Ghana</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Send Us a Message */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Send Us a Message</CardTitle>
+            <CardDescription>
+              We&apos;ll get back to you as soon as possible
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <Input
+                placeholder="Your Name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                 required
               />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="email" className="text-gray-600 font-medium mb-2">
-                Your Email
-              </label>
-              <input
+              <Input
+                placeholder="Your Email"
                 type="email"
-                id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                 required
               />
-            </div>
-            <div className="flex flex-col">
-              <label
-                htmlFor="message"
-                className="text-gray-600 font-medium mb-2"
-              >
-                Your Message
-              </label>
+              <Input
+                placeholder="Subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                required
+              />
               <textarea
-                id="message"
+                className="w-full h-32 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none resize-none"
+                placeholder="Your Message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                 required
-                rows={4}
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full p-3 bg-purple-600 text-white rounded-md hover:bg-purple-700 transform transition duration-300"
-            >
-              Send Message
-            </button>
-          </form>
-        </div>
-
-        {/* Team Info Section */}
-        <div className="flex flex-col items-start bg-white p-8 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-            Our Address
-          </h2>
-          <p className="text-lg text-gray-600 mb-4">
-            We are a team of Computer Engineering students from Ashesi
-            University, dedicated to making learning Discrete Mathematics
-            accessible and fun.
-          </p>
-          <div className="flex flex-col mb-6 space-y-4">
-            {/* Address Section with Icon */}
-            <div className="flex items-center space-x-2 text-gray-600">
-              <FaMapMarkerAlt size={20} />
-              <p>Ashesi University, Berekuso, Ghana</p>
-            </div>
-            {/* Email Section with Icon */}
-            <div className="flex items-center space-x-2 text-gray-600">
-              <FaEnvelope size={20} />
-              <p>contact@discretelearn.com</p>
-            </div>
-            {/* Phone Section with Icon */}
-            <div className="flex items-center space-x-2 text-gray-600">
-              <FaPhoneAlt size={20} />
-              <p>+233123456789</p>
-            </div>
-          </div>
-        </div>
-      </div>
+              ></textarea>
+              <Button className="w-full">Send Message</Button>
+            </form>
+          </CardContent>
+        </Card>
+      </motion.div>
 
       {/* Team Social Links */}
       <div className="flex justify-center space-x-6 mt-12">
         <a
-          href="mailto:contact@discretelearn.com"
+          href="mailto:support@discretemathcourse.com"
           className="text-gray-600 hover:text-purple-600 transform transition duration-300 hover:scale-110"
         >
           <FaEnvelope size={30} />
@@ -148,7 +178,7 @@ const Contact = () => {
           <FaLinkedin size={30} />
         </a>
         <a
-          href="tel:+233123456789"
+          href="tel:+15551234567"
           className="text-gray-600 hover:text-purple-600 transform transition duration-300 hover:scale-110"
         >
           <FaPhoneAlt size={30} />

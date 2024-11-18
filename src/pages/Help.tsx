@@ -264,6 +264,7 @@ export default function HelpPage() {
                 <form className="space-y-4" onSubmit={handleSubmit}>
                   <Input
                     placeholder="Your Name"
+                    name="name"
                     value={formData.name}
                     onChange={handleChange}
                     type="text"
@@ -288,7 +289,7 @@ export default function HelpPage() {
                   <textarea
                     className="w-full h-32 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none resize-none"
                     placeholder="Your Message"
-                    name="message"
+                    name="message" // Ensure name attribute is correctly set
                     value={formData.message}
                     onChange={handleChange}
                     required

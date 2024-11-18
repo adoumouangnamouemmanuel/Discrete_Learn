@@ -1,7 +1,10 @@
 "use client";
 
+import { useState, useMemo, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
 import {
   Card,
   CardContent,
@@ -29,10 +32,8 @@ import {
   ChevronUp,
   Filter,
   RefreshCw,
-  // Search,
   X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
 
 type Problem = {
   id: string;
@@ -41,6 +42,7 @@ type Problem = {
   correctAnswer: string;
   level: string;
   solveStatus: "solved" | "unsolved";
+  topic?: string;
 };
 
 
@@ -50,7 +52,7 @@ const difficultyColors = {
   hard: "bg-red-100 text-red-800",
 };
 
-const ProblemsPage = () => {
+export default function ProblemsPage() {
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>(
     []
@@ -77,7 +79,7 @@ const ProblemsPage = () => {
     return problems.filter(
       (problem) =>
         (selectedTopics.length === 0 ||
-          selectedTopics.includes(problem.id)) &&
+          (problem.topic && selectedTopics.includes(problem.topic))) &&
         (selectedDifficulties.length === 0 ||
           selectedDifficulties.includes(problem.level)) &&
         (problem.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -136,6 +138,13 @@ const ProblemsPage = () => {
     toggleProblemExpansion(nextProblem.id);
   };
 
+  const getExampleForProblem = (
+    problem: Problem
+  ): { description: string; example: string } | undefined => {
+    const section = problemSections.find((s) => s.title === problem.topic);
+    return section?.examples[0];
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8">Practice Problems</h1>
@@ -148,7 +157,6 @@ const ProblemsPage = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="flex-grow"
-              // icon={<Search className="w-4 h-4 text-gray-500" />}
             />
             <Button
               variant="outline"
@@ -238,6 +246,7 @@ const ProblemsPage = () => {
                       isSubmitted={submittedProblems.includes(problem.id)}
                       onNextProblem={() => handleNextProblem(problem.id)}
                       onTryAgain={() => handleTryAgain(problem.id)}
+                      example={getExampleForProblem(problem)}
                     />
                   ))}
               </div>
@@ -251,6 +260,7 @@ const ProblemsPage = () => {
                       key={problem.id}
                       problem={problem}
                       onExpand={() => toggleProblemExpansion(problem.id)}
+                      example={getExampleForProblem(problem)}
                     />
                   ))}
               </div>
@@ -260,9 +270,9 @@ const ProblemsPage = () => {
       </div>
     </div>
   );
-};
+}
 
-const ProblemCard = ({
+function ProblemCard({
   problem,
   isExpanded,
   onExpand,
@@ -274,6 +284,7 @@ const ProblemCard = ({
   isSubmitted,
   onNextProblem,
   onTryAgain,
+  example,
 }: {
   problem: Problem;
   isExpanded: boolean;
@@ -286,7 +297,23 @@ const ProblemCard = ({
   isSubmitted: boolean;
   onNextProblem: () => void;
   onTryAgain: () => void;
-}) => {
+  example?: { description: string; example: string };
+}) {
+  const [showCelebration, setShowCelebration] = useState(false);
+
+  useEffect(() => {
+    if (isSubmitted && selectedAnswer === problem.correctAnswer) {
+      setShowCelebration(true);
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+      const timer = setTimeout(() => setShowCelebration(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSubmitted, selectedAnswer, problem.correctAnswer]);
+
   return (
     <Card
       className={`w-full transition-all duration-300 ${
@@ -349,36 +376,44 @@ const ProblemCard = ({
                 {showExample ? "Hide Example" : "Show Example"}
               </Button>
             </div>
-            {isSubmitted && (
-              <div className="p-4 rounded-md bg-gray-100">
-                {selectedAnswer === problem.correctAnswer ? (
-                  <div className="flex items-center text-green-600">
-                    <Check className="w-5 h-5 mr-2" />
-                    Correct! Well done!
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    <div className="flex items-center text-red-600">
-                      <X className="w-5 h-5 mr-2" />
-                      Wrong answer. Try again!
+            <AnimatePresence>
+              {isSubmitted && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="p-4 rounded-md bg-gray-100"
+                >
+                  {selectedAnswer === problem.correctAnswer ? (
+                    <div className="flex items-center text-green-600">
+                      <Check className="w-5 h-5 mr-2" />
+                      Correct! Well done!
                     </div>
-                    <Button
-                      variant="outline"
-                      onClick={onTryAgain}
-                      className="w-full"
-                    >
-                      <RefreshCw className="w-4 h-4 mr-2" />
-                      Try Again
-                    </Button>
-                  </div>
-                )}
-              </div>
-            )}
-            {showExample && problem.id && problem.id.length > 0 && (
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="flex items-center text-red-600">
+                        <X className="w-5 h-5 mr-2" />
+                        Wrong answer. Try again!
+                      </div>
+                      <Button
+                        variant="outline"
+                        onClick={onTryAgain}
+                        className="w-full"
+                      >
+                        <RefreshCw className="w-4 h-4 mr-2" />
+                        Try Again
+                      </Button>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+            {showExample && example && (
               <div className="p-4 bg-gray-100 rounded-md">
                 <h4 className="font-semibold mb-2">Example:</h4>
-                <p>{problem.id}</p>
-                <p className="mt-2 font-mono">{problem.id}</p>
+                <p>{example.description}</p>
+                <p className="mt-2 font-mono">{example.example}</p>
               </div>
             )}
             {isSubmitted && selectedAnswer === problem.correctAnswer && (
@@ -389,13 +424,36 @@ const ProblemCard = ({
           </CollapsibleContent>
         </Collapsible>
       </CardContent>
+      <AnimatePresence>
+        {showCelebration && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          >
+            <div className="text-4xl font-bold text-green-600">
+              🎉 Great job! 🎉
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Card>
   );
-};
+}
 
+function SolvedProblemCard({
+  problem,
+  onExpand,
+  example,
+}: {
+  problem: Problem;
+  onExpand: () => void;
+  example?: { description: string; example: string };
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
 
-
-const SolvedProblemCard = ({ problem, onExpand }: { problem: Problem; onExpand: () => void }) => {
   return (
     <Card className="w-full">
       <CardHeader className="pb-2">
@@ -418,12 +476,41 @@ const SolvedProblemCard = ({ problem, onExpand }: { problem: Problem; onExpand: 
           <Check className="w-5 h-5 mr-2" />
           Solved
         </div>
-        <Button variant="outline" className="w-full" onClick={() => onExpand()}>
-          Review Problem
-        </Button>
+        <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
+          <CollapsibleTrigger asChild>
+            <Button variant="outline" className="w-full" onClick={() => onExpand}>
+              {isExpanded ? (
+                <>
+                  <ChevronUp className="w-4 h-4 mr-2" />
+                  Hide Problem
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-4 h-4 mr-2" />
+                  Review Problem
+                </>
+              )}
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-4 space-y-4">
+            <div className="p-4 bg-gray-100 rounded-md">
+              <h4 className="font-semibold mb-2">Question:</h4>
+              <p>{problem.question}</p>
+            </div>
+            <div className="p-4 bg-gray-100 rounded-md">
+              <h4 className="font-semibold mb-2">Correct Answer:</h4>
+              <p>{problem.correctAnswer}</p>
+            </div>
+            {example && (
+              <div className="p-4 bg-gray-100 rounded-md">
+                <h4 className="font-semibold mb-2">Example:</h4>
+                <p>{example.description}</p>
+                <p className="mt-2 font-mono">{example.example}</p>
+              </div>
+            )}
+          </CollapsibleContent>
+        </Collapsible>
       </CardContent>
     </Card>
   );
-};
-
-export default ProblemsPage;
+}

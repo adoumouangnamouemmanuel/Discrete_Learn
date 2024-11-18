@@ -7,11 +7,17 @@ type Problem = {
   correctAnswer: string;
   level: string;
   solveStatus: "unsolved" | "solved";
+  topic?: string;
 };
 
-export const problemSections: { id: string; title: string; examples: { id: string; description: string; example: string; }[]; problems: Problem[]; }[] = [
+export const problemSections: {
+  id: string;
+  title: string;
+  examples: { id: string; description: string; example: string }[];
+  problems: Problem[];
+}[] = [
   {
-    id: "CardinalityOfSets",
+    id: "CardinalityQ1",
     title: "Cardinality of Sets",
     examples: [
       {
@@ -33,6 +39,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "7",
         level: "easy",
         solveStatus: "unsolved",
+        topic: "Cardinality of Sets",
       },
       {
         id: "CardinalityQ2",
@@ -41,6 +48,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "3",
         level: "easy",
         solveStatus: "unsolved",
+        topic: "Cardinality of Sets",
       },
       {
         id: "CardinalityQ3",
@@ -49,6 +57,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "10",
         level: "medium",
         solveStatus: "unsolved",
+        topic: "Cardinality of Sets",
       },
       {
         id: "CardinalityQ4",
@@ -58,6 +67,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "30",
         level: "medium",
         solveStatus: "unsolved",
+        topic: "Cardinality of Sets",
       },
       {
         id: "CardinalityQ5",
@@ -67,6 +77,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "35",
         level: "hard",
         solveStatus: "unsolved",
+        topic: "Cardinality of Sets",
       },
       {
         id: "CardinalityQ6",
@@ -76,6 +87,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "2",
         level: "medium",
         solveStatus: "unsolved",
+        topic: "Cardinality of Sets",
       },
       {
         id: "CardinalityQ7",
@@ -98,6 +110,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "None of the above",
         level: "hard",
         solveStatus: "unsolved",
+        topic: "Cardinality of Sets",
       },
       {
         id: "CardinalityQ9",
@@ -107,6 +120,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "40",
         level: "medium",
         solveStatus: "unsolved",
+        topic: "Cardinality of Sets",
       },
       {
         id: "CardinalityQ10",
@@ -115,6 +129,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "5",
         level: "easy",
         solveStatus: "unsolved",
+        topic: "Cardinality of Sets",
       },
     ],
   },
@@ -144,6 +159,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "Yes",
         level: "easy",
         solveStatus: "unsolved",
+        topic: "Tuples",
       },
       {
         id: "TuplesQ2",
@@ -153,6 +169,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "Yes",
         level: "easy",
         solveStatus: "unsolved",
+        topic: "Tuples",
       },
       {
         id: "TuplesQ3",
@@ -161,6 +178,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "5",
         level: "medium",
         solveStatus: "unsolved",
+        topic: "Tuples",
       },
       {
         id: "TuplesQ4",
@@ -169,6 +187,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "y",
         level: "medium",
         solveStatus: "unsolved",
+        topic: "Tuples",
       },
       {
         id: "TuplesQ5",
@@ -182,6 +201,7 @@ export const problemSections: { id: string; title: string; examples: { id: strin
         correctAnswer: "{(1, x), (1, y), (2, x), (2, y)}",
         level: "hard",
         solveStatus: "unsolved",
+        topic: "Tuples",
       },
       // Remaining problems follow the same structure...
     ],

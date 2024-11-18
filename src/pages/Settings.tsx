@@ -15,7 +15,6 @@ import {
   Facebook,
   Globe,
 } from "lucide-react";
-// import AvatarEditor from "react-avatar-editor";
 import { Link } from "react-router-dom";
 import {
   EmailAuthProvider,
@@ -23,13 +22,12 @@ import {
   updatePassword,
   updateProfile,
 } from "firebase/auth";
-import { auth, firestore } from "@/firebase/firebaseConfig";
+import { auth, firestore, storage } from "@/firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function EditProfilePage() {
   const [user, setUser] = useState<any>(null);
@@ -48,44 +46,35 @@ export default function EditProfilePage() {
   const [shortBio, setShortBio] = useState<string>("");
   const [fullBio, setFullBio] = useState<string>("");
   const [photoUrl, setPhotoUrl] = useState<string>("");
-  const navigate = useNavigate();
-  const editorRef = useRef<HTMLDivElement | null>(null);
-  const [showPasswordForm, setShowPasswordForm] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [showPasswordForm, setShowPasswordForm] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserId(user.uid);
+        setUser(user);
+        setName(user.displayName || "");
+        setEmail(user.email || "");
+        setPhotoUrl(user.photoURL || "");
       } else {
         setUserId(null);
-        // Redirect to login page or handle unauthenticated state
-        // navigate('/login');
+        navigate("/login");
       }
     });
 
     return () => unsubscribe();
   }, [navigate]);
 
-  // Fetch user profile from Firestore
   useEffect(() => {
-    console.log("User ID", userId);
     const fetchUserProfile = async () => {
       if (!userId) return;
 
       try {
-        const currentUser = auth.currentUser;
-        if (currentUser) {
-          setUser(currentUser);
-          setName(currentUser.displayName || "");
-          setEmail(currentUser.email || "");
-         console.log("User data", currentUser);
-        }
-        const userDoc = await getDoc(doc(firestore, "users", userId));
+        const userDoc = await getDoc(doc(firestore, "UserInfo", userId));
         if (userDoc.exists()) {
-
           const userData = userDoc.data();
-          console.log("User data", userData);
           setName(userData.FullName || "");
           setEmail(userData.Email || "");
           setShortBio(userData.shortBio || "");
@@ -115,7 +104,6 @@ export default function EditProfilePage() {
       reader.onloadend = () => {
         const result = reader.result as string;
         setImage(result);
-        localStorage.setItem("userProfileImage", result);
       };
       reader.readAsDataURL(file);
     }
@@ -124,16 +112,37 @@ export default function EditProfilePage() {
   const handleSaveAvatar = async () => {
     if (image && user) {
       try {
-        await updateProfile(user, { photoURL: image });
-        localStorage.setItem("userProfileImage", image);
+        // Convert base64 to blob
+        const response = await fetch(image);
+        const blob = await response.blob();
+
+        // Create a reference to the location you want to upload to in Firebase Storage
+        const storageRef = ref(storage, `profilePictures/${user.uid}`);
+
+        // Upload the file to Firebase Storage
+        await uploadBytes(storageRef, blob);
+
+        // Get the download URL
+        const downloadURL = await getDownloadURL(storageRef);
+
+        // Update user profile
+        await updateProfile(user, { photoURL: downloadURL });
+
+        // Update Firestore document
+        await setDoc(
+          doc(firestore, "UserInfo", user.uid),
+          { photoUrl: downloadURL },
+          { merge: true }
+        );
+
+        setPhotoUrl(downloadURL);
         toast.success("Profile picture updated!");
-      } catch {
+      } catch (error) {
+        console.error("Error updating profile picture:", error);
         toast.error("Error updating profile picture");
       }
     }
   };
-
-  // ... (rest of the component code remains the same)
 
   const handleChange = async (type: string, value: string) => {
     try {
@@ -143,24 +152,13 @@ export default function EditProfilePage() {
           setName(value);
           toast.success("Name updated successfully!");
           break;
-        case "avatar":
-          if (editorRef.current) {
-            const canvas = editorRef.current.getImage();
-            const imageURL = canvas.toDataURL();
-            await updateProfile(user, { photoURL: imageURL });
-            toast.success("Profile picture updated!");
-          }
-          break;
         case "password":
           if (newPassword !== confirmPassword) {
             toast.error("Passwords do not match");
             return;
           }
           {
-            const credential = EmailAuthProvider.credential(
-              user.email,
-              password
-            );
+            const credential = EmailAuthProvider.credential(user.email, password);
             await reauthenticateWithCredential(user, credential);
             await updatePassword(user, newPassword);
             toast.success("Password updated successfully!");
@@ -196,16 +194,6 @@ export default function EditProfilePage() {
   };
 
   const handleSave = async () => {
-    handleChange("name", name);
-    handleChange("email", email);
-    handleChange("shortBio", shortBio);
-    handleChange("fullBio", fullBio);
-    handleChange("twitter", twitter);
-    handleChange("github", github);
-    handleChange("linkedin", linkedin);
-    handleChange("facebook", facebook);
-    handleChange("website", website);
-
     if (!userId) return;
 
     try {
@@ -243,7 +231,6 @@ export default function EditProfilePage() {
     setLinkedin(savedData.linkedin || "");
     setFacebook(savedData.facebook || "");
     setWebsite(savedData.website || "");
-    // Remove: setEditMode(false);
   };
 
   const renderEditableField = (
@@ -272,7 +259,6 @@ export default function EditProfilePage() {
   return (
     <div className="min-h-screen bg-gray-100 pt-16">
       <header className="fixed top-0 left-0 right-0 bg-white border-b z-10">
-        {/* ... (header content remains the same) */}
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
             <svg
@@ -315,7 +301,7 @@ export default function EditProfilePage() {
             <div className="relative group">
               <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg">
                 <img
-                  src={image || "/default-avatar.png"}
+                  src={image || photoUrl || "/src/assets/Emma.png"}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
@@ -345,7 +331,6 @@ export default function EditProfilePage() {
             <h1 className="text-2xl font-bold mt-4">{name}</h1>
           </div>
 
-          {/* ... (rest of the component JSX remains the same) */}
           <section>
             <h2 className="text-xl font-semibold mb-4">ACCOUNT SETTINGS</h2>
             <div className="grid md:grid-cols-2 gap-4">

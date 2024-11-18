@@ -23,14 +23,19 @@ import {
   updatePassword,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "@/firebase/firebaseConfig";
+import { auth, firestore } from "@/firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+
 export default function EditProfilePage() {
   const [user, setUser] = useState<any>(null);
-  const [image, setImage] = useState<any>(null);
+  const [image, setImage] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
+  const [userId, setUserId] = useState<string | null>(null);
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
@@ -42,61 +47,95 @@ export default function EditProfilePage() {
   const [website, setWebsite] = useState<string>("");
   const [shortBio, setShortBio] = useState<string>("");
   const [fullBio, setFullBio] = useState<string>("");
+  const [photoUrl, setPhotoUrl] = useState<string>("");
   const navigate = useNavigate();
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<HTMLDivElement | null>(null);
   const [showPasswordForm, setShowPasswordForm] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
 
   useEffect(() => {
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      setUser(currentUser);
-      setName(currentUser.displayName || "");
-      setEmail(currentUser.email || "");
-      // Load saved data from localStorage
-      const savedData = JSON.parse(localStorage.getItem("userProfile") || "{}");
-      setShortBio(savedData.shortBio || "");
-      setFullBio(savedData.fullBio || "");
-      setTwitter(savedData.twitter || "");
-      setGithub(savedData.github || "");
-      setLinkedin(savedData.linkedin || "");
-      setFacebook(savedData.facebook || "");
-      setWebsite(savedData.website || "");
-    } else {
-      navigate("/login");
-    }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        setUserId(null);
+        // Redirect to login page or handle unauthenticated state
+        // navigate('/login');
+      }
+    });
+
+    return () => unsubscribe();
   }, [navigate]);
 
+  // Fetch user profile from Firestore
+  useEffect(() => {
+    console.log("User ID", userId);
+    const fetchUserProfile = async () => {
+      if (!userId) return;
 
+      try {
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+          setUser(currentUser);
+          setName(currentUser.displayName || "");
+          setEmail(currentUser.email || "");
+         console.log("User data", currentUser);
+        }
+        const userDoc = await getDoc(doc(firestore, "users", userId));
+        if (userDoc.exists()) {
+
+          const userData = userDoc.data();
+          console.log("User data", userData);
+          setName(userData.FullName || "");
+          setEmail(userData.Email || "");
+          setShortBio(userData.shortBio || "");
+          setFullBio(userData.fullBio || "");
+          setTwitter(userData.twitter || "");
+          setGithub(userData.github || "");
+          setLinkedin(userData.linkedIn || "");
+          setFacebook(userData.facebook || "");
+          setWebsite(userData.website || "");
+          setPhotoUrl(userData.photoUrl || "");
+        } else {
+          toast.error("User profile not found in Firestore.");
+        }
+      } catch (error) {
+        toast.error("Error fetching user profile.");
+        console.error(error);
+      }
+    };
+
+    fetchUserProfile();
+  }, [userId]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null
+    const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onloadend = () => {
-        const result = reader.result as string
-        setImage(result)
-        localStorage.setItem('userProfileImage', result)
-      }
-      reader.readAsDataURL(file)
+        const result = reader.result as string;
+        setImage(result);
+        localStorage.setItem("userProfileImage", result);
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleSaveAvatar = async () => {
     if (image && user) {
       try {
-        await updateProfile(user, { photoURL: image })
-        localStorage.setItem('userProfileImage', image)
-        toast.success("Profile picture updated!")
+        await updateProfile(user, { photoURL: image });
+        localStorage.setItem("userProfileImage", image);
+        toast.success("Profile picture updated!");
       } catch {
-        toast.error("Error updating profile picture")
+        toast.error("Error updating profile picture");
       }
     }
-  }
+  };
 
   // ... (rest of the component code remains the same)
 
-const handleChange = async (type: string, value: string) => {
+  const handleChange = async (type: string, value: string) => {
     try {
       switch (type) {
         case "name":
@@ -156,7 +195,7 @@ const handleChange = async (type: string, value: string) => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     handleChange("name", name);
     handleChange("email", email);
     handleChange("shortBio", shortBio);
@@ -167,22 +206,31 @@ const handleChange = async (type: string, value: string) => {
     handleChange("facebook", facebook);
     handleChange("website", website);
 
-    // Save data to localStorage
-    localStorage.setItem(
-      "userProfile",
-      JSON.stringify({
+    if (!userId) return;
+
+    try {
+      const userProfile = {
+        FullName: name,
+        Email: email,
         shortBio,
         fullBio,
         twitter,
         github,
-        linkedin,
+        linkedIn: linkedin,
         facebook,
         website,
-      })
-    );
+        photoUrl,
+      };
 
-    setEditMode(false);
-    toast.success("Profile updated successfully!");
+      await setDoc(doc(firestore, "UserInfo", userId), userProfile, {
+        merge: true,
+      });
+      toast.success("Profile updated successfully!");
+      setEditMode(false);
+    } catch (error) {
+      toast.error("Error updating profile.");
+      console.error(error);
+    }
   };
 
   const handleDiscard = () => {
@@ -221,12 +269,11 @@ const handleChange = async (type: string, value: string) => {
     );
   };
 
-
   return (
     <div className="min-h-screen bg-gray-100 pt-16">
       <header className="fixed top-0 left-0 right-0 bg-white border-b z-10">
         {/* ... (header content remains the same) */}
-<div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -288,14 +335,18 @@ const handleChange = async (type: string, value: string) => {
                 onChange={handleImageChange}
               />
             </div>
-            <Button onClick={handleSaveAvatar} className="mt-4" disabled={!image}>
+            <Button
+              onClick={handleSaveAvatar}
+              className="mt-4"
+              disabled={!image}
+            >
               Save Profile Picture
             </Button>
             <h1 className="text-2xl font-bold mt-4">{name}</h1>
           </div>
 
           {/* ... (rest of the component JSX remains the same) */}
-	<section>
+          <section>
             <h2 className="text-xl font-semibold mb-4">ACCOUNT SETTINGS</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <Card>
@@ -520,5 +571,5 @@ const handleChange = async (type: string, value: string) => {
         </div>
       </main>
     </div>
-  )
+  );
 }

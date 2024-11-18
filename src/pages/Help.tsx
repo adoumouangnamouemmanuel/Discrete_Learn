@@ -281,7 +281,7 @@ export default function HelpPage() {
                   <Input
                     placeholder="Subject"
                     name="subject"
-                    type="email"
+                    type="text"
                     value={formData.subject}
                     onChange={handleChange}
                     required

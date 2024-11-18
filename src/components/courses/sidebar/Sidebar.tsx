@@ -1,9 +1,5 @@
-// components/courses/Sidebar.tsx
-
-
 import StataticSidebar from "./StataticSidebar";
 import ScrolableSideBar from "./ScrolableSideBar";
-
 
 interface Lesson {
   id: string;
@@ -34,10 +30,19 @@ const Sidebar: React.FC<SidebarProps> = ({
   progressPercentage,
   openSections,
 }) => {
+  // Determine the current module title
+  const currentModuleTitle =
+    module.find((m) =>
+      m.lessons.some((lesson) => lesson.id === currentLessonId)
+    )?.title || "Course Module";
+
   return (
     <div className="border-r flex flex-col h-screen">
-      <StataticSidebar progressPercentage={progressPercentage} />
-      
+      <StataticSidebar
+        progressPercentage={progressPercentage}
+        currentModuleTitle={currentModuleTitle}
+      />
+
       <ScrolableSideBar
         modules={module}
         currentLessonId={currentLessonId}
@@ -48,6 +53,5 @@ const Sidebar: React.FC<SidebarProps> = ({
     </div>
   );
 };
-
 
 export default Sidebar;

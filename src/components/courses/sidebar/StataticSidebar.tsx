@@ -1,18 +1,16 @@
-
-import {
-  ArrowLeft,
-  RefreshCw,
-  Search,
-} from "lucide-react";
-
+import { ArrowLeft, RefreshCw, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 
 interface StataticSidebarProps {
   progressPercentage: number;
+  currentModuleTitle: string; // Add this prop
 }
 
-const StataticSidebar = ({ progressPercentage }: StataticSidebarProps) => {
+const StataticSidebar = ({
+  progressPercentage,
+  currentModuleTitle,
+}: StataticSidebarProps) => {
   return (
     <div className="flex-none">
       <div className="p-4 border-b">
@@ -28,7 +26,7 @@ const StataticSidebar = ({ progressPercentage }: StataticSidebarProps) => {
       <div className="p-4 space-y-6">
         <div>
           <h2 className="text-xl font-bold mb-2">
-            Sets in Discrete Math
+            {currentModuleTitle} {/* Use the dynamic title here */}
           </h2>
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
@@ -48,4 +46,4 @@ const StataticSidebar = ({ progressPercentage }: StataticSidebarProps) => {
   );
 };
 
-export default StataticSidebar
+export default StataticSidebar;

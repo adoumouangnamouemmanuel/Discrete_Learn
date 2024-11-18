@@ -31,6 +31,7 @@ export default function PasswordReset() {
     } finally {
       setLoading(false);
     }
+    setEmail("");
   };
 
   return (

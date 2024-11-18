@@ -25,7 +25,6 @@ async function loadLessonContents() {
   const response = await fetch("/src/assets/courseContent.json");
   lessonContents = await response.json();
 }
-
 // Call the function to initialize the data
 loadLessonContents();
 

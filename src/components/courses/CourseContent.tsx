@@ -42,6 +42,7 @@ const CourseContent: React.FC<CourseContentProps> = ({ lesson }) => {
     null
   );
 
+  // console.log("lesson contents", lessonContents);
   useEffect(() => {
     const content = lessonContents.find((content) => content.id === lesson.id);
     setLessonContent(content || null);

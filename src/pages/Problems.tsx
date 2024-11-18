@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
-import confetti from "canvas-confetti";
+import ProblemCard from "@/pages/problems/ProblemCard";
+// import SolvedProblemCard from "@/pages/problems/SolvedProblemCard";
 import {
   Card,
   CardContent,
@@ -19,21 +19,35 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+// import { Label } from "@/components/ui/label";
+// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { problemSections } from "@/constants/problems";
 import {
-  ArrowRight,
+  // ArrowRight,
   Check,
   ChevronDown,
   ChevronUp,
   Filter,
-  RefreshCw,
-  X,
+  // RefreshCw,
+  // X,
 } from "lucide-react";
+// import { initializeApp } from "firebase/app";
+import {  doc, setDoc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import confetti from "canvas-confetti";
+
+// Initialize Firebase (make sure to replace with your own config)
+// const firebaseConfig = {
+//   // Your Firebase config here
+// };
+
+import {firestore, auth} from "@/firebase/firebaseConfig";
+
+// const app = initializeApp(firebaseConfig);
+const db = firestore
 
 type Problem = {
   id: string;
@@ -43,8 +57,9 @@ type Problem = {
   level: string;
   solveStatus: "solved" | "unsolved";
   topic?: string;
+  attempts?: number;
+  score?: number;
 };
-
 
 const difficultyColors = {
   easy: "bg-green-100 text-green-800",
@@ -65,59 +80,113 @@ export default function ProblemsPage() {
   const [showExamples, setShowExamples] = useState<Record<string, boolean>>({});
   const [submittedProblems, setSubmittedProblems] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
-  const [problems, setProblems] = useState<Problem[]>(
-    problemSections.flatMap((section) => section.problems)
-  );
+  const [problems, setProblems] = useState<Problem[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const allTopics = useMemo(
-    () => problemSections.map((section) => section.title),
-    []
-  );
-  const allDifficulties = ["easy", "medium", "hard"];
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+        loadUserProgress(user.uid);
+      } else {
+        setUserId(null);
+        setProblems(problemSections.flatMap((section) => section.problems));
+      }
+    });
 
-  const filteredProblems = useMemo(() => {
-    return problems.filter(
-      (problem) =>
-        (selectedTopics.length === 0 ||
-          (problem.topic && selectedTopics.includes(problem.topic))) &&
-        (selectedDifficulties.length === 0 ||
-          selectedDifficulties.includes(problem.level)) &&
-        (problem.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          problem.id.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
-  }, [problems, selectedTopics, selectedDifficulties, searchQuery]);
+    return () => unsubscribe();
+  }, []);
 
-  const handleTopicChange = (topic: string) => {
-    setSelectedTopics((prev) =>
-      prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic]
-    );
+  const loadUserProgress = async (uid: string) => {
+    const docRef = doc(db, "Problem_Solving_Progress", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const updatedProblems = problemSections.flatMap((section) =>
+        section.problems.map((problem) => {
+          const savedProblem = data.problems.find(
+            (p: { problemId: string; status: string; attempts: number; score: number }) => p.problemId === problem.id
+          );
+          if (savedProblem) {
+            return {
+              ...problem,
+              solveStatus: savedProblem.status,
+              attempts: savedProblem.attempts,
+              score: savedProblem.score,
+              topic: savedProblem.topic,
+            };
+          }
+          return problem;
+        })
+      );
+      setProblems(updatedProblems);
+    } else {
+      setProblems(problemSections.flatMap((section) => section.problems));
+    }
   };
 
-  const handleDifficultyChange = (difficulty: string) => {
-    setSelectedDifficulties((prev) =>
-      prev.includes(difficulty)
-        ? prev.filter((d) => d !== difficulty)
-        : [...prev, difficulty]
-    );
+  const saveUserProgress = async () => {
+    if (!userId) return;
+
+    const problemProgress = problems.map((problem) => ({
+      problemId: problem.id,
+      status: problem.solveStatus,
+      attempts: problem.attempts || 0,
+      score: problem.score || 0,
+      topic: problem.topic,
+      completionTime: new Date().toISOString(),
+    }));
+
+    await setDoc(doc(db, "Problem_Solving_Progress", userId), {
+      courseId: "problem-solving-course", // Replace with actual course ID
+      courseTitle: "Discrete Math", // Replace with actual course title
+      lastUpdated: new Date().toISOString(),
+      problems: problemProgress,
+    });
   };
 
-  const toggleProblemExpansion = (problemId: string) => {
-    setExpandedProblem(expandedProblem === problemId ? null : problemId);
-  };
-
-  const handleAnswerSelect = (problemId: string, answer: string) => {
-    setSelectedAnswers((prev) => ({ ...prev, [problemId]: answer }));
+  const calculateScore = (problem: Problem, isCorrect: boolean): number => {
+    const baseScore =
+      problem.level === "easy" ? 10 : problem.level === "medium" ? 20 : 30;
+    const attempts = (problem.attempts || 0) + 1;
+    if (isCorrect) {
+      return Math.max(baseScore - (attempts - 1) * 5, 0);
+    }
+    return 0;
   };
 
   const handleSubmitAnswer = (problem: Problem) => {
+    const isCorrect = selectedAnswers[problem.id] === problem.correctAnswer;
+    const attempts = (problem.attempts || 0) + 1;
+    const score = calculateScore(problem, isCorrect);
+
+    const updatedProblem: Problem = {
+      ...problem,
+      solveStatus: isCorrect || attempts >= 3 ? "solved" : "unsolved",
+      attempts,
+      score,
+    };
+
+    setProblems((prevProblems) =>
+      prevProblems.map((p) => (p.id === problem.id ? updatedProblem : p))
+    );
+
     setSubmittedProblems((prev) => [...prev, problem.id]);
-    if (selectedAnswers[problem.id] === problem.correctAnswer) {
-      setProblems((prev) =>
-        prev.map((p) =>
-          p.id === problem.id ? { ...p, solveStatus: "solved" } : p
-        )
-      );
+
+    if (isCorrect) {
+      triggerCelebration();
     }
+
+    saveUserProgress();
+  };
+
+  const triggerCelebration = () => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
   };
 
   const handleTryAgain = (problemId: string) => {
@@ -135,7 +204,7 @@ export default function ProblemsPage() {
     );
     const nextProblem =
       filteredProblems[currentIndex + 1] || filteredProblems[0];
-    toggleProblemExpansion(nextProblem.id);
+    setExpandedProblem(nextProblem.id);
   };
 
   const getExampleForProblem = (
@@ -144,6 +213,18 @@ export default function ProblemsPage() {
     const section = problemSections.find((s) => s.title === problem.topic);
     return section?.examples[0];
   };
+
+  const filteredProblems = useMemo(() => {
+    return problems.filter(
+      (problem) =>
+        (selectedTopics.length === 0 ||
+          (problem.topic && selectedTopics.includes(problem.topic))) &&
+        (selectedDifficulties.length === 0 ||
+          selectedDifficulties.includes(problem.level)) &&
+        (problem.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          problem.id.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [problems, selectedTopics, selectedDifficulties, searchQuery]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -173,21 +254,27 @@ export default function ProblemsPage() {
                   <div className="flex-1 min-w-[200px]">
                     <h3 className="text-lg font-semibold mb-2">Topics</h3>
                     <ScrollArea className="h-[200px]">
-                      {allTopics.map((topic) => (
+                      {problemSections.map((section) => (
                         <div
-                          key={topic}
+                          key={section.id}
                           className="flex items-center space-x-2 mb-2"
                         >
                           <Checkbox
-                            id={topic}
-                            checked={selectedTopics.includes(topic)}
-                            onCheckedChange={() => handleTopicChange(topic)}
+                            id={section.id}
+                            checked={selectedTopics.includes(section.title)}
+                            onCheckedChange={() => {
+                              setSelectedTopics((prev) =>
+                                prev.includes(section.title)
+                                  ? prev.filter((t) => t !== section.title)
+                                  : [...prev, section.title]
+                              );
+                            }}
                           />
                           <label
-                            htmlFor={topic}
+                            htmlFor={section.id}
                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                           >
-                            {topic}
+                            {section.title}
                           </label>
                         </div>
                       ))}
@@ -196,7 +283,7 @@ export default function ProblemsPage() {
                   <Separator orientation="vertical" className="h-auto" />
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Difficulty</h3>
-                    {allDifficulties.map((difficulty) => (
+                    {["easy", "medium", "hard"].map((difficulty) => (
                       <div
                         key={difficulty}
                         className="flex items-center space-x-2 mb-2"
@@ -204,9 +291,13 @@ export default function ProblemsPage() {
                         <Checkbox
                           id={difficulty}
                           checked={selectedDifficulties.includes(difficulty)}
-                          onCheckedChange={() =>
-                            handleDifficultyChange(difficulty)
-                          }
+                          onCheckedChange={() => {
+                            setSelectedDifficulties((prev) =>
+                              prev.includes(difficulty)
+                                ? prev.filter((d) => d !== difficulty)
+                                : [...prev, difficulty]
+                            );
+                          }}
                         />
                         <label
                           htmlFor={difficulty}
@@ -235,10 +326,13 @@ export default function ProblemsPage() {
                       key={problem.id}
                       problem={problem}
                       isExpanded={expandedProblem === problem.id}
-                      onExpand={() => toggleProblemExpansion(problem.id)}
+                      onExpand={() => setExpandedProblem(problem.id)}
                       selectedAnswer={selectedAnswers[problem.id]}
                       onAnswerSelect={(answer) =>
-                        handleAnswerSelect(problem.id, answer)
+                        setSelectedAnswers((prev) => ({
+                          ...prev,
+                          [problem.id]: answer,
+                        }))
                       }
                       onSubmit={() => handleSubmitAnswer(problem)}
                       showExample={showExamples[problem.id]}
@@ -259,7 +353,7 @@ export default function ProblemsPage() {
                     <SolvedProblemCard
                       key={problem.id}
                       problem={problem}
-                      onExpand={() => toggleProblemExpansion(problem.id)}
+                      onExpand={() => setExpandedProblem(problem.id)}
                       example={getExampleForProblem(problem)}
                     />
                   ))}
@@ -272,176 +366,6 @@ export default function ProblemsPage() {
   );
 }
 
-function ProblemCard({
-  problem,
-  isExpanded,
-  onExpand,
-  selectedAnswer,
-  onAnswerSelect,
-  onSubmit,
-  showExample,
-  onToggleExample,
-  isSubmitted,
-  onNextProblem,
-  onTryAgain,
-  example,
-}: {
-  problem: Problem;
-  isExpanded: boolean;
-  onExpand: () => void;
-  selectedAnswer: string;
-  onAnswerSelect: (answer: string) => void;
-  onSubmit: () => void;
-  showExample: boolean;
-  onToggleExample: () => void;
-  isSubmitted: boolean;
-  onNextProblem: () => void;
-  onTryAgain: () => void;
-  example?: { description: string; example: string };
-}) {
-  const [showCelebration, setShowCelebration] = useState(false);
-
-  useEffect(() => {
-    if (isSubmitted && selectedAnswer === problem.correctAnswer) {
-      setShowCelebration(true);
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
-      const timer = setTimeout(() => setShowCelebration(false), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [isSubmitted, selectedAnswer, problem.correctAnswer]);
-
-  return (
-    <Card
-      className={`w-full transition-all duration-300 ${
-        isExpanded ? "md:col-span-2" : ""
-      }`}
-    >
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-start">
-          <CardTitle className="text-lg line-clamp-2">
-            {problem.question}
-          </CardTitle>
-          <Badge
-            className={`${
-              difficultyColors[problem.level as keyof typeof difficultyColors]
-            } capitalize`}
-          >
-            {problem.level}
-          </Badge>
-        </div>
-        <CardDescription>{problem.id}</CardDescription>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <Collapsible open={isExpanded} onOpenChange={onExpand}>
-          <CollapsibleTrigger asChild>
-            <Button variant="outline" className="w-full">
-              {isExpanded ? (
-                <>
-                  <ChevronUp className="w-4 h-4 mr-2" />
-                  Hide Problem
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="w-4 h-4 mr-2" />
-                  Solve Problem
-                </>
-              )}
-            </Button>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="mt-4 space-y-4">
-            <RadioGroup value={selectedAnswer} onValueChange={onAnswerSelect}>
-              {problem.choices.map((choice: string, index: number) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value={choice}
-                    id={`${problem.id}-${index}`}
-                  />
-                  <Label htmlFor={`${problem.id}-${index}`}>{choice}</Label>
-                </div>
-              ))}
-            </RadioGroup>
-            <div className="flex gap-2">
-              <Button
-                className="flex-1"
-                onClick={onSubmit}
-                disabled={!selectedAnswer}
-              >
-                Submit Answer
-              </Button>
-              <Button variant="outline" onClick={onToggleExample}>
-                {showExample ? "Hide Example" : "Show Example"}
-              </Button>
-            </div>
-            <AnimatePresence>
-              {isSubmitted && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="p-4 rounded-md bg-gray-100"
-                >
-                  {selectedAnswer === problem.correctAnswer ? (
-                    <div className="flex items-center text-green-600">
-                      <Check className="w-5 h-5 mr-2" />
-                      Correct! Well done!
-                    </div>
-                  ) : (
-                    <div className="space-y-2">
-                      <div className="flex items-center text-red-600">
-                        <X className="w-5 h-5 mr-2" />
-                        Wrong answer. Try again!
-                      </div>
-                      <Button
-                        variant="outline"
-                        onClick={onTryAgain}
-                        className="w-full"
-                      >
-                        <RefreshCw className="w-4 h-4 mr-2" />
-                        Try Again
-                      </Button>
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-            {showExample && example && (
-              <div className="p-4 bg-gray-100 rounded-md">
-                <h4 className="font-semibold mb-2">Example:</h4>
-                <p>{example.description}</p>
-                <p className="mt-2 font-mono">{example.example}</p>
-              </div>
-            )}
-            {isSubmitted && selectedAnswer === problem.correctAnswer && (
-              <Button onClick={onNextProblem} className="w-full">
-                Next Problem <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            )}
-          </CollapsibleContent>
-        </Collapsible>
-      </CardContent>
-      <AnimatePresence>
-        {showCelebration && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.5 }}
-            className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          >
-            <div className="text-4xl font-bold text-green-600">
-              🎉 Great job! 🎉
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </Card>
-  );
-}
 
 function SolvedProblemCard({
   problem,
@@ -476,9 +400,16 @@ function SolvedProblemCard({
           <Check className="w-5 h-5 mr-2" />
           Solved
         </div>
+        <p className="text-sm text-gray-600 mb-2">
+          Score: {problem.score || 0}
+        </p>
         <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
           <CollapsibleTrigger asChild>
-            <Button variant="outline" className="w-full" onClick={() => onExpand}>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => onExpand()}
+            >
               {isExpanded ? (
                 <>
                   <ChevronUp className="w-4 h-4 mr-2" />

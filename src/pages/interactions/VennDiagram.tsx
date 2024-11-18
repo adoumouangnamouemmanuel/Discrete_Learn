@@ -7,7 +7,10 @@ interface VennDiagramProps {
     | "disjoint"
     | "commutative"
     | "associative"
-    | "distributive";
+    | "distributive"
+    | "negation"
+    | "idempotent"
+    | "demorgan";
 }
 
 export default function VennDiagram({ type }: VennDiagramProps) {

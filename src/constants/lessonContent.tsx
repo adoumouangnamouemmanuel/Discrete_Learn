@@ -1,7 +1,24 @@
 // lessonContent.ts
+interface LessonContent {
+  id: string;
+  title: string;
+  sections: {
+    subtitle: string;
+    content: string;
+    illustration?: string;
+  }[];
+  examples: {
+    description: string;
+    code?: string;
+  }[];
+  practiceQuestions: {
+    question: string;
+    options: string[];
+  }[];
+}
 
 
-let lessonContents = [];
+let lessonContents: LessonContent[] = [];
 
 // Load the JSON dynamically
 async function loadLessonContents() {

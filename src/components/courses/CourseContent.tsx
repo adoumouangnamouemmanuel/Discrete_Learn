@@ -1,5 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { lessonContents } from "@/constants/lessonContent";
+
+interface LessonContent {
+  id: string;
+  title: string;
+  sections: {
+    subtitle: string;
+    content: string;
+    illustration?: string;
+  }[];
+  examples: {
+    description: string;
+    code?: string;
+  }[];
+  practiceQuestions: {
+    question: string;
+    options: string[];
+  }[];
+}
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";

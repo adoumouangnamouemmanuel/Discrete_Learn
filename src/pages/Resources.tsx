@@ -127,13 +127,13 @@ export default function Resources() {
                     {(category.category === "Books" ||
                       category.category === "Articles") && (
                       <div className="flex flex-col sm:flex-row items-center mb-4">
-                        <img
+                        {/* <img
                           src={item.coverImage}
                           alt={`Cover of ${item.title}`}
                           width={category.category === "Books" ? 100 : 150}
                           height={category.category === "Books" ? 150 : 100}
                           className="object-cover rounded-md mb-4 sm:mb-0 sm:mr-4"
-                        />
+                        /> */}
                         <p className="flex-grow">{item.description}</p>
                       </div>
                     )}
@@ -192,7 +192,7 @@ export default function Resources() {
                               </h2>
                               <h3 className="text-xl mb-4">{item.author}</h3>
                               <p className="mb-4">{item.description}</p>
-                              <p>{item.content}</p>
+                              {/* <p>{item.content}</p> */}
                             </div>
                           </ScrollArea>
                         </DialogContent>

@@ -61,8 +61,12 @@ export default function Signup() {
       setTimeout(() => {
         navigate("/login");
       }, 1000);
-    } catch (error) {
-      toast.error("Error signing up: " + error.message);
+    } catch (error: unknown) {
+       if (error instanceof Error) {
+         toast.error("Error signing up: " + error.message);
+       } else {
+         toast.error("An unknown error occurred.");
+       }
     } finally {
       setLoading(false);
     }
@@ -78,7 +82,11 @@ export default function Signup() {
         navigate("/login");
       }, 1000);
     } catch (error) {
-      toast.error("Error signing up with Google: " + error.message);
+       if (error instanceof Error) {
+         toast.error("Error signing up with Google: " + error.message);
+       } else {
+         toast.error("An unknown error occurred.");
+       }
     } finally {
       setLoading(false);
     }

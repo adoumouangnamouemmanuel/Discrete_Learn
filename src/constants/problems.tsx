@@ -1,4 +1,15 @@
-export const problemSections = [
+
+
+type Problem = {
+  id: string;
+  question: string;
+  choices: string[];
+  correctAnswer: string;
+  level: string;
+  solveStatus: "unsolved" | "solved";
+};
+
+export const problemSections: { id: string; title: string; examples: { id: string; description: string; example: string; }[]; problems: Problem[]; }[] = [
   {
     id: "CardinalityOfSets",
     title: "Cardinality of Sets",

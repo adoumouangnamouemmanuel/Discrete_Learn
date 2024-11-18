@@ -29,7 +29,7 @@ import {
   ChevronUp,
   Filter,
   RefreshCw,
-  Search,
+  // Search,
   X,
 } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -43,12 +43,6 @@ type Problem = {
   solveStatus: "solved" | "unsolved";
 };
 
-type ProblemSection = {
-  id: string;
-  title: string;
-  examples: { id: string; description: string; example: string }[];
-  problems: Problem[];
-};
 
 const difficultyColors = {
   easy: "bg-green-100 text-green-800",
@@ -83,11 +77,11 @@ const ProblemsPage = () => {
     return problems.filter(
       (problem) =>
         (selectedTopics.length === 0 ||
-          selectedTopics.includes(problem.topic)) &&
+          selectedTopics.includes(problem.id)) &&
         (selectedDifficulties.length === 0 ||
           selectedDifficulties.includes(problem.level)) &&
         (problem.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          problem.topic.toLowerCase().includes(searchQuery.toLowerCase()))
+          problem.id.toLowerCase().includes(searchQuery.toLowerCase()))
     );
   }, [problems, selectedTopics, selectedDifficulties, searchQuery]);
 
@@ -154,7 +148,7 @@ const ProblemsPage = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="flex-grow"
-              icon={<Search className="w-4 h-4 text-gray-500" />}
+              // icon={<Search className="w-4 h-4 text-gray-500" />}
             />
             <Button
               variant="outline"
@@ -280,6 +274,18 @@ const ProblemCard = ({
   isSubmitted,
   onNextProblem,
   onTryAgain,
+}: {
+  problem: Problem;
+  isExpanded: boolean;
+  onExpand: () => void;
+  selectedAnswer: string;
+  onAnswerSelect: (answer: string) => void;
+  onSubmit: () => void;
+  showExample: boolean;
+  onToggleExample: () => void;
+  isSubmitted: boolean;
+  onNextProblem: () => void;
+  onTryAgain: () => void;
 }) => {
   return (
     <Card
@@ -300,7 +306,7 @@ const ProblemCard = ({
             {problem.level}
           </Badge>
         </div>
-        <CardDescription>{problem.topic}</CardDescription>
+        <CardDescription>{problem.id}</CardDescription>
       </CardHeader>
       <CardContent className="pt-0">
         <Collapsible open={isExpanded} onOpenChange={onExpand}>
@@ -321,7 +327,7 @@ const ProblemCard = ({
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-4 space-y-4">
             <RadioGroup value={selectedAnswer} onValueChange={onAnswerSelect}>
-              {problem.choices.map((choice, index) => (
+              {problem.choices.map((choice: string, index: number) => (
                 <div key={index} className="flex items-center space-x-2">
                   <RadioGroupItem
                     value={choice}
@@ -368,11 +374,11 @@ const ProblemCard = ({
                 )}
               </div>
             )}
-            {showExample && problem.examples && problem.examples.length > 0 && (
+            {showExample && problem.id && problem.id.length > 0 && (
               <div className="p-4 bg-gray-100 rounded-md">
                 <h4 className="font-semibold mb-2">Example:</h4>
-                <p>{problem.examples[0].description}</p>
-                <p className="mt-2 font-mono">{problem.examples[0].example}</p>
+                <p>{problem.id}</p>
+                <p className="mt-2 font-mono">{problem.id}</p>
               </div>
             )}
             {isSubmitted && selectedAnswer === problem.correctAnswer && (
@@ -387,7 +393,9 @@ const ProblemCard = ({
   );
 };
 
-const SolvedProblemCard = ({ problem, onExpand }) => {
+
+
+const SolvedProblemCard = ({ problem, onExpand }: { problem: Problem; onExpand: () => void }) => {
   return (
     <Card className="w-full">
       <CardHeader className="pb-2">
@@ -403,7 +411,7 @@ const SolvedProblemCard = ({ problem, onExpand }) => {
             {problem.level}
           </Badge>
         </div>
-        <CardDescription>{problem.topic}</CardDescription>
+        <CardDescription>{problem.id}</CardDescription>
       </CardHeader>
       <CardContent className="pt-0">
         <div className="flex items-center text-green-600 mb-2">

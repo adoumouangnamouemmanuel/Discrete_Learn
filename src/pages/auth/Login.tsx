@@ -4,11 +4,16 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 import { auth } from "@/firebase/firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth"; // Firebase method for email/password login
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendEmailVerification,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify"; // Import toast
+import { toast } from "react-toastify";
 
-const Login = () => {
+export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -31,9 +36,28 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Firebase Sign-In
-      await signInWithEmailAndPassword(auth, formData.email, formData.password);
-      // Here, we will show a success toast
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        await sendEmailVerification(user);
+        toast.warning(
+          "Please verify your email. A new verification email has been sent.",
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+          }
+        );
+        setLoading(false);
+        return;
+      }
+
       toast.success("Login Successful!", {
         position: "top-center",
         autoClose: 1000,
@@ -41,12 +65,41 @@ const Login = () => {
         closeOnClick: true,
       });
 
-      // Redirect to login page after successful signup
       setTimeout(() => {
-        navigate("/"); // Change this to wherever you'd like the user to go
-      }, 1000); // Delay the redirect to allow the toast to be visible
+        navigate("/");
+      }, 1000);
     } catch {
-      toast.error("Failed to Log In. Please Try Again. Make sure Your Email and Password are Correct", {
+      toast.error(
+        "Failed to Log In. Please Try Again. Make sure Your Email and Password are Correct",
+        {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        }
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      toast.success("Google Login Successful!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } catch {
+      toast.error("Failed to Log In with Google. Please Try Again.", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
@@ -58,7 +111,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center max-h-screen bg-gray-50 w-full">
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 w-full">
       <div className="bg-white p-8 m-10 rounded-lg shadow-lg w-full max-w-lg">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Log In
@@ -101,16 +154,27 @@ const Login = () => {
           <Button
             type="submit"
             className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-md py-2"
+            disabled={loading}
           >
             {loading ? "Logging In..." : "Log In"}
           </Button>
         </form>
 
+        <div className="text-center mt-4">
+          <a href="/reset-password" className="text-purple-600 hover:underline">
+            Forgot Password?
+          </a>
+        </div>
+
         <div className="text-center my-4 text-gray-500">Or</div>
 
-        <Button className="w-full flex items-center justify-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-md py-2">
+        <Button
+          className="w-full flex items-center justify-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-md py-2"
+          onClick={handleGoogleLogin}
+          disabled={loading}
+        >
           <FcGoogle size={24} />
-          <span>Log In with Google</span>
+          <span>{loading ? "Logging In..." : "Log In with Google"}</span>
         </Button>
 
         <p className="text-gray-600 text-center mt-6">
@@ -122,6 +186,4 @@ const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}

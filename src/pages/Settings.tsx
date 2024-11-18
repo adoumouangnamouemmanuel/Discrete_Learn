@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -56,6 +56,7 @@ export default function EditProfilePage() {
         setUserId(user.uid);
         setUser(user);
         setName(user.displayName || "");
+        // console.log("Display name is ", user.displayName);
         setEmail(user.email || "");
         setPhotoUrl(user.photoURL || "");
       } else {
@@ -114,7 +115,9 @@ export default function EditProfilePage() {
       try {
         // Convert base64 to blob
         const response = await fetch(image);
+        console.log("Response:", response);
         const blob = await response.blob();
+        console.log("Blob:", blob); 
 
         // Create a reference to the location you want to upload to in Firebase Storage
         const storageRef = ref(storage, `profilePictures/${user.uid}`);
@@ -158,7 +161,10 @@ export default function EditProfilePage() {
             return;
           }
           {
-            const credential = EmailAuthProvider.credential(user.email, password);
+            const credential = EmailAuthProvider.credential(
+              user.email,
+              password
+            );
             await reauthenticateWithCredential(user, credential);
             await updatePassword(user, newPassword);
             toast.success("Password updated successfully!");
@@ -190,10 +196,20 @@ export default function EditProfilePage() {
       }
     } catch {
       toast.error(`Error updating ${type}`);
+      // console.log("Error updating", user.displayName);
     }
   };
 
   const handleSave = async () => {
+    handleChange("name", name);
+    // handleChange("email", email);
+    // handleChange("shortBio", shortBio);
+    // handleChange("fullBio", fullBio);
+    // handleChange("twitter", twitter);
+    // handleChange("github", github);
+    // handleChange("linkedin", linkedin);
+    // handleChange("facebook", facebook);
+    // handleChange("website", website);
     if (!userId) return;
 
     try {

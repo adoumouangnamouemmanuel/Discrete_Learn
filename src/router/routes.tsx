@@ -15,6 +15,8 @@ import CoursePage from "@/pages/courses/SetDefinitionPage";
 import Profile from "@/pages/profiles/Profile";
 // import EditProfilePage from "@/pages/profiles/EditProfile";
 import Interactions from "@/pages/interactions/Interactions";
+import PasswordReset from "@/pages/auth/passwordReset";
+
 
 const RoutesConfig = () => {
 
@@ -35,6 +37,7 @@ const RoutesConfig = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/editprofile" element={<Settings />} />
       <Route path="/interactions" element={<Interactions />} />
+      <Route path="/reset-password" element={<PasswordReset />} />
       {/* Add other routes as needed */}
     </Routes>
   );

@@ -14,6 +14,7 @@ const App = () => {
   const isAuthentificated =
     location.pathname === "/signup" || location.pathname === "/login";
   const isCoursePage = location.pathname.startsWith("/courses/");
+  const isresetPassword = location.pathname === "/reset-password";
 
   if (isAuthentificated) {
     document.body.style.overflow = "hidden";
@@ -25,9 +26,11 @@ const App = () => {
     <ThemeProvider>
       <div className="flex h-screen flex-col">
         {/* Hide Header and Sidebar for course pages */}
-        {!isAuthentificated && !isCoursePage && <Header />}
+        {!isAuthentificated && !isCoursePage && !isresetPassword && <Header />}
         <div className="flex flex-1 overflow-hidden">
-          {!isAuthentificated && !isCoursePage && <Sidebar />}
+          {!isAuthentificated && !isresetPassword && !isCoursePage && (
+            <Sidebar />
+          )}
           <main
             className={`${
               isAuthentificated || isCoursePage
@@ -38,7 +41,7 @@ const App = () => {
             <RoutesConfig />
           </main>
         </div>
-        {!isAuthentificated && ishome && <Footer />}
+        {!isAuthentificated && !isresetPassword && ishome && <Footer />}
       </div>
       <ToastContainer />
     </ThemeProvider>

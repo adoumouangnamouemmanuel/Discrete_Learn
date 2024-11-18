@@ -10,7 +10,7 @@ import {
   Award,
   Github,
   Palette,
-  ShoppingBag,
+  // ShoppingBag,
 } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -68,20 +68,30 @@ export default function ProfileHeader({ user, loggedOut }: ProfileHeaderProps) {
             </div>
           </div>
           <div className="space-y-2">
-            <Button variant="outline" className="w-full justify-start">
-              <Github className="mr-2 h-4 w-4" />
-              GitHub Student Pack
-              <span className="ml-auto bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                Active
-              </span>
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
+            <a
+              href="https://github.com/adoumouangnamouemmanuel"
+              target="_blank"
+            >
+              <Button variant="outline" className="w-full justify-start">
+                <Github className="mr-2 h-4 w-4" />
+                GitHub Student Pack
+                <span className="ml-auto bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                  Active
+                </span>
+              </Button>
+            </a>
+            {/* <Button variant="ghost" className="w-full justify-start">
               <ShoppingBag className="mr-2 h-4 w-4" />
               My Purchases
-            </Button>
-            <Link to="/settings" className="w-full justify-start">
-              <Award className="mr-2 h-4 w-4" />
-              Account Settings
+            </Button> */}
+            <Link
+              to="/settings"
+              className="w-full justify-start inline-block text-gray-800"
+            >
+              <Button variant="ghost" className="w-full justify-start">
+                <Award className="mr-2 h-4 w-4 " />
+                Account Settings
+              </Button>
             </Link>
             <Button variant="ghost" className="w-full justify-start">
               <Palette className="mr-2 h-4 w-4" />

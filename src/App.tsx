@@ -1,51 +1,72 @@
-import RoutesConfig from "./router/routes";
+"use client";
+
+import React, { Suspense } from "react";
+import { useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Sidebar from "./components/SideBar";
 import Footer from "./components/Footer";
-import { ThemeProvider } from "@/components/theme-provider";
-import { useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-// import "./styles/global.css"; // Add your global styles
+import LoadingSpinner from "./components/LoadingSpinner";
+import RoutesConfig from "./router/routes";
 
-const App = () => {
+const pageVariants = {
+  initial: { opacity: 0, x: "-5%" },
+  in: { opacity: 1, x: 0 },
+  out: { opacity: 0, x: "5%" },
+};
+
+const pageTransition = {
+  type: "inertial",
+  ease: "easeInOut",
+  duration: .3,
+};
+
+export default function App() {
   const location = useLocation();
-  const ishome = location.pathname === "/";
-  const isAuthentificated =
-    location.pathname === "/signup" || location.pathname === "/login";
+  const isHome = location.pathname === "/";
+  const isAuthenticated = ["/signup", "/login"].includes(location.pathname);
   const isCoursePage = location.pathname.startsWith("/courses/");
-  const isresetPassword = location.pathname === "/reset-password";
+  const isResetPassword = location.pathname === "/reset-password";
 
-  if (isAuthentificated) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
+  React.useEffect(() => {
+    document.body.style.overflow = isAuthenticated ? "hidden" : "auto";
+  }, [isAuthenticated]);
 
   return (
     <ThemeProvider>
       <div className="flex h-screen flex-col">
-        {/* Hide Header and Sidebar for course pages */}
-        {!isAuthentificated && !isCoursePage && !isresetPassword && <Header />}
+        {!isAuthenticated && !isCoursePage && !isResetPassword && <Header />}
         <div className="flex flex-1 overflow-hidden">
-          {!isAuthentificated && !isresetPassword && !isCoursePage && (
-            <Sidebar />
-          )}
+          {!isAuthenticated && !isResetPassword && !isCoursePage && <Sidebar />}
           <main
             className={`${
-              isAuthentificated || isCoursePage
+              isAuthenticated || isCoursePage
                 ? "flex-1 overflow-y-hidden p-0"
                 : "flex-1 overflow-y-auto p-6"
             }`}
           >
-            <RoutesConfig />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={location.pathname}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+              >
+                <Suspense fallback={<LoadingSpinner />}>
+                  <RoutesConfig />
+                </Suspense>
+              </motion.div>
+            </AnimatePresence>
           </main>
         </div>
-        {!isAuthentificated && !isresetPassword && ishome && <Footer />}
+        {!isAuthenticated && !isResetPassword && isHome && <Footer />}
       </div>
       <ToastContainer />
     </ThemeProvider>
   );
-};
-
-export default App;
+}

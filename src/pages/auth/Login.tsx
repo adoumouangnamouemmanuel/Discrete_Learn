@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router-dom";
 
 import { auth } from "@/firebase/firebaseConfig";
 import {
@@ -161,9 +162,12 @@ export default function Login() {
         </form>
 
         <div className="text-center mt-4">
-          <a href="/reset-password" className="text-purple-600 hover:underline">
+          <Link
+            to="/reset-password"
+            className="text-purple-600 hover:underline"
+          >
             Forgot Password?
-          </a>
+          </Link>
         </div>
 
         <div className="text-center my-4 text-gray-500">Or</div>
@@ -179,9 +183,9 @@ export default function Login() {
 
         <p className="text-gray-600 text-center mt-6">
           Don't have an account?{" "}
-          <a href="/signup" className="text-purple-600 hover:underline">
+          <Link to="/signup" className="text-purple-600 hover:underline">
             Sign Up
-          </a>
+          </Link>
         </p>
       </div>
     </div>

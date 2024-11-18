@@ -8,6 +8,7 @@ import book8 from "@/assets/books/book8.jpg";
 import book9 from "@/assets/books/book9.png";
 import book10 from "@/assets/books/book10.avif";
 import book1 from "@/assets/books/book1.png";
+
 export const resources = [
   {
     category: "Books",
@@ -19,8 +20,7 @@ export const resources = [
         link: "https://discrete.openmathbooks.org/dmoi3.html",
         description:
           "A comprehensive introduction to discrete mathematics focusing on proof techniques and their applications in computer science.",
-        coverImage:
-          book1,
+        coverImage: book1,
         content:
           "This book introduces key topics in discrete mathematics, such as set theory, logic, combinatorics, graph theory, and induction. Each chapter includes exercises and proofs, emphasizing problem-solving skills and applications in real-world scenarios.",
       },
@@ -126,12 +126,14 @@ export const resources = [
         author: "MIT OpenCourseWare",
         link: "https://www.youtube.com/watch?v=LY7YmuDbuW0&t=22s",
         description: "A comprehensive lecture on set theory fundamentals.",
+        coverImage: "https://example.com/mit-set-theory.jpg", // Example URL
       },
       {
         title: "Set Theory and Algebra",
         author: "Khan Academy",
         link: "https://www.youtube.com/watch?v=OCNXS_m1HWU&list=PLwPDkKEXCNflNrtW4uG2mcOY1Q0ByREuP",
         description: "Interactive lessons on set theory and its applications.",
+        coverImage: "https://example.com/mit-set-theory.jpg", // Example URL
       },
       {
         title:

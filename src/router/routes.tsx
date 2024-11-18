@@ -23,6 +23,7 @@ const PasswordReset = React.lazy(() => import("@/pages/auth/passwordReset"));
 
 const RoutesConfig = () => {
   return (
+    
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/problems" element={<Problems />} />

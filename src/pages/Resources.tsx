@@ -127,13 +127,13 @@ export default function Resources() {
                     {(category.category === "Books" ||
                       category.category === "Articles") && (
                       <div className="flex flex-col sm:flex-row items-center mb-4">
-                        {/* <img
+                        <img
                           src={item.coverImage}
                           alt={`Cover of ${item.title}`}
                           width={category.category === "Books" ? 100 : 150}
                           height={category.category === "Books" ? 150 : 100}
                           className="object-cover rounded-md mb-4 sm:mb-0 sm:mr-4"
-                        /> */}
+                        />
                         <p className="flex-grow">{item.description}</p>
                       </div>
                     )}

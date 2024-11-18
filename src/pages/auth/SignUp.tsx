@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router-dom";
 
 import { auth } from "@/firebase/firebaseConfig";
 import {
@@ -93,7 +94,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex items-center justify-center max-h-screen bg-gray-50">
       <div className="bg-white p-8 m-10 rounded-lg shadow-lg w-full max-w-lg">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Sign Up
@@ -188,9 +189,9 @@ export default function Signup() {
 
         <p className="text-gray-600 text-center mt-6">
           Already have an account?{" "}
-          <a href="/login" className="text-purple-600 hover:underline">
+          <Link to="/login" className="text-purple-600 hover:underline">
             Log In
-          </a>
+          </Link>
         </p>
       </div>
     </div>

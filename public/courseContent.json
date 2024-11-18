@@ -6,12 +6,12 @@
       {
         "subtitle": "What is a Set?",
         "content": "In mathematics, a set is a collection of distinct and well-defined objects, called elements or members of the set. These objects can be anything: numbers, names, shapes, or even other sets. Sets provide the foundation for various branches of mathematics and are fundamental to understanding relationships and operations between groups of objects.",
-        "illustration": "/src/assets/sets/set-intro.jpg"
+        "illustration": "/assets/sets/set-intro.jpg"
       },
       {
         "subtitle": "Characteristics of Sets",
         "content": "1. Distinct Elements: Each element in a set is unique, with no duplicates allowed.\n2. Unordered Collection: The order in which elements are listed does not matter.\n3. Clear Membership: It is always clear whether an object belongs to a set or not.\n4. Named Sets: Sets are typically represented using capital letters (e.g., A, B, C).",
-        "illustration": "/src/assets/sets/set-characteristics.png"
+        "illustration": "/assets/sets/set-characteristics.png"
       },
       {
         "subtitle": "Representing Sets",
@@ -54,12 +54,12 @@
       {
         "subtitle": "Roster method",
         "content": "S = {a,b,c,d}\n• Order is not important: S = {a,b,c,d} = {b,c,a,d}\n• Each distinct object is either a member or not; listing more than once does not change the set.\nS = {a,b,c,d} = {a,b,c,b,c,d}\n• Elipses (...) may be used to describe a set without listing all of the members when the pattern is clear.\nS = {a,b,c,d, ...,z}",
-        "illustration": "/src/assets/sets/set_roster_method.jpg"
+        "illustration": "/assets/sets/set_roster_method.jpg"
       },
       {
         "subtitle": "Set in math definition.",
         "content": "N = natural numbers = {0,1,2,3,...}\nZ = integers = {...,-3,-2,-1,0,1,2,3,...}\nZ⁺ = positive integers = {1,2,3,...}\nR = set of real numbers\nR+ = set of positive real numbers\nC = set of complex numbers.\nQ = set of rational numbers",
-        "illustration": "/src/assets/sets/set_in_math.jpg"
+        "illustration": "/assets/sets/set_in_math.jpg"
       }
     ],
     "examples": [
@@ -92,17 +92,17 @@
       {
         "subtitle": "The Empty Set",
         "content": "The empty set, denoted by ∅, is a set that contains no elements. It can also be represented as {}. It is important to note that the empty set is not the same as a set containing the empty set as an element, e.g., {∅} is not the empty set, but a singleton set containing one element, which is the empty set. The empty set is a fundamental concept in set theory and serves as the identity for the operation of union. If any set is unioned with the empty set, it remains unchanged.",
-        "illustration": "/src/assets/sets/empty_set.png"
+        "illustration": "/assets/sets/empty_set.png"
       },
       {
         "subtitle": "Singleton Set",
         "content": "A singleton set is a set that contains exactly one element. For example, {∅} is a singleton set. While the empty set contains no elements, a singleton set contains exactly one element, which could be any object.",
-        "illustration": "/src/assets/sets/singleton_set.png"
+        "illustration": "/assets/sets/singleton_set.png"
       },
       {
         "subtitle": "Universal Set",
         "content": "The universal set, often denoted by U, is the set that contains all the elements under consideration for a particular discussion. Every other set is considered a subset of the universal set. The universal set’s elements depend on the context in which the set is being discussed. For example, if we are discussing integers, the universal set could be the set of all integers, Z.",
-        "illustration": "/src/assets/sets/universal_set.png"
+        "illustration": "/assets/sets/universal_set.png"
       }
     ],
     "examples": [
@@ -145,17 +145,17 @@
       {
         "subtitle": "What is a Subset?",
         "content": "A set A is said to be a subset of set B if every element of A is also an element of B. This relationship is denoted as A ⊆ B. The formal definition is: A ⊆ B if and only if ∀x(x ∈ A → x ∈ B), meaning that for every element x in A, x is also in B. If A ⊆ B, we can conclude that the elements of A are contained within B, but B may contain additional elements as well.",
-        "illustration": "/src/assets/sets/subset-definition.png"
+        "illustration": "/assets/sets/subset-definition.png"
       },
       {
         "subtitle": "Proper Subset",
         "content": "If A is a subset of B but A is not equal to B, we say that A is a proper subset of B. This is denoted as A ⊂ B. For A ⊂ B to be true, there must exist an element x of B such that x is not in A. In other words, A is a proper subset of B if and only if A ⊆ B and A ≠ B.",
-        "illustration": "/src/assets/sets/proper-subset.png"
+        "illustration": "/assets/sets/proper-subset.png"
       },
       {
         "subtitle": "Set Equality",
         "content": "Two sets A and B are said to be equal, denoted by A = B, if they have exactly the same elements. In other words, A = B if and only if every element of A is an element of B and every element of B is an element of A. This is a bidirectional relationship: if A = B, then both A ⊆ B and B ⊆ A are true.",
-        "illustration": "/src/assets/sets/set-equality.png"
+        "illustration": "/assets/sets/set-equality.png"
       }
     ],
     "examples": [
@@ -202,17 +202,17 @@
       {
         "subtitle": "What is Cardinality?",
         "content": "The cardinality of a set refers to the number of distinct elements in that set. In other words, it is a measure of how many unique elements are in the set. Cardinality is denoted by |A| for a set A. If a set contains repeated elements, the duplicates are not counted when calculating cardinality. Cardinality is only concerned with distinct elements.",
-        "illustration": "/src/assets/sets/cardinality-definition.jpg"
+        "illustration": "/assets/sets/cardinality-definition.jpg"
       },
       {
         "subtitle": "Examples of Cardinality",
         "content": "1. For the empty set, the cardinality is 0: |∅| = 0.\n2. For a set containing a single empty set, the cardinality is 1: |{∅}| = 1.\n3. For a set with repeated elements, duplicates are ignored. For example: |{1, 2, 5, 8, 9, 10, 10}| = 6.\n4. The set D = {number of Days in the week} has 7 distinct elements, so |D| = 7.",
-        "illustration": "/src/assets/sets/cardinality-examples.png"
+        "illustration": "/assets/sets/cardinality-examples.png"
       },
       {
         "subtitle": "Cardinality of Disjoint Sets",
         "content": "If two sets A and B are disjoint, meaning they have no common elements, the cardinality of their intersection is 0. This is represented as |A ∩ B| = 0. Disjoint sets do not share any members, so the intersection of the sets has no elements, resulting in a cardinality of 0.",
-        "illustration": "/src/assets/sets/disjoint-sets.png"
+        "illustration": "/assets/sets/disjoint-sets.png"
       }
     ],
     "examples": [
@@ -263,17 +263,17 @@
       {
         "subtitle": "What is a Power Set?",
         "content": "A power set is the set of all subsets of a given set. For any set S, the power set is denoted by P(S). The power set includes all possible subsets of S, ranging from the empty set to the set S itself. It is important to note that the power set of a set always has more elements than the original set. Specifically, if a set has n elements, the power set will contain 2^n elements.",
-        "illustration": "/src/assets/sets/power-set-definition.svg"
+        "illustration": "/assets/sets/power-set-definition.svg"
       },
       {
         "subtitle": "Examples of Power Sets",
         "content": "1. For the set S = {0, 1, 2}, the power set P(S) is the set of all subsets of {0, 1, 2}. Thus, P({0, 1, 2}) = {∅, {0}, {1}, {2}, {0, 1}, {0, 2}, {1, 2}, {0, 1, 2}}.\n2. For the empty set ∅, the power set P(∅) = {∅}, as the only subset of the empty set is the empty set itself.\n3. For the set {∅}, the power set P({∅}) = {∅, {∅}}.",
-        "illustration": "/src/assets/sets/power-set-examples.png"
+        "illustration": "/assets/sets/power-set-examples.png"
       },
       {
         "subtitle": "Cardinality of the Power Set",
         "content": "The cardinality of the power set is always 2^n, where n is the number of elements in the original set. This is because each element of the original set can either be included or excluded from a subset, resulting in 2 choices (include or exclude) for each element. For example, if a set has 3 elements, its power set will have 2^3 = 8 subsets.",
-        "illustration": "/src/assets/sets/power-set-cardinality.jpg"
+        "illustration": "/assets/sets/power-set-cardinality.jpg"
       }
     ],
     "examples": [
@@ -324,17 +324,17 @@
       {
         "subtitle": "What is a Cartesian Product?",
         "content": "The Cartesian product of two sets is the set of all possible ordered pairs where the first element comes from the first set and the second element comes from the second set. It is denoted by A × B. If A and B are two sets, their Cartesian product is defined as: \nA × B = {(a, b) | a ∈ A ∧ b ∈ B}.\nNote that the order of elements matters in Cartesian products, which distinguishes it from regular set operations. Additionally, the Cartesian product of A × B is not the same as B × A, unless A and B are identical sets.",
-        "illustration": "/src/assets/sets/cartesian-product-definition.png"
+        "illustration": "/assets/sets/cartesian-product-definition.png"
       },
       {
         "subtitle": "Examples of Cartesian Products",
         "content": "1. Let A represent the set of all students at a university, and B represent the set of all courses offered at the university. The Cartesian product A × B consists of all ordered pairs (a, b), where a is a student and b is a course, representing all possible student-course enrollments.\n\n2. If A = {1, 2} and B = {a, b, c}, then the Cartesian product A × B is: \nA × B = {(1, a), (1, b), (1, c), (2, a), (2, b), (2, c)}.",
-        "illustration": "/src/assets/sets/cartesian-product-examples.jpg"
+        "illustration": "/assets/sets/cartesian-product-examples.jpg"
       },
       {
         "subtitle": "Cartesian Products of Multiple Sets",
         "content": "The Cartesian product can be extended to more than two sets. The Cartesian product of multiple sets A1 × A2 × ... × An consists of all ordered n-tuples, where the first element is from A1, the second from A2, and so on. For example, if A = {0, 1}, B = {1, 2}, and C = {0, 1, 2}, the Cartesian product A × B × C consists of all ordered triples (a, b, c), where a ∈ A, b ∈ B, and c ∈ C.",
-        "illustration": "/src/assets/sets/cartesian-product-multiple-sets.png"
+        "illustration": "/assets/sets/cartesian-product-multiple-sets.png"
       }
     ],
     "examples": [
@@ -386,17 +386,17 @@
       {
         "subtitle": "What is a Tuple?",
         "content": "A tuple is an ordered collection of elements, similar to a set, but unlike sets, the order of elements in a tuple matters. A tuple can contain elements of different types, such as integers, strings, or other tuples. The number of elements in a tuple is called its arity. The tuple with n elements is called an n-tuple. For example, a 2-tuple is an ordered pair, a 3-tuple is an ordered triple, and so on. Tuples are typically used in mathematics and computer science, where maintaining the order of elements is important.",
-        "illustration": "/src/assets/sets/tuple-definition.jpg"
+        "illustration": "/assets/sets/tuple-definition.jpg"
       },
       {
         "subtitle": "Ordered vs. Unordered Collections",
         "content": "While both sets and tuples are collections of elements, the key difference is that sets are unordered, meaning they do not care about the order of elements. Tuples, on the other hand, maintain the order of elements. For example, (a, b) is different from (b, a), but {a, b} is the same as {b, a}. This distinction is crucial when the position of an element in a collection is significant.",
-        "illustration": "/src/assets/sets/tuple-vs-set.jpg"
+        "illustration": "/assets/sets/tuple-vs-set.jpg"
       },
       {
         "subtitle": "Tuple Operations and Properties",
         "content": "Tuples support various operations, such as indexing, slicing, and concatenation, much like lists in programming. However, tuples are immutable, meaning their elements cannot be changed after they are created. This immutability makes tuples useful for situations where a fixed collection of elements is required, like coordinates or records.",
-        "illustration": "/src/assets/sets/tuple-operations.jpg"
+        "illustration": "/assets/sets/tuple-operations.jpg"
       }
     ],
     "examples": [

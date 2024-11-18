@@ -1,6 +1,6 @@
-import Emma from "../assets/emma.jpg"; // Adjust this path as needed
-import Ruth from "../assets/ruth.jpg"; // Adjust this path as needed
-import Mary from "../assets/mary.jpg";
+import Emma from "/assets/emma.jpg"; // Adjust this path as needed
+import Ruth from "/assets/ruth.jpg"; // Adjust this path as needed
+import Mary from "/assets/mary.jpg";
 
 /** @type {import("./constants").TeamMember[]} */
 export const teamMembers = [

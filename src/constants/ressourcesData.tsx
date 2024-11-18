@@ -1,13 +1,13 @@
 import { BookOpen, Video, FileText, Brain } from "lucide-react";
-import book3 from "@/assets/books/book3.jpg";
-import book4 from "@/assets/books/book4.png";
-import book5 from "@/assets/books/book5.jpg";
-import book6 from "@/assets/books/book6.jpg";
-import book7 from "@/assets/books/book7.jpg";
-import book8 from "@/assets/books/book8.jpg";
-import book9 from "@/assets/books/book9.png";
-import book10 from "@/assets/books/book10.avif";
-import book1 from "@/assets/books/book1.png";
+import book3 from "/assets/books/book3.jpg";
+import book4 from "/assets/books/book4.png";
+import book5 from "/assets/books/book5.jpg";
+import book6 from "/assets/books/book6.jpg";
+import book7 from "/assets/books/book7.jpg";
+import book8 from "/assets/books/book8.jpg";
+import book9 from "/assets/books/book9.png";
+import book10 from "/assets/books/book10.avif";
+import book1 from "/assets/books/book1.png";
 
 export const resources = [
   {

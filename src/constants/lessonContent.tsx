@@ -21,16 +21,24 @@ interface LessonContent {
 let lessonContents: LessonContent[] = [];
 
 // Load the JSON dynamically
-async function loadLessonContents() {
-  const response = await fetch("/src/assets/courseContent.json");
-  lessonContents = await response.json();
+async function loadCourseContents() {
+  try {
+    const response = await fetch("/courseContent.json"); // Adjust the path if needed
+    if (!response.ok) {
+      throw new Error(`Failed to fetch course contents: ${response.statusText}`);
+    }
+    lessonContents = await response.json();
+    console.log("Course contents loaded successfully", lessonContents);
+  } catch (error) {
+    console.error("Error loading course contents:", error);
+  }
 }
+
 // Call the function to initialize the data
-loadLessonContents();
+loadCourseContents();
 
-// Export the data (use it only after it's loaded)
+// Export the data
 export { lessonContents };
-
 
 
 

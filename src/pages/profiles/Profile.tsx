@@ -19,7 +19,7 @@ import ProfileHeader from "./ProfileHeader";
 import { signOut } from "firebase/auth"; // Firebase auth methods
 import { isAuth } from "@/utils/authUtils"; // Import the utility function
 import { auth } from "@/firebase/firebaseConfig"; // Firebase auth instance
-import noData from "@/assets/noData.svg";
+import noData from "/assets/noData.svg";
 
 const streakDates = [
   new Date(2023, 6, 1),

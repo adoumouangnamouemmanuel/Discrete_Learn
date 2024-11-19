@@ -1,5 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { lessonContents } from "@/constants/lessonContent";
+import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ArrowRight,
+  Download,
+  ExternalLink,
+  Maximize,
+  Minimize,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface LessonContent {
   id: string;
@@ -17,13 +29,8 @@ interface LessonContent {
     question: string;
     options: string[];
   }[];
+  video?: string;
 }
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 
 interface Lesson {
   id: string;
@@ -42,8 +49,8 @@ const CourseContent: React.FC<CourseContentProps> = ({ lesson }) => {
   const [lessonContent, setLessonContent] = useState<LessonContent | null>(
     null
   );
+  const [isVideoExpanded, setIsVideoExpanded] = useState(false);
 
-  // console.log("lesson contents", lessonContents);
   useEffect(() => {
     const content = lessonContents.find((content) => content.id === lesson.id);
     setLessonContent(content || null);
@@ -61,9 +68,148 @@ const CourseContent: React.FC<CourseContentProps> = ({ lesson }) => {
     );
   }
 
+  const formatContent = (content: string) => {
+    const lines = content.split("\n");
+    return lines.map((line, index) => {
+      if (line.match(/^\d+\./)) {
+        const [number, ...rest] = line.split(/\s+/);
+        const firstWord = rest[0];
+        const remainingContent = rest.slice(1).join(" ");
+        if (
+          remainingContent.startsWith(":") ||
+          remainingContent.startsWith("=")
+        ) {
+          return (
+            <li key={index} className="ml-6 list-decimal">
+              <span className="bg-gray-100">{`${number} ${firstWord}`}</span>
+              {remainingContent}
+            </li>
+          );
+        }
+        return (
+          <li key={index} className="ml-6 list-decimal">
+            {line.replace(/^\d+\./, "")}
+          </li>
+        );
+      } else if (line.startsWith("•")) {
+        return (
+          <li key={index} className="ml-6 list-disc">
+            {line.substring(1)}
+          </li>
+        );
+      } else if (line.match(/^[A-Za-z]+\s*[=:]/)) {
+        const [bold, rest] = line.split(/[=:]/);
+        return (
+          <p key={index} className="my-2">
+            <span className="font-bold bg-gray-100 px-1 rounded">{bold}</span>
+            {rest ? `:${rest}` : ""}
+          </p>
+        );
+      } else {
+        return (
+          <p key={index} className="my-2">
+            {line.split(/(?=Example|Note)/i).map((segment, segIndex) => {
+              if (
+                segment.toLowerCase().startsWith("example") ||
+                segment.toLowerCase().startsWith("note")
+              ) {
+                const keywordEnd =
+                  segment.indexOf(":") !== -1
+                    ? segment.indexOf(":")
+                    : segment.indexOf("=");
+                const keyword = segment.slice(0, keywordEnd + 1);
+                const content = segment.slice(keywordEnd + 1);
+                const endOfHighlight =
+                  content.indexOf(".") !== -1
+                    ? content.indexOf(".") + 1
+                    : content.length;
+                return (
+                  <React.Fragment key={segIndex}>
+                    <span
+                      className={
+                        segment.toLowerCase().startsWith("example")
+                          ? "font-bold text-gray-600"
+                          : "font-bold text-red-600"
+                      }
+                    >
+                      {keyword}
+                    </span>
+                    <span className="bg-gray-100">
+                      {content.slice(0, endOfHighlight)}
+                    </span>
+                    {content.slice(endOfHighlight)}
+                  </React.Fragment>
+                );
+              }
+              return segment;
+            })}
+          </p>
+        );
+      }
+    });
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h2 className="text-3xl font-semibold mb-6">{lessonContent.title}</h2>
+
+      {lessonContent.video && (
+        <Card className="mb-6 relative">
+          <CardHeader>
+            <CardTitle className="flex justify-between items-center">
+              Lesson Video
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsVideoExpanded(!isVideoExpanded)}
+              >
+                {isVideoExpanded ? (
+                  <Minimize className="h-4 w-4" />
+                ) : (
+                  <Maximize className="h-4 w-4" />
+                )}
+              </Button>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div
+              className={`aspect-w-16 aspect-h-9 ${
+                isVideoExpanded ? "h-[70vh]" : ""
+              }`}
+            >
+              <iframe
+                src={`https://www.youtube.com/embed/${new URL(
+                  lessonContent.video
+                ).searchParams.get("v")}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
+            </div>
+            <div className="mt-4 flex justify-between">
+              <Button
+                variant="outline"
+                onClick={() => window.open(lessonContent.video, "_blank")}
+              >
+                <ExternalLink className="mr-2 h-4 w-4" />
+                Open in YouTube
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() =>
+                  window.open(
+                    `https://www.savefrom.net/${lessonContent.video}`,
+                    "_blank"
+                  )
+                }
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Download Video
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Render Sections */}
       {lessonContent.sections.map((section, index) => (
@@ -72,7 +218,9 @@ const CourseContent: React.FC<CourseContentProps> = ({ lesson }) => {
             <CardTitle>{section.subtitle}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="whitespace-pre-line">{section.content}</p>
+            <div className="whitespace-pre-line">
+              {formatContent(section.content)}
+            </div>
             {section.illustration && (
               <img
                 src={section.illustration}
@@ -130,15 +278,11 @@ const CourseContent: React.FC<CourseContentProps> = ({ lesson }) => {
 
       {/* Navigation Buttons */}
       <div className="mt-8 flex justify-between">
-        {/* <Button variant="outline">Previous Lesson</Button> */}
         <Link to={`/problems`}>
-          <Button
-            variant="outline"
-          >
+          <Button variant="outline">
             Practice More Problems <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
-        {/* <Button variant="outline">Next Lesson</Button> */}
       </div>
     </div>
   );

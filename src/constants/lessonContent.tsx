@@ -15,7 +15,9 @@ interface LessonContent {
     question: string;
     options: string[];
   }[];
+  video?: string;
 }
+
 
 
 let lessonContents: LessonContent[] = [];

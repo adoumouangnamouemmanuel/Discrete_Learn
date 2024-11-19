@@ -16,7 +16,7 @@
       {
         "subtitle": "Representing Sets",
         "content": "Sets can be expressed in two main ways:\n- Roster Form: Lists all elements of the set within curly braces. For example: A = {1, 2, 3, 4}.\n- Set-Builder Form: Describes the properties that its elements satisfy. For example: B = {x | x > 0 and x ∈ integers}.",
-        "illustration": "/illustrations/set-representation.svg"
+        "illustration": "/assets/sets/set_representation.webp"
       }
     ],
     "examples": [
@@ -29,6 +29,7 @@
         "code": "EvenNumbers = {2, 4, 6, 8}"
       }
     ],
+    "video": "https://www.youtube.com/watch?v=l3-A0O42Lyo",
     "practiceQuestions": [
       {
         "question": "Which of the following represents a set?",
@@ -57,6 +58,11 @@
         "illustration": "/assets/sets/set_roster_method.jpg"
       },
       {
+        "subtitle": "Set Builder Notation",
+        "content": "In set builder notation, we describe a set by specifying a property that its members must satisfy.\n• General form: S = {x | P(x)} where P(x) is a property or condition that defines the elements of the set.\n• Example: S = {x | x > 0} represents the set of all positive numbers.\n\nAdditional examples:\n1. The set of even numbers: E = {x | x is an even integer}.\n2. The set of numbers between 1 and 10: A = {x | 1 < x < 10}.\n3. The set of all squares of integers: S = {x | x = n², n ∈ Z}.",
+        "illustration": "/assets/sets/set_builder_notation.jpg"
+      },
+      {
         "subtitle": "Set in math definition.",
         "content": "N = natural numbers = {0,1,2,3,...}\nZ = integers = {...,-3,-2,-1,0,1,2,3,...}\nZ⁺ = positive integers = {1,2,3,...}\nR = set of real numbers\nR+ = set of positive real numbers\nC = set of complex numbers.\nQ = set of rational numbers",
         "illustration": "/assets/sets/set_in_math.jpg"
@@ -72,6 +78,7 @@
         "code": "OddNumbers = {1, 3, 5, 7, 9}\nEvenNumbers = {2, 4, 6, 8, 10}\nUnion = OddNumbers ∪ EvenNumbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}"
       }
     ],
+    "video": "https://www.youtube.com/watch?v=FLgiccWl434",
     "practiceQuestions": [
       {
         "question": "Which of the following sets is a finite set?",
@@ -115,6 +122,7 @@
         "code": "SetA = {1, 2, 3}\nUnion = SetA ∪ ∅ = {1, 2, 3}"
       }
     ],
+    "video": "https://www.youtube.com/watch?v=u9z-bpxrvv4",
     "practiceQuestions": [
       {
         "question": "Which of the following represents the empty set?",
@@ -172,6 +180,7 @@
         "code": "SetA = {a, b, c}\nSetB = {c, b, a}\nSince SetA = SetB, the sets are equal."
       }
     ],
+    "video": "https://www.youtube.com/watch?v=OYGYqRj9-ok",
     "practiceQuestions": [
       {
         "question": "Which of the following sets are subsets of {1, 2, 3, 4}?",
@@ -233,6 +242,7 @@
         "code": "|A ∩ B| = 0 (If A and B are disjoint sets)"
       }
     ],
+    "video": "https://www.youtube.com/watch?v=Voj2N0VVbmg",
     "practiceQuestions": [
       {
         "question": "What is the cardinality of the set {1, 2, 3, 4, 5, 5, 6}?",
@@ -294,6 +304,7 @@
         "code": "If S = {a, b, c}, then P(S) contains 2^3 = 8 subsets"
       }
     ],
+    "video": "https://www.youtube.com/watch?v=FOQn8afAvLE",
     "practiceQuestions": [
       {
         "question": "What is the power set of {1, 2, 3}?",
@@ -351,6 +362,7 @@
         "code": "A2 = {(1, 1), (1, 2), (2, 1), (2, 2)}"
       }
     ],
+    "video": "https://www.youtube.com/watch?v=ufjEv-5nmcA",
     "practiceQuestions": [
       {
         "question": "What is the Cartesian product of A = {a, b} and B = {1, 2, 3}?",
@@ -413,6 +425,7 @@
         "code": "((a, b), (1, 2)) is a tuple containing two other tuples."
       }
     ],
+    "video": "https://www.youtube.com/embed/3QZwv4Y0vK8",
     "practiceQuestions": [
       {
         "question": "What is the arity of the tuple (3, 5, 7)?",
@@ -435,5 +448,535 @@
         "correctAnswer": 1
       }
     ]
+  },
+  {
+    "id": "SetOpsIntro1",
+    "title": "Introduction to Set Operations",
+    "sections": [
+      {
+        "subtitle": "Why Study Set Operations?",
+        "content": "Set operations provide a systematic way to analyze and solve problems involving groups of objects. By understanding how sets interact, we can better organize, interpret, and make decisions based on complex data. For instance, operations on sets are used in probability, database queries, and computer algorithms.",
+        "illustration": "/assets/sets/why_set_operations.jpg"
+      },
+      {
+        "subtitle": "Examples of Real-World Applications",
+        "content": "1. Data Science: Combining data from multiple sources to find common or unique entries.\n2. Scheduling: Identifying times when multiple people are available for a meeting.\n3. Search Engines: Finding web pages that contain all or some of your search terms.\n4. E-commerce: Recommending products by analyzing shared preferences across user groups.",
+        "illustration": "/assets/sets/sets_operations_applications.jpg"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Combining Two Groups",
+        "code": "MathematicsMajors = {Alice, Bob, Carol}\nComputerScienceMajors = {Bob, Carol, David}\nCombinedStudents = MathematicsMajors ∪ ComputerScienceMajors = {Alice, Bob, Carol, David}"
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=4TlCToZZ5gA",
+    "practiceQuestions": [
+      {
+        "question": "Why is it important to study set operations?",
+        "options": [
+          "To memorize set notations",
+          "To understand how sets are represented",
+          "To analyze relationships between different groups or data sets",
+          "To organize members of a single set"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  },
+  {
+    "id": "SetOpsUnion2",
+    "title": "Set Union",
+    "sections": [
+      {
+        "subtitle": "Definition of Set Union",
+        "content": "Let A and B be sets. The union of the sets A and B, denoted by A ∪ B, is the set that contains those elements that are either in A, in B, or in both.\n\nAn element x belongs to the union of the sets A and B if and only if x belongs to A or x belongs to B. This can be written as:\nA ∪ B = {x | x ∈ A ∨ x ∈ B}.",
+        "illustration": "/assets/sets/union_definition.png"
+      },
+      {
+        "subtitle": "Visualizing Union with a Venn Diagram",
+        "content": "The Venn diagram illustrates the union of two sets A and B. The shaded area represents A ∪ B, which includes all elements in either the circle representing A or the circle representing B.",
+        "illustration": "/assets/sets/union_venn_diagram.jpg"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Union of Two Sets",
+        "code": "SetA = {1, 3, 5}\nSetB = {1, 2, 3}\nSetA ∪ SetB = {1, 2, 3, 5}"
+      },
+      {
+        "description": "Example 2: Union of Groups",
+        "code": "MathematicsMajors = {Alice, Bob, Carol}\nComputerScienceMajors = {Bob, Carol, David}\nUnion = MathematicsMajors ∪ ComputerScienceMajors = {Alice, Bob, Carol, David}"
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=xZELQc11ACY&t=312s",
+    "practiceQuestions": [
+      {
+        "question": "What is the union of the sets {2, 4, 6} and {1, 2, 3}?",
+        "options": [
+          "{1, 2, 3, 4, 6}",
+          "{2, 4, 6}",
+          "{1, 3, 4, 6}",
+          "{1, 2, 4, 6}"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "question": "Which of the following is true about A ∪ B?",
+        "options": [
+          "It contains only elements common to both A and B.",
+          "It contains all elements in A and B, and no others.",
+          "It excludes elements found in both A and B.",
+          "It only contains elements unique to A and B."
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "SetOpsIntersection3",
+    "title": "Set Intersection",
+    "sections": [
+      {
+        "subtitle": "Definition of Set Intersection",
+        "content": "Let A and B be sets. The intersection of the sets A and B, denoted by A ∩ B, is the set containing those elements that are in both A and B.\n\nAn element x belongs to the intersection of the sets A and B if and only if x belongs to A and x belongs to B. This can be expressed as:\nA ∩ B = {x | x ∈ A ∧ x ∈ B}.",
+        "illustration": "/assets/sets/intersection_definition.jpg"
+      },
+      {
+        "subtitle": "Visualizing Intersection with a Venn Diagram",
+        "content": "The Venn diagram illustrates the intersection of two sets A and B. The shaded area represents A ∩ B, which includes only the elements that are common to both sets A and B.",
+        "illustration": "/assets/sets/intersection_venn_diagram.png"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Intersection of Two Sets",
+        "code": "SetA = {1, 3, 5}\nSetB = {1, 2, 3}\nSetA ∩ SetB = {1, 3}"
+      },
+      {
+        "description": "Example 2: Common Members of Groups",
+        "code": "MathematicsMajors = {Alice, Bob, Carol}\nComputerScienceMajors = {Bob, Carol, David}\nIntersection = MathematicsMajors ∩ ComputerScienceMajors = {Bob, Carol}"
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=xZELQc11ACY&t=36s",
+    "practiceQuestions": [
+      {
+        "question": "What is the intersection of the sets {2, 4, 6} and {4, 5, 6}?",
+        "options": ["{2, 4, 6}", "{4, 6}", "{5, 6}", "{4, 5}"],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which of the following is true about A ∩ B?",
+        "options": [
+          "It contains all elements from both A and B.",
+          "It contains elements that are in A but not in B.",
+          "It contains elements that are common to both A and B.",
+          "It contains elements unique to A and B."
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  },
+  {
+    "id": "SetOpsDisjoint4",
+    "title": "Disjoint Sets",
+    "sections": [
+      {
+        "subtitle": "Definition of Disjoint Sets",
+        "content": "Two sets are called disjoint if their intersection is the empty set (∅). This means the two sets have no elements in common. In mathematical terms:\nA and B are disjoint if A ∩ B = ∅.",
+        "illustration": "/assets/sets/disjoint_sets_definition.png"
+      },
+      {
+        "subtitle": "Key Property of Disjoint Sets",
+        "content": "Disjoint sets are entirely separate groups. Their union consists of all elements in either set, and their intersection is always the empty set.",
+        "illustration": "/assets/sets/disjoint_sets_venn_diagram.jpg"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Disjoint Sets",
+        "code": "SetA = {1, 3, 5, 7, 9}\nSetB = {2, 4, 6, 8, 10}\nSetA ∩ SetB = ∅\nSince the intersection is empty, SetA and SetB are disjoint."
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=fNHLKhzEmVg",
+    "practiceQuestions": [
+      {
+        "question": "Which of the following pairs of sets are disjoint?",
+        "options": [
+          "{1, 2, 3} and {3, 4, 5}",
+          "{1, 3, 5} and {2, 4, 6}",
+          "{A, B, C} and {C, D, E}",
+          "{X, Y, Z} and {Y, Z, W}"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the intersection of two disjoint sets?",
+        "options": [
+          "The union of both sets",
+          "The larger set",
+          "An empty set",
+          "The difference of the two sets"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  },
+  {
+    "id": "SetOpsDifference6",
+    "title": "Set Difference",
+    "sections": [
+      {
+        "subtitle": "Definition of Set Difference",
+        "content": "Let A and B be sets. The difference of A and B, denoted by A − B, is the set containing those elements that are in A but not in B. This is also called the complement of B with respect to A.\n\nAn element x belongs to the difference of A and B if and only if x ∈ A and x ∉ B. In mathematical terms:\nA − B = {x | x ∈ A ∧ x ∉ B}.",
+        "illustration": "/assets/sets/set_difference_introduction.jpg"
+      },
+      {
+        "subtitle": "Visualizing Set Difference with a Venn Diagram",
+        "content": "The Venn diagram illustrates the difference of sets A and B. The shaded area represents A − B, which is the portion inside the circle for A but outside the circle for B.",
+        "illustration": "/assets/sets/set_difference_visualization.png"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Difference Between Two Sets",
+        "code": "SetA = {1, 3, 5}\nSetB = {1, 2, 3}\nSetA − SetB = {5}"
+      },
+      {
+        "description": "Example 2: Complement of B with Respect to A",
+        "code": "ComputerScienceMajors = {Alice, Bob, Carol}\nMathematicsMajors = {Alice, Carol}\nDifference = ComputerScienceMajors − MathematicsMajors = {Bob}"
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=HJduHa16Y70",
+    "practiceQuestions": [
+      {
+        "question": "What is the result of {2, 4, 6} − {4, 5, 6}?",
+        "options": ["{2, 4, 6}", "{2}", "{4, 6}", "∅"],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which of the following describes A − B?",
+        "options": [
+          "The set of all elements in A or B",
+          "The set of all elements in A and B",
+          "The set of all elements in A but not in B",
+          "The set of all elements not in A or B"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  },
+  {
+    "id": "SetOpsComplement5",
+    "title": "Complements",
+    "sections": [
+      {
+        "subtitle": "Definition of Complements",
+        "content": "Let U be the universal set. The complement of a set A, denoted by A̅, is the complement of A with respect to U. In mathematical terms:\nA̅ = U − A.\n\nAn element belongs to A̅ if and only if it does not belong to A. That is:\nA̅ = {x ∈ U | x ∉ A}.",
+        "illustration": "/assets/sets/set_complement_definition.png"
+      },
+      {
+        "subtitle": "Visualizing Complements with a Venn Diagram",
+        "content": "The Venn diagram shows the complement of set A. The shaded area represents all elements in the universal set U that are outside the circle representing A.",
+        "illustration": "/assets/sets/set_complement_visualization.jpg"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Complement of a Set of Vowels",
+        "code": "SetA = {a, e, i, o, u}\nUniversalSet = {All letters of the English alphabet}\nSetA̅ = {b, c, d, f, g, h, j, k, l, m, n, p, q, r, s, t, v, w, x, y, z}"
+      },
+      {
+        "description": "Example 2: Complement of Positive Integers Greater Than 10",
+        "code": "SetA = {x | x > 10 and x ∈ PositiveIntegers}\nUniversalSet = {All positive integers}\nSetA̅ = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}"
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=HrD_vpFzrBk",
+    "practiceQuestions": [
+      {
+        "question": "What is the complement of the set {1, 2, 3} in the universal set {1, 2, 3, 4, 5}?",
+        "options": ["{1, 2, 3}", "{4, 5}", "{2, 3}", "{1, 5}"],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which of the following is true about the complement of a set A?",
+        "options": [
+          "It contains all elements in A.",
+          "It contains all elements in U not in A.",
+          "It contains elements in both A and B.",
+          "It contains only the intersection of A and B."
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "SetOpsXOR7",
+    "title": "Exclusive OR (XOR)",
+    "sections": [
+      {
+        "subtitle": "Definition of Exclusive OR (XOR)",
+        "content": "Let A and B be two sets. The exclusive or (XOR) of A and B, denoted by A ⊕ B, is the set of elements that are in either A or B, but not in both. In other words, it contains the elements that are in A or in B, but not in their intersection.\n\nIn mathematical terms:\nA ⊕ B = (A − B) ∪ (B − A).\nThis means that A ⊕ B includes elements that are only in A or only in B, but not in both sets.",
+        "illustration": "/assets/sets/set_xor.png"
+      },
+      {
+        "subtitle": "Visualizing XOR with a Venn Diagram",
+        "content": "In a Venn diagram, the exclusive or of sets A and B is represented by the shaded areas in A and B that do not overlap. The areas where A and B intersect are not included in the XOR result.",
+        "illustration": "/assets/sets/set_xor_visualization.jpg"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: XOR of Two Sets of Numbers",
+        "code": "SetA = {1, 2, 3}\nSetB = {2, 3, 4}\nA ⊕ B = {1, 4}"
+      },
+      {
+        "description": "Example 2: XOR of Two Sets of Students",
+        "code": "MathMajors = {Alice, Bob, Carol}\nCSMajors = {Bob, Carol, Dave}\nMathMajors ⊕ CSMajors = {Alice, Dave}"
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=m2mf6I3g2-c",
+    "practiceQuestions": [
+      {
+        "question": "What is the result of {1, 2, 3} ⊕ {2, 3, 4}?",
+        "options": ["{1, 2, 3, 4}", "{1, 4}", "{2, 3}", "∅"],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which of the following sets represents the XOR of {a, b, c} and {b, c, d}?",
+        "options": ["{a, b, c, d}", "{a, d}", "{b, c}", "{a, b, c}"],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "SetIdentitiesTable1",
+    "title": "Table of Operations",
+    "sections": [
+      {
+        "subtitle": "Introduction to the Table of Operations",
+        "content": "Set identities are rules or laws that describe the relationships between various set operations. These laws help simplify expressions involving sets and are essential for solving set problems. Set identities are akin to algebraic laws, but they apply to sets instead of numbers. The most commonly used set identities include the commutative, associative, distributive, identity, complement, and idempotent laws.",
+        "illustration": "/assets/sets/set_operations_table.jpg"
+      },
+      {
+        "subtitle": "Operations Table",
+        "content": "Here is a table summarizing the result of the basic set operations for two sets A and B. Each cell represents the result of performing a specific operation on A and B.\n\n| Operation       | A ∪ B  | A ∩ B  | A − B  | B − A  | A ⊕ B  | A'  |\n|-----------------|--------|--------|--------|--------|--------|-----|\n| A = {1, 2, 3}  | {1, 2, 3, 4} | {2, 3} | {1}    | {4}    | {1, 4} | {4} |\n| B = {2, 3, 4}  | {1, 2, 3, 4} | {2, 3} | {1}    | {4}    | {1, 4} | {1, 3} |",
+        "illustration": "/assets/sets/set_operations_table.png"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Union and Intersection of {1, 2, 3} and {2, 3, 4}",
+        "code": "A = {1, 2, 3}\nB = {2, 3, 4}\nA ∪ B = {1, 2, 3, 4}\nA ∩ B = {2, 3}"
+      },
+      {
+        "description": "Example 2: Difference and XOR of {1, 2, 3} and {2, 3, 4}",
+        "code": "A = {1, 2, 3}\nB = {2, 3, 4}\nA − B = {1}\nB − A = {4}\nA ⊕ B = {1, 4}"
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=ReV1lwBw_lc",
+    "practiceQuestions": [
+      {
+        "question": "What is the result of {1, 2, 3} ∩ {2, 3, 4}?",
+        "options": ["{1, 2, 3}", "{2, 3}", "{1, 4}", "{1}"],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which of the following is the result of {1, 2, 3} ⊕ {2, 3, 4}?",
+        "options": ["{1, 2, 3, 4}", "{1, 4}", "{2, 3}", "∅"],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "SetIdentitiesProofs2",
+    "title": "Explanation of Laws and Proofs",
+    "sections": [
+      {
+        "subtitle": "Introduction to Set Laws and Proofs",
+        "content": "Set laws (also known as set identities) are critical for simplifying and understanding relationships between sets. Proofs of these laws show why these identities hold true. To prove set identities, we use logical reasoning and definitions of set operations, like union, intersection, and complement. Understanding these proofs is essential for solving complex set problems and building strong mathematical foundations.",
+        "illustration": "/assets/sets/set_laws_intro.jpg"
+      },
+      {
+        "subtitle": "Commutative Laws Proofs",
+        "content": "The Commutative Law states that the order of sets in a union or intersection does not affect the result. We prove this law as follows:\n\n1. **Union Commutative Proof**\n   - A ∪ B = B ∪ A\n   - Proof: Let x be an element of A ∪ B. This means that x ∈ A or x ∈ B. By the definition of union, we can swap A and B, so x ∈ B or x ∈ A, which means x ∈ B ∪ A. Therefore, A ∪ B = B ∪ A.\n\n2. **Intersection Commutative Proof**\n   - A ∩ B = B ∩ A\n   - Proof: Let x be an element of A ∩ B. This means x ∈ A and x ∈ B. Since the intersection is symmetric, x must also be an element of B ∩ A. Therefore, A ∩ B = B ∩ A.",
+        "illustration": "/assets/sets/set_commutative_law_proof.jpg"
+      },
+      {
+        "subtitle": "Associative Laws Proofs",
+        "content": "The Associative Law states that the grouping of sets in union or intersection does not affect the result. We prove this law as follows:\n\n1. **Union Associative Proof**\n   - (A ∪ B) ∪ C = A ∪ (B ∪ C)\n   - Proof: Let x be an element of (A ∪ B) ∪ C. This means x is either in A ∪ B or in C. If x is in A ∪ B, then x is in either A or B. If x is in C, then it is trivially in the union. Therefore, (A ∪ B) ∪ C = A ∪ (B ∪ C).\n\n2. **Intersection Associative Proof**\n   - (A ∩ B) ∩ C = A ∩ (B ∩ C)\n   - Proof: Let x be an element of (A ∩ B) ∩ C. This means x is in both A ∩ B and C. By the definition of intersection, x is in A and in B, and also in C. Hence, x is in A ∩ (B ∩ C). Therefore, (A ∩ B) ∩ C = A ∩ (B ∩ C).",
+        "illustration": "/assets/sets/set_associative_law_proof.jpg"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Proof of the Commutative Law for Union",
+        "code": "Let A = {1, 2}, B = {2, 3}. Prove that A ∪ B = B ∪ A.\nProof: A ∪ B = {1, 2} ∪ {2, 3} = {1, 2, 3}. Similarly, B ∪ A = {2, 3} ∪ {1, 2} = {1, 2, 3}.\nTherefore, A ∪ B = B ∪ A."
+      },
+      {
+        "description": "Example 2: Proof of the Associative Law for Intersection",
+        "code": "Let A = {1, 2}, B = {2, 3}, C = {3, 4}. Prove that (A ∩ B) ∩ C = A ∩ (B ∩ C).\nProof: (A ∩ B) ∩ C = {2} ∩ {3, 4} = ∅. A ∩ (B ∩ C) = {1, 2} ∩ {3} = ∅.\nThus, (A ∩ B) ∩ C = A ∩ (B ∩ C)."
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=tRknuaNSlrU",
+    "practiceQuestions": [
+      {
+        "question": "Which of the following is the proof for the commutative law of union?",
+        "options": [
+          "If x ∈ A ∪ B, then x ∈ B ∪ A",
+          "If x ∈ A ∩ B, then x ∈ B ∩ A",
+          "If x ∈ (A ∪ B) ∪ C, then x ∈ A ∪ (B ∪ C)",
+          "If x ∈ A ∩ B, then x ∈ A"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "question": "Which law states that the grouping of sets does not affect the union or intersection result?",
+        "options": [
+          "Commutative Law",
+          "Associative Law",
+          "Identity Law",
+          "Complement Law"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "SetIdentitiesVenn3",
+    "title": "Using Venn Diagrams",
+    "sections": [
+      {
+        "subtitle": "Introduction to Venn Diagrams",
+        "content": "Venn diagrams are visual representations of sets and their relationships. They help us understand the intersections, unions, differences, and other operations on sets. In a Venn diagram, each set is represented by a circle, and the relationships between sets are illustrated by the way the circles overlap.\n\nVenn diagrams are particularly useful for visualizing set operations like union, intersection, and complement, making it easier to understand complex set relationships.",
+        "illustration": "/assets/sets/venn_diagram.png"
+      },
+      {
+        "subtitle": "Union of Sets in a Venn Diagram",
+        "content": "The union of two sets A and B, denoted by A ∪ B, includes all the elements that are in A, in B, or in both. In a Venn diagram, this is represented by shading the areas covered by both circles representing A and B. The shaded region shows all the elements in the union.\n\nA ∪ B is the combined area of both circles, including the overlap and the non-overlapping parts.",
+        "illustration": "/assets/sets/set_venn_union.svg"
+      },
+      {
+        "subtitle": "Intersection of Sets in a Venn Diagram",
+        "content": "The intersection of two sets A and B, denoted by A ∩ B, includes only the elements that are in both A and B. In a Venn diagram, this is represented by shading the area where the two circles overlap. The shaded area shows all the elements that are common to both sets.",
+        "illustration": "/assets/sets/set_venn_intersection.svg"
+      },
+      {
+        "subtitle": "Difference of Sets in a Venn Diagram",
+        "content": "The difference of two sets A and B, denoted by A − B, includes the elements that are in A but not in B. In a Venn diagram, this is represented by shading the area inside circle A, but outside circle B. This shaded area shows all the elements that belong only to A and not to B.",
+        "illustration": "/assets/sets/set_venn_symmetric_difference.svg"
+      },
+      {
+        "subtitle": "Symmetric Difference of Sets in a Venn Diagram",
+        "content": "The symmetric difference of two sets A and B is the set of all elements which belong to exactly one of the two original sets. This operation is written as A ⊕ B.",
+        "illustration": "/assets/sets/set_venn_difference.svg"
+      },
+      {
+        "subtitle": "Complement of a Set in a Venn Diagram",
+        "content": "The complement of a set A, denoted by A', includes all the elements in the universal set U that are not in A. In a Venn diagram, this is represented by shading the area outside the circle representing A. The shaded area represents all the elements that do not belong to A.",
+        "illustration": "/assets/sets/set_venn_complement.svg"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Union of Two Sets",
+        "code": "Let A = {1, 2, 3}, B = {2, 3, 4}. The union of A and B is A ∪ B = {1, 2, 3, 4}. In the Venn diagram, we shade both circles to represent the union of A and B."
+      },
+      {
+        "description": "Example 2: Intersection of Two Sets",
+        "code": "Let A = {1, 2, 3}, B = {2, 3, 4}. The intersection of A and B is A ∩ B = {2, 3}. In the Venn diagram, we shade only the overlapping part of the two circles to represent the intersection."
+      },
+      {
+        "description": "Example 3: Difference of Two Sets",
+        "code": "Let A = {1, 2, 3}, B = {2, 3, 4}. The difference A − B is {1}. In the Venn diagram, we shade only the part of circle A that does not overlap with circle B."
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=32iNIZJ2dI4",
+    "practiceQuestions": [
+      {
+        "question": "What is the union of A = {1, 2} and B = {2, 3}?",
+        "options": ["{1, 2, 3}", "{2, 3}", "{1, 2}", "{1, 3}"],
+        "correctAnswer": 0
+      },
+      {
+        "question": "What is the intersection of A = {1, 2} and B = {2, 3}?",
+        "options": ["{1, 2}", "{2, 3}", "{2}", "{1, 3}"],
+        "correctAnswer": 2
+      },
+      {
+        "question": "What is the complement of A = {1, 2, 3} in the universal set U = {1, 2, 3, 4, 5}?",
+        "options": ["{1, 2, 3}", "{4, 5}", "{2, 3}", "{1, 4, 5}"],
+        "correctAnswer": 1
+      }
+    ]
+  },
+  {
+    "id": "SetIdentitiesComputer4",
+    "title": "Computer Representation of Sets",
+    "sections": [
+      {
+        "subtitle": "Introduction to Computer Representation of Sets",
+        "content": "In computer science, sets are often represented using data structures that allow for efficient operations. While mathematical sets are abstract concepts, in computing, we need a way to implement them in a way that is both fast and easy to manipulate. The two most common ways to represent sets in computer programs are using arrays (or lists) and bit vectors.\n\nIn this lesson, we will explore how sets can be represented in a computer, how operations like union, intersection, and difference can be performed, and the benefits of each method of representation.",
+        "illustration": "/assets/sets/set_computer_intro.jpg"
+      },
+      {
+        "subtitle": "Array (or List) Representation of Sets",
+        "content": "In an array-based representation, a set is simply stored as a list of elements. This method works well for small sets and when the elements can be easily indexed (like numbers or strings). To represent the set {1, 2, 3}, we could use the list [1, 2, 3].\n\nHowever, this representation has limitations: finding whether an element is in the set takes linear time (O(n)), and performing set operations like union or intersection may involve iterating over both sets, which can be slow for large sets.",
+        "illustration": "/assets/sets/set_array_representation.jpg"
+      },
+      {
+        "subtitle": "Bit Vector Representation of Sets",
+        "content": "A more efficient way to represent sets, especially when the universe of possible elements is fixed, is using a bit vector. In this representation, each element of the universe corresponds to a specific bit in a bit array. If an element is in the set, its corresponding bit is set to 1; if it is not in the set, the bit is 0.\n\nFor example, if the universe is {1, 2, 3, 4, 5}, the set {2, 4} would be represented by the bit vector 01010 (where the second and fourth bits are 1, representing elements 2 and 4). Bit vectors are particularly useful for efficiently performing set operations like union, intersection, and difference using bitwise operations.",
+        "illustration": "/assets/sets/set_bit_vector_representation.jpg"
+      },
+      {
+        "subtitle": "Set Operations Using Array Representation",
+        "content": "When using arrays or lists to represent sets, basic operations like union, intersection, and difference can be implemented using loops and conditionals. For example, to compute the union of two sets A and B, we can combine all elements of A with all elements of B, ensuring no duplicates.\n\nHowever, the time complexity of these operations is often O(n), where n is the size of the sets involved. This makes array representation less efficient for large sets or frequent operations.",
+        "illustration": "/assets/sets/set_array_operations.jpg"
+      },
+      {
+        "subtitle": "Set Operations Using Bit Vectors",
+        "content": "Bit vectors make it much easier to perform set operations efficiently. For instance, the union of two sets A and B can be found by performing a bitwise OR operation between their corresponding bit vectors. The intersection can be found by performing a bitwise AND operation, and the difference can be found by performing a bitwise AND followed by a bitwise negation.\n\nThese operations can be done in constant time, O(1), for each bit, making bit vector representation ideal for large sets and frequent operations.",
+        "illustration": "/assets/sets/set_bit_vector_operations.jpg"
+      }
+    ],
+    "examples": [
+      {
+        "description": "Example 1: Array Representation of Set Union",
+        "code": "SetA = [1, 2, 3]\nSetB = [2, 3, 4]\nUnion = [1, 2, 3, 4]  // Combine SetA and SetB without duplicates"
+      },
+      {
+        "description": "Example 2: Bit Vector Representation of Set Intersection",
+        "code": "SetA = 01010  // Represents {2, 4}\nSetB = 00110  // Represents {3, 4}\nIntersection = 00010  // Result of bitwise AND, represents {4}"
+      },
+      {
+        "description": "Example 3: Bit Vector Representation of Set Difference",
+        "code": "SetA = 01010  // Represents {2, 4}\nSetB = 00110  // Represents {3, 4}\nDifference = 01000  // Result of bitwise AND with negation, represents {2}"
+      }
+    ],
+    "video": "https://www.youtube.com/watch?v=6_0EG7H6TxM",
+    "practiceQuestions": [
+      {
+        "question": "What is the bit vector representation of the set {1, 3} with the universe {1, 2, 3, 4}?",
+        "options": ["1010", "0110", "1100", "1001"],
+        "correctAnswer": 0
+      },
+      {
+        "question": "Which operation can be performed on bit vectors to calculate the union of two sets?",
+        "options": [
+          "Bitwise AND",
+          "Bitwise OR",
+          "Bitwise NOT",
+          "None of the above"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the result of the intersection of the bit vectors 1010 and 1100?",
+        "options": ["1010", "1100", "1000", "0000"],
+        "correctAnswer": 2
+      }
+    ]
   }
+
 ]

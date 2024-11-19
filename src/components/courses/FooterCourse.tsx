@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
@@ -24,22 +25,23 @@ const FooterCourse: React.FC<FooterProps> = ({
 }) => {
   return (
     <div className="border-t p-4 flex items-center justify-between bg-background">
-      {currentLesson.prevLesson && (
-        <Button
-          variant="outline"
-          className="flex items-center gap-2"
-          onClick={() => onNavigation(currentLesson.prevLesson)}
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back lesson</span>
-        </Button>
-      )}
+      <Button
+        variant="outline"
+        className="flex items-center gap-2 cursor-pointer"
+        onClick={() =>
+          currentLesson.prevLesson && onNavigation(currentLesson.prevLesson)
+        }
+        disabled={!currentLesson.prevLesson}
+      >
+        <ArrowLeft className="w-4 h-4" />
+        <span>Back lesson</span>
+      </Button>
 
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
           className={cn(
-            "flex items-center gap-2 bg-white",
+            "flex items-center gap-2 bg-white cursor-pointer",
             currentLesson.completed
               ? "border-green-500 text-green-500"
               : "border-gray-300 text-gray-700"
@@ -61,16 +63,17 @@ const FooterCourse: React.FC<FooterProps> = ({
           <span>Completed</span>
         </Button>
 
-        {currentLesson.nextLesson && (
-          <Button
-            variant="outline"
-            className="flex items-center gap-2 text-blue-500 hover:text-blue-600"
-            onClick={() => onNavigation(currentLesson.nextLesson)}
-          >
-            <span>Next</span>
-            <ArrowRight className="w-4 h-4" />
-          </Button>
-        )}
+        <Button
+          variant="outline"
+          className="flex items-center gap-2 text-blue-500 hover:text-blue-600 cursor-pointer"
+          onClick={() =>
+            currentLesson.nextLesson && onNavigation(currentLesson.nextLesson)
+          }
+          disabled={!currentLesson.nextLesson}
+        >
+          <span>Next</span>
+          <ArrowRight className="w-4 h-4" />
+        </Button>
       </div>
     </div>
   );

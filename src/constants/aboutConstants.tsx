@@ -1,4 +1,4 @@
-import Emma from "/assets/emma.jpg"; // Adjust this path as needed
+import Emma from "/assets/Emma.jpg"; // Adjust this path as needed
 import Ruth from "/assets/ruth.jpg"; // Adjust this path as needed
 import Mary from "/assets/mary.jpg";
 
@@ -25,7 +25,7 @@ export const teamMembers = [
     image: Ruth,
   },
   {
-    name: "Nary-Ann Adzim",
+    name: "Mary-Ann Adzim",
     role: "Lead Designer",
     description:
       "Mary-Ann designs the user interface of DiscreteLearn, ensuring the platform is visually appealing and easy to navigate. Her goal is to make learning Discrete Mathematics a pleasant and seamless experience.",

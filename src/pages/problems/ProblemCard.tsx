@@ -82,10 +82,11 @@ export default function ProblemCard({
     setLocalIsSubmitted(true);
     const correct = selectedAnswer === problem.correctAnswer;
     setIsCorrect(correct);
-      onSubmit();
+      
       if (correct) {
         triggerCelebration();
       }
+      onSubmit();
   };
 
   const triggerCelebration = () => {
@@ -240,7 +241,7 @@ export default function ProblemCard({
         </Collapsible>
       </CardContent>
       <AnimatePresence>
-        {showCelebration && (
+              {showCelebration && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}

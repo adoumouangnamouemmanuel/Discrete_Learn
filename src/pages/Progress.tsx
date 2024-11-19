@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -19,8 +19,13 @@ import {
 } from "@/components/ui/chart";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { BookOpen, Trophy, Zap } from "lucide-react";
+import { doc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { firestore, auth } from "@/firebase/firebaseConfig";
 
-const progressData = [
+const db = firestore;
+
+const progressData1 = [
   { date: "2023-06-01", progress: 10 },
   { date: "2023-06-08", progress: 25 },
   { date: "2023-06-15", progress: 40 },
@@ -52,8 +57,63 @@ const streakDates = [
   new Date(2023, 6, 6),
 ];
 
+type Problem = {
+  problemId: string;
+  status: "solved" | "unsolved";
+  attempts: number;
+  score: number;
+  topic?: string;
+  completionTime: string;
+};
+
+interface ProgressData {
+  courseId: string;
+  courseTitle: string;
+  lastUpdated: string;
+  overallProgress: string;
+  totalScore: string;
+  problems: Problem[];
+}
+
 const ProgressPage = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [userId, setUserId] = useState<string | null>(null);
+  const [progressData, setProgressData] = useState<ProgressData | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+        loadUserProgress(user.uid);
+      } else {
+        setUserId(null);
+        setProgressData(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const loadUserProgress = async (uid: string) => {
+    const docRef = doc(db, "Problem_Solving_Progress", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setProgressData(docSnap.data() as ProgressData);
+    }
+  };
+
+  if (!progressData) {
+    return <div>Loading...</div>;
+  }
+
+  if (!userId) {
+    return <div>Please login to view your progress.</div>;
+  }
+
+  const solvedProblemsCount = progressData.problems.filter(
+    (p) => p.status === "solved"
+  ).length;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -69,10 +129,37 @@ const ProgressPage = () => {
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-2xl font-bold">75%</span>
+              <span className="text-2xl font-bold">
+                {progressData.overallProgress}%
+              </span>
               <Trophy className="w-6 h-6 text-yellow-500" />
             </div>
-            <Progress value={75} className="w-full" />
+            <Progress
+              value={Number(progressData.overallProgress)}
+              className="w-full"
+            />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Total Score</CardTitle>
+            <CardDescription>
+              Your cumulative score across all problems
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">{progressData.totalScore}</div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Problems Solved</CardTitle>
+            <CardDescription>Number of problems you've solved</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">{solvedProblemsCount}</div>
           </CardContent>
         </Card>
 
@@ -125,7 +212,7 @@ const ProgressPage = () => {
               }}
             >
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={progressData}>
+                <AreaChart data={progressData1}>
                   <XAxis
                     dataKey="date"
                     tickFormatter={(value) =>

@@ -1,5 +1,5 @@
 import { FaLinkedin, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
-import { teamMembers } from "../constants/aboutConstants";
+import { teamMembers } from "@/constants/aboutConstants";
 
 const About = () => {
   return (

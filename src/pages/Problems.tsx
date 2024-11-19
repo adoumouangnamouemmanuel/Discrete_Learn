@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import ProblemCard from "@/pages/problems/ProblemCard";
-// import SolvedProblemCard from "@/pages/problems/SolvedProblemCard";
 import {
   Card,
   CardContent,
@@ -19,35 +18,25 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { problemSections } from "@/constants/problems";
-import {
-  // ArrowRight,
-  Check,
-  ChevronDown,
-  ChevronUp,
-  Filter,
-  // RefreshCw,
-  // X,
-} from "lucide-react";
-// import { initializeApp } from "firebase/app";
-import {  doc, setDoc, getDoc } from "firebase/firestore";
+import { Filter } from "lucide-react";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import confetti from "canvas-confetti";
 
-// Initialize Firebase (make sure to replace with your own config)
-// const firebaseConfig = {
-//   // Your Firebase config here
-// };
 
-import {firestore, auth} from "@/firebase/firebaseConfig";
+import {
+  Check,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 
-// const app = initializeApp(firebaseConfig);
-const db = firestore
+import { firestore, auth } from "@/firebase/firebaseConfig";
+
+const db = firestore;
 
 type Problem = {
   id: string;
@@ -106,7 +95,12 @@ export default function ProblemsPage() {
       const updatedProblems = problemSections.flatMap((section) =>
         section.problems.map((problem) => {
           const savedProblem = data.problems.find(
-            (p: { problemId: string; status: string; attempts: number; score: number }) => p.problemId === problem.id
+            (p: {
+              problemId: string;
+              status: string;
+              attempts: number;
+              score: number;
+            }) => p.problemId === problem.id
           );
           if (savedProblem) {
             return {
@@ -114,22 +108,29 @@ export default function ProblemsPage() {
               solveStatus: savedProblem.status,
               attempts: savedProblem.attempts,
               score: savedProblem.score,
-              topic: savedProblem.topic,
+              topic: problem.topic || section.title, // Use the problem's topic if available, otherwise use the section title
             };
           }
-          return problem;
+          return { ...problem, topic: problem.topic || section.title };
         })
       );
       setProblems(updatedProblems);
     } else {
-      setProblems(problemSections.flatMap((section) => section.problems));
+      setProblems(
+        problemSections.flatMap((section) =>
+          section.problems.map((problem) => ({
+            ...problem,
+            topic: problem.topic || section.title,
+          }))
+        )
+      );
     }
   };
 
-  const saveUserProgress = async () => {
+  const saveUserProgress = async (updatedProblems: Problem[]) => {
     if (!userId) return;
 
-    const problemProgress = problems.map((problem) => ({
+    const problemProgress = updatedProblems.map((problem) => ({
       problemId: problem.id,
       status: problem.solveStatus,
       attempts: problem.attempts || 0,
@@ -138,11 +139,22 @@ export default function ProblemsPage() {
       completionTime: new Date().toISOString(),
     }));
 
+    const totalScore = problemProgress.reduce(
+      (sum, problem) => sum + problem.score,
+      0
+    );
+    const totalPossibleScore = updatedProblems.length * 30; // Assuming max score per problem is 30
+    const overallProgress = Math.round((totalScore / totalPossibleScore) * 100);
+
+    const courseInfo = problemSections[0]; // Assuming the first section contains course info
+
     await setDoc(doc(db, "Problem_Solving_Progress", userId), {
-      courseId: "problem-solving-course", // Replace with actual course ID
-      courseTitle: "Discrete Math", // Replace with actual course title
+      courseId: courseInfo.id,
+      courseTitle: courseInfo.title,
       lastUpdated: new Date().toISOString(),
       problems: problemProgress,
+      overallProgress: overallProgress.toString(),
+      totalScore: totalScore.toString(),
     });
   };
 
@@ -156,30 +168,33 @@ export default function ProblemsPage() {
     return 0;
   };
 
-  const handleSubmitAnswer = (problem: Problem) => {
+  const handleSubmitAnswer = async (problem: Problem) => {
     const isCorrect = selectedAnswers[problem.id] === problem.correctAnswer;
     const attempts = (problem.attempts || 0) + 1;
     const score = calculateScore(problem, isCorrect);
 
     const updatedProblem: Problem = {
       ...problem,
-      solveStatus: isCorrect || attempts >= 3 ? "solved" : "unsolved",
+      solveStatus: isCorrect ? "solved" : "unsolved",
       attempts,
       score,
     };
 
-    setProblems((prevProblems) =>
-      prevProblems.map((p) => (p.id === problem.id ? updatedProblem : p))
+    const updatedProblems = problems.map((p) =>
+      p.id === problem.id ? updatedProblem : p
     );
 
+    setProblems(updatedProblems);
     setSubmittedProblems((prev) => [...prev, problem.id]);
 
     if (isCorrect) {
       triggerCelebration();
     }
 
-    saveUserProgress();
+    await saveUserProgress(updatedProblems);
   };
+
+
 
   const triggerCelebration = () => {
     confetti({
@@ -366,7 +381,6 @@ export default function ProblemsPage() {
   );
 }
 
-
 function SolvedProblemCard({
   problem,
   onExpand,
@@ -393,7 +407,7 @@ function SolvedProblemCard({
             {problem.level}
           </Badge>
         </div>
-        <CardDescription>{problem.id}</CardDescription>
+        <CardDescription>{problem.topic}</CardDescription>
       </CardHeader>
       <CardContent className="pt-0">
         <div className="flex items-center text-green-600 mb-2">

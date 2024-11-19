@@ -13,15 +13,14 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import RoutesConfig from "./router/routes";
 
 const pageVariants = {
-  initial: { opacity: 0, x: "-5%" },
-  in: { opacity: 1, x: 0 },
-  out: { opacity: 0, x: "5%" },
+  initial: { opacity: 0, y: 20 },
+  in: { opacity: 1, y: 0 },
 };
 
 const pageTransition = {
   type: "inertial",
   ease: "easeInOut",
-  duration: .3,
+  duration: .5,
 };
 
 export default function App() {

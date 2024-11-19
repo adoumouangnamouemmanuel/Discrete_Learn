@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { auth } from "@/firebase/firebaseConfig";
 import {
@@ -10,8 +10,10 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendEmailVerification,
+  onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Login() {
@@ -20,8 +22,23 @@ export default function Login() {
     password: "",
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+        navigate("/");
+      } else {
+        setIsAuthenticated(false);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,6 +54,7 @@ export default function Login() {
     setLoading(true);
 
     try {
+      await setPersistence(auth, browserLocalPersistence);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         formData.email,
@@ -69,7 +87,7 @@ export default function Login() {
       setTimeout(() => {
         navigate("/");
       }, 1000);
-    } catch {
+    } catch{
       toast.error(
         "Failed to Log In. Please Try Again. Make sure Your Email and Password are Correct",
         {
@@ -88,6 +106,7 @@ export default function Login() {
     setLoading(true);
     const provider = new GoogleAuthProvider();
     try {
+      await setPersistence(auth, browserLocalPersistence);
       await signInWithPopup(auth, provider);
       toast.success("Google Login Successful!", {
         position: "top-center",
@@ -99,7 +118,7 @@ export default function Login() {
       setTimeout(() => {
         navigate("/");
       }, 1000);
-    } catch {
+    } catch{
       toast.error("Failed to Log In with Google. Please Try Again.", {
         position: "top-center",
         autoClose: 3000,
@@ -110,6 +129,14 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 w-full">

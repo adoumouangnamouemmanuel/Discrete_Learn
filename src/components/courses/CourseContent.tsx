@@ -58,12 +58,14 @@ const CourseContent: React.FC<CourseContentProps> = ({ lesson }) => {
 
   if (!lessonContent) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8 text-center">
         <h2 className="text-3xl font-semibold mb-6">{lesson.title}</h2>
-        <p>
-          Content for this lesson is currently unavailable. Please check back
-          later.
+        <p className="text-lg">
+          The content for this lesson is being loaded. Please wait a moment...
         </p>
+        <div className="mt-4">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-gray-600 mx-auto"></div>
+        </div>
       </div>
     );
   }

@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 import { auth } from "@/firebase/firebaseConfig";
 import {
@@ -131,7 +132,11 @@ export default function Login() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        {/* <div>Loading your progress...</div> */}
+      </Suspense>
+    );
   }
 
   if (isAuthenticated) {

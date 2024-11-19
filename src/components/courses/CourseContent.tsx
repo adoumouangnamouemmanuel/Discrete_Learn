@@ -23,6 +23,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface Lesson {
   id: string;
@@ -130,14 +131,13 @@ const CourseContent: React.FC<CourseContentProps> = ({ lesson }) => {
       {/* Navigation Buttons */}
       <div className="mt-8 flex justify-between">
         {/* <Button variant="outline">Previous Lesson</Button> */}
-        <Button
-          variant="outline"
-          onClick={() => {
-            /* Navigate to problems page */
-          }}
-        >
-          Practice More Problems <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <Link to={`/problems`}>
+          <Button
+            variant="outline"
+          >
+            Practice More Problems <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
         {/* <Button variant="outline">Next Lesson</Button> */}
       </div>
     </div>

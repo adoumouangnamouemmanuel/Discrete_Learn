@@ -425,7 +425,7 @@
         "code": "((a, b), (1, 2)) is a tuple containing two other tuples."
       }
     ],
-    "video": "https://www.youtube.com/embed/3QZwv4Y0vK8",
+    "video": "https://www.youtube.com/watch?v=AfhxVsDswyE",
     "practiceQuestions": [
       {
         "question": "What is the arity of the tuple (3, 5, 7)?",
@@ -760,7 +760,7 @@
       },
       {
         "subtitle": "Operations Table",
-        "content": "Here is a table summarizing the result of the basic set operations for two sets A and B. Each cell represents the result of performing a specific operation on A and B.\n\n| Operation       | A ∪ B  | A ∩ B  | A − B  | B − A  | A ⊕ B  | A'  |\n|-----------------|--------|--------|--------|--------|--------|-----|\n| A = {1, 2, 3}  | {1, 2, 3, 4} | {2, 3} | {1}    | {4}    | {1, 4} | {4} |\n| B = {2, 3, 4}  | {1, 2, 3, 4} | {2, 3} | {1}    | {4}    | {1, 4} | {1, 3} |",
+        "content": "Here is a table summarizing important set identities (laws) that will help you simplify set expressions and solve set problems more efficiently.",
         "illustration": "/assets/sets/set_operations_table.png"
       }
     ],
@@ -922,12 +922,12 @@
       {
         "subtitle": "Array (or List) Representation of Sets",
         "content": "In an array-based representation, a set is simply stored as a list of elements. This method works well for small sets and when the elements can be easily indexed (like numbers or strings). To represent the set {1, 2, 3}, we could use the list [1, 2, 3].\n\nHowever, this representation has limitations: finding whether an element is in the set takes linear time (O(n)), and performing set operations like union or intersection may involve iterating over both sets, which can be slow for large sets.",
-        "illustration": "/assets/sets/set_array_representation.jpg"
+        "illustration": "/assets/sets/set_array_representation.png"
       },
       {
         "subtitle": "Bit Vector Representation of Sets",
         "content": "A more efficient way to represent sets, especially when the universe of possible elements is fixed, is using a bit vector. In this representation, each element of the universe corresponds to a specific bit in a bit array. If an element is in the set, its corresponding bit is set to 1; if it is not in the set, the bit is 0.\n\nFor example, if the universe is {1, 2, 3, 4, 5}, the set {2, 4} would be represented by the bit vector 01010 (where the second and fourth bits are 1, representing elements 2 and 4). Bit vectors are particularly useful for efficiently performing set operations like union, intersection, and difference using bitwise operations.",
-        "illustration": "/assets/sets/set_bit_vector_representation.jpg"
+        "illustration": "/assets/sets/set_bit_vector_representation.png"
       },
       {
         "subtitle": "Set Operations Using Array Representation",

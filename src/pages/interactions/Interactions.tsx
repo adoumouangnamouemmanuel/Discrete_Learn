@@ -30,15 +30,14 @@ export default function DiscreteSetTheory() {
     | "complement"
     | "symmetric_difference"
   >("union");
-  
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-6 text-center">
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">
         Discrete Mathematics: Set Theory
       </h1>
       <Tabs defaultValue="concepts" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-4">
           <TabsTrigger value="concepts">Basic Concepts</TabsTrigger>
           <TabsTrigger value="operations">Set Operations</TabsTrigger>
           <TabsTrigger value="identities">Set Identities</TabsTrigger>
@@ -115,7 +114,7 @@ export default function DiscreteSetTheory() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex justify-center space-x-2 mb-4">
+              <div className="flex flex-wrap justify-center gap-2 mb-4">
                 <Button onClick={() => setActiveSet("union")}>Union</Button>
                 <Button onClick={() => setActiveSet("intersection")}>
                   Intersection

@@ -7,6 +7,8 @@ import CourseContent from "@/components/courses/CourseContent";
 import { auth, firestore } from "@/firebase/firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface Lesson {
   id: string;
@@ -38,9 +40,9 @@ const CoursePage: React.FC = () => {
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [courseProgress, setCourseProgress] = useState<CourseProgress>({});
   const [userId, setUserId] = useState<string | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { courseId: urlCourseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
-  // console.log(CourseContent);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -90,9 +92,6 @@ const CoursePage: React.FC = () => {
     }
   }, [userId]);
 
-  
-
-  // Handle lesson changes
   useEffect(() => {
     const allLessons = modules.flatMap((module) => module.lessons);
     const lesson = allLessons.find((lesson) => lesson.id === urlCourseId);
@@ -121,7 +120,6 @@ const CoursePage: React.FC = () => {
     }
   }, [urlCourseId, modules, navigate]);
 
-  // Save progress
   useEffect(() => {
     if (Object.keys(courseProgress).length > 0) {
       localStorage.setItem("courseProgress", JSON.stringify(courseProgress));
@@ -201,10 +199,9 @@ const CoursePage: React.FC = () => {
     );
   };
 
-  
-
   const handleLessonClick = (lessonId: string) => {
     navigate(`/courses/${lessonId}`);
+    setIsSidebarOpen(false);
   };
 
   const handleNavigation = (lessonId: string) => {
@@ -226,15 +223,31 @@ const CoursePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <div className="lg:hidden flex items-center justify-between p-4 border-b">
+        <h1 className="text-xl font-bold">Course Content</h1>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {isSidebarOpen ? <X /> : <Menu />}
+        </Button>
+      </div>
       <div className="grid lg:grid-cols-[300px_1fr]">
-        <Sidebar
-          module={modules}
-          currentLessonId={currentLesson.id}
-          onLessonClick={handleLessonClick}
-          progressPercentage={progress}
-          toggleSection={toggleSection}
-          openSections={openSections}
-        />
+        <div
+          className={`${
+            isSidebarOpen ? "block" : "hidden"
+          } lg:block fixed inset-0 z-50 bg-background lg:relative lg:z-0 overflow-y-auto`}
+        >
+          <Sidebar
+            module={modules}
+            currentLessonId={currentLesson.id}
+            onLessonClick={handleLessonClick}
+            progressPercentage={progress}
+            toggleSection={toggleSection}
+            openSections={openSections}
+          />
+        </div>
 
         <main className="h-screen overflow-y-auto flex flex-col">
           <div className="flex-1 p-6">

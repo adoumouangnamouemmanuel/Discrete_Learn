@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
-import { toast } from "react-toastify"; // Import toast
+import { toast } from "react-toastify";
 import {
   Card,
   CardContent,
@@ -20,23 +20,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  BookOpen,
-  HelpCircle,
-  Mail,
-  MessageCircle,
-  Phone,
-} from "lucide-react";
+import { BookOpen, HelpCircle, Mail, MessageCircle, Phone } from "lucide-react";
 
 export default function HelpPage() {
   const [searchQuery, setSearchQuery] = useState("");
-
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 },
-  };
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -44,26 +31,27 @@ export default function HelpPage() {
     message: "",
   });
 
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 },
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Send email using EmailJS
     emailjs
       .send(
-        "service_vt0y2df", // Replace with your EmailJS service ID
-        "template_q48cke5", // Replace with your EmailJS template ID
-        formData, // Sending the form data to the template
-        "0KqT5k-HXNavDNB0x" // Replace with your EmailJS user ID
+        "service_vt0y2df",
+        "template_q48cke5",
+        formData,
+        "0KqT5k-HXNavDNB0x"
       )
       .then(
         () => {
@@ -76,7 +64,7 @@ export default function HelpPage() {
         },
         () => {
           toast.error(
-            "There was an error sending the form. Please try again later.!",
+            "There was an error sending the form. Please try again later.",
             {
               position: "top-center",
               autoClose: 1000,
@@ -86,19 +74,16 @@ export default function HelpPage() {
           );
         }
       );
-
-    // Clear form data after submission
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
-
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <motion.div {...fadeIn}>
-        <h1 className="text-4xl font-bold mb-8 text-center">
+        <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center">
           How Can We Help You?
         </h1>
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <Input
             type="text"
             placeholder="Search for help..."
@@ -109,8 +94,8 @@ export default function HelpPage() {
         </div>
       </motion.div>
 
-      <Tabs defaultValue="quickstart">
-        <TabsList className="w-full justify-start mb-8">
+      <Tabs defaultValue="quickstart" className="space-y-6">
+        <TabsList className="w-full justify-start mb-6 overflow-x-auto flex-nowrap">
           <TabsTrigger value="quickstart">Quick Start</TabsTrigger>
           <TabsTrigger value="faq">FAQ</TabsTrigger>
           <TabsTrigger value="contact">Contact Us</TabsTrigger>
@@ -120,13 +105,13 @@ export default function HelpPage() {
           <motion.div {...fadeIn} className="grid gap-6 md:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center">
+                <CardTitle className="flex items-center text-lg md:text-xl">
                   <BookOpen className="w-5 h-5 mr-2" />
                   Getting Started
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ol className="list-decimal list-inside space-y-2">
+                <ol className="list-decimal list-inside space-y-2 text-sm md:text-base">
                   <li>Create an account or log in</li>
                   <li>Choose a course from the main page</li>
                   <li>Start with the first lesson</li>
@@ -137,13 +122,13 @@ export default function HelpPage() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center">
+                <CardTitle className="flex items-center text-lg md:text-xl">
                   <HelpCircle className="w-5 h-5 mr-2" />
                   Tips for Success
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="list-disc list-inside space-y-2">
+                <ul className="list-disc list-inside space-y-2 text-sm md:text-base">
                   <li>Set a regular study schedule</li>
                   <li>Take notes while watching video lessons</li>
                   <li>
@@ -161,68 +146,47 @@ export default function HelpPage() {
           <motion.div {...fadeIn}>
             <Card>
               <CardHeader>
-                <CardTitle>Frequently Asked Questions</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg md:text-xl">
+                  Frequently Asked Questions
+                </CardTitle>
+                <CardDescription className="text-sm md:text-base">
                   Find answers to common questions about our Discrete Math
                   course.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      How do I reset my password?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      To reset your password, click on the &quot;Forgot
-                      Password&quot; link on the login page. Enter your email
-                      address, and we&apos;ll send you instructions to create a
-                      new password.
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2">
-                    <AccordionTrigger>
-                      Can I access the course materials offline?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      While most of our content requires an internet connection,
-                      you can download PDF versions of lesson notes for offline
-                      studying. Video content and interactive problems are only
-                      available online.
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-3">
-                    <AccordionTrigger>
-                      How long do I have access to the course?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      Once you purchase a course, you have lifetime access to
-                      its materials. You can revisit and review the content as
-                      many times as you like.
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-4">
-                    <AccordionTrigger>
-                      Are there any prerequisites for this course?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      Our Discrete Math course assumes a basic understanding of
-                      algebra. No prior experience with discrete mathematics is
-                      required. If you&apos;re comfortable with high school
-                      level math, you should be well-prepared for this course.
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-5">
-                    <AccordionTrigger>
-                      How do I track my progress in the course?
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      Your progress is automatically tracked as you complete
-                      lessons and solve problems. You can view your overall
-                      progress, as well as detailed statistics for each topic,
-                      in your personal dashboard.
-                    </AccordionContent>
-                  </AccordionItem>
+                  {[
+                    {
+                      q: "How do I reset my password?",
+                      a: 'To reset your password, click on the "Forgot Password" link on the login page. Enter your email address, and we\'ll send you instructions to create a new password.',
+                    },
+                    {
+                      q: "Can I access the course materials offline?",
+                      a: "While most of our content requires an internet connection, you can download PDF versions of lesson notes for offline studying. Video content and interactive problems are only available online.",
+                    },
+                    {
+                      q: "How long do I have access to the course?",
+                      a: "Once you purchase a course, you have lifetime access to its materials. You can revisit and review the content as many times as you like.",
+                    },
+                    {
+                      q: "Are there any prerequisites for this course?",
+                      a: "Our Discrete Math course assumes a basic understanding of algebra. No prior experience with discrete mathematics is required. If you're comfortable with high school level math, you should be well-prepared for this course.",
+                    },
+                    {
+                      q: "How do I track my progress in the course?",
+                      a: "Your progress is automatically tracked as you complete lessons and solve problems. You can view your overall progress, as well as detailed statistics for each topic, in your personal dashboard.",
+                    },
+                  ].map((item, index) => (
+                    <AccordionItem key={index} value={`item-${index + 1}`}>
+                      <AccordionTrigger className="text-sm md:text-base">
+                        {item.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-sm">
+                        {item.a}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
                 </Accordion>
               </CardContent>
             </Card>
@@ -233,63 +197,63 @@ export default function HelpPage() {
           <motion.div {...fadeIn} className="grid gap-6 md:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg md:text-xl">
+                  Contact Information
+                </CardTitle>
+                <CardDescription className="text-sm md:text-base">
                   Get in touch with our support team
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center">
-                  <Mail className="w-5 h-5 mr-2" />
-                  <span>support.discretelearn@gmail.com</span>
-                </div>
-                <div className="flex items-center">
-                  <Phone className="w-5 h-5 mr-2" />
-                  <span>+233 503673195</span>
-                </div>
-                <div className="flex items-center">
-                  <MessageCircle className="w-5 h-5 mr-2" />
-                  <span>Live chat available 9 AM - 5 PM EST</span>
-                </div>
+                {[
+                  { icon: Mail, text: "support.discretelearn@gmail.com" },
+                  { icon: Phone, text: "+233 503673195" },
+                  {
+                    icon: MessageCircle,
+                    text: "Live chat available 9 AM - 5 PM EST",
+                  },
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center text-sm md:text-base"
+                  >
+                    <item.icon className="w-5 h-5 mr-2 flex-shrink-0" />
+                    <span>{item.text}</span>
+                  </div>
+                ))}
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Send Us a Message</CardTitle>
-                <CardDescription>
-                  We&apos;ll get back to you as soon as possible
+                <CardTitle className="text-lg md:text-xl">
+                  Send Us a Message
+                </CardTitle>
+                <CardDescription className="text-sm md:text-base">
+                  We'll get back to you as soon as possible
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <form className="space-y-4" onSubmit={handleSubmit}>
-                  <Input
-                    placeholder="Your Name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    type="text"
-                    required
-                  />
-                  <Input
-                    placeholder="Your Email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                  <Input
-                    placeholder="Subject"
-                    name="subject"
-                    type="text"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                  />
+                  {[
+                    { name: "name", placeholder: "Your Name", type: "text" },
+                    { name: "email", placeholder: "Your Email", type: "email" },
+                    { name: "subject", placeholder: "Subject", type: "text" },
+                  ].map((field) => (
+                    <Input
+                      key={field.name}
+                      placeholder={field.placeholder}
+                      name={field.name}
+                      type={field.type}
+                      value={formData[field.name as keyof typeof formData]}
+                      onChange={handleChange}
+                      required
+                      className="text-sm md:text-base"
+                    />
+                  ))}
                   <textarea
-                    className="w-full h-32 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none resize-none"
+                    className="w-full h-32 px-3 py-2 text-sm md:text-base text-gray-700 border rounded-lg focus:outline-none resize-none"
                     placeholder="Your Message"
-                    name="message" // Ensure name attribute is correctly set
+                    name="message"
                     value={formData.message}
                     onChange={handleChange}
                     required

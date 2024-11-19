@@ -6,7 +6,7 @@ import Mary from "/assets/mary.jpg";
 export const teamMembers = [
   {
     name: "Emmanuel Adoum",
-    role: "Founder & Lead Developer",
+    role: "Co-Founder & Lead Developer",
     description:
       "Emmanuel is the visionary behind DiscreteLearn. As a passionate software engineer, he leads the development of the platform, creating an intuitive and scalable user experience for students across the globe.",
     email: "emmanuel.adoum@ashesi.edu.gh",
@@ -16,7 +16,7 @@ export const teamMembers = [
   },
   {
     name: "Ruth Arhin",
-    role: "Product Manager",
+    role: "Co-Founder & Product Manager",
     description:
       "Ruth ensures that DiscreteLearn is not only functional but also user-friendly. She works closely with students to gather feedback, ensuring the platform meets learners' needs and expectations.",
     email: "jane.smith@example.com",
@@ -26,7 +26,7 @@ export const teamMembers = [
   },
   {
     name: "Mary-Ann Adzim",
-    role: "Lead Designer",
+    role: "Co-Founder & Lead Designer",
     description:
       "Mary-Ann designs the user interface of DiscreteLearn, ensuring the platform is visually appealing and easy to navigate. Her goal is to make learning Discrete Mathematics a pleasant and seamless experience.",
     email: "mark.johnson@example.com",

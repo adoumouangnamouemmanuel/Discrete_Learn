@@ -25,7 +25,6 @@
 
 ## 📂 Project Structure
 
-
 - **`src/`**: Contains all the source files and main logic of the application.
   - **`components/`**: Houses reusable UI components such as the header, sidebar, and footer.
     - **`Courses/`**

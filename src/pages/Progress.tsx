@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect,  Suspense  } from "react";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import { useState, useEffect } from "react";
+// import LoadingSpinner from "@/components/LoadingSpinner";
 import {
   Card,
   CardContent,
@@ -106,9 +106,18 @@ const ProgressPage = () => {
 
   if (!progressData) {
     return (
-      <Suspense fallback={<LoadingSpinner />}>
-        <div>Loading your progress...</div>
-      </Suspense>
+      <div className="max-w-4xl mx-auto px-4 py-8 text-center">
+        <p className="text-lg">
+          Loading your progress. Please wait a moment...
+        </p>
+        <p className="text-lg">
+          Please make sure you solved some problems first.
+        </p>
+
+        <div className="mt-4">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-gray-600 mx-auto"></div>
+        </div>
+      </div>
     );
   }
 

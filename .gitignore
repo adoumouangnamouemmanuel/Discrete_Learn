@@ -24,3 +24,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+apphosting.yaml
+components.json
+tsconfig.app.json
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
+eslint.config.js

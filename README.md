@@ -28,15 +28,64 @@
 
 - **`src/`**: Contains all the source files and main logic of the application.
   - **`components/`**: Houses reusable UI components such as the header, sidebar, and footer.
+    - **`Courses/`**
+      * **`sidebar/`**
+        - `LessonContent.tsx`
+        - `ScrolableSideBar.tsx`
+        - `Sidebar.tsx`
+        - `StatisticSidebar.tsx`
+      * `CourseContent.tsx`
+      * `FooterCourse.tsx`
+    - **`headers/`**
+      * `NavHeader.tsx`
+    - **`ui/`**: contain all the i components from shadcn ui
     - `Sidebar.jsx`: Manages navigation between lessons.
     - `Header.jsx`: Displays the global header for the platform.
     - `Footer.jsx`: Includes navigation controls and additional information.
   - **`constants/`**: Stores centralized configurations and data used across the app.
-    - `index.js`: Contains data for lessons, settings, and other constants.
+    - `aboutConstants.tsx`: About data
+    - `coursesConstants.tsx`: Main courses details
+    - `headerConstants.tsx`: Header data
+    - `lessonContent.tsx`: loading the lessons contents from the json file
+    - `problems.tsx`: Practice problems data
+    - `resources.tsx`: data for external resources
   - **`pages/`**: Contains pages for routing and content display.
-    - `HomePage.jsx`: Displays the landing page with an overview of available courses.
-    - `CoursePage.jsx`: Handles course-specific content, including lessons and modules.
+    - **`auth/`**
+      * `Login.tsx`
+      * `passwordReset.tsx`
+      * `SignUp.tsx`
+    - **`courses/`**
+      * `CoursePage.tsx`
+    - **`interactions/`**
+      * `ComputerRepresentation.tsx`
+      * `Interactions.tsx`
+      * `InteractiveVennDiagram.tsx`
+      * `SetIdentityPractice.tsx`
+      * `TableOfOperations.tsx`
+      * `VennDiagram.tsx`
+    - **`problems/`**
+      * `ProblemCard.tsx`
+      * `SolvedProblemCard.tsx`
+    - **`profiles`**
+      * `EditProfile.tsx`
+      * `Profile.tsx`
+      * `ProfileHeader.tsx`
+    - `About.tsx`: About page
+    - `Contact.tsx`: Contact page
+    - `Courses.tsx`: Handles course-specific content, including lessons and modules.
+    - `Help.tsx`: Help page
+    - `Home.jsx`: Displays the landing page with an overview of available courses.
+    - `Problems.tsx`: problems page
+    - `Progress.tsx`: progress page
+    - `Resources.tsx`: resources page
+    - `Settings.tsx`: Account Settings page
+  - **`router/`**
+    - `routes.tsx`: routes of the applications
+  - **`utils`**
+    - `authUtils.tsx`
+  - `App.css`
   - `App.js`: The main React application component.
+  - `index.css`
   - `main.jsx`: The entry point of the application, rendering the root component.
 
 - **`public/`**: Static assets such as images and icons used in the application.

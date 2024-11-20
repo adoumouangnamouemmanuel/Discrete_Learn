@@ -13,7 +13,7 @@ const Contact = React.lazy(() => import("@/pages/Contact"));
 const SignUp = React.lazy(() => import("@/pages/auth/SignUp"));
 const SignIn = React.lazy(() => import("@/pages/auth/Login"));
 const CoursePage = React.lazy(
-  () => import("@/pages/courses/SetDefinitionPage")
+  () => import("@/pages/courses/CoursePage")
 );
 const Profile = React.lazy(() => import("@/pages/profiles/Profile"));
 const Interactions = React.lazy(
